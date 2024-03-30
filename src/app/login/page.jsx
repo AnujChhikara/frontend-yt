@@ -3,13 +3,19 @@ import React, { useState } from 'react'
 import Input from '@/components/Input'
 import Image from 'next/image'
 import Link from 'next/link'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { userActions } from '@/store/UserSlice'
 
 export default function LoginPage() {
     const [errorMsg, setErrorMessage] = useState('')
+    const[isProcessing, setIsProcessing] = useState(false)
+
+   const dispatch =  useDispatch()
+  
 
     const handleFormSubmittion = async (event) => {
         event.preventDefault()
+        setIsProcessing(true)
 
         const fd = new FormData(event.target)
         const data =  Object.fromEntries(fd.entries())
@@ -20,7 +26,7 @@ export default function LoginPage() {
         
           }
         
-        const response = await fetch('http://localhost:8000/api/v1/users/login',
+        const response = await fetch('https://backend-yt-0y5f.onrender.com/api/v1/users/login',
         {
             method:"POST",
             headers:{
@@ -31,13 +37,34 @@ export default function LoginPage() {
 
         if(response.ok){
             const res_data = await response.json()
-            const userData =res_data.data
+            const data =res_data.data
+            const userData = data.user
+            
+
+            dispatch(userActions.updateUser({
+              username:userData.username,
+                email:userData.email,
+                avatar:userData.avatar,
+                coverImage:userData.coverImage,
+                fullName:userData.fullName,
+                watchHistory: userData.watchHistory,
+                accessToken: data.accessToken,
+                refreshToken: data.refreshToken
+            }))
+
+           
+            
             window.location.href = '/';
+            setIsProcessing(false)
+
         }
         else{
             const error = await response.json()
+            console.log("logged in failed");
             setErrorMessage(error.msg)
+            setIsProcessing(false)
         }
+
     }
 
     
@@ -62,7 +89,12 @@ export default function LoginPage() {
                   <Input name="password" placeholder="password" type="password" required />
                   
   
-                  <button className='bg-black text-white hover:opacity-90 duration-500 px-4 py-4 rounded'>Log in</button>
+                  {
+                    isProcessing && <button className='bg-black animate-pulse opacity-90 text-white hover:opacity-90 duration-500 px-4 py-4 rounded'>Logging in...</button>
+                  }
+                  {
+                    !isProcessing && <button className='bg-black text-white hover:opacity-90 duration-500 px-4 py-4 rounded'>Log in</button>
+                  }
                   <Link href='/register' className='border text-center px-4 py-4 hover:bg-green-300 rounded duration-500 '>Register</Link>
               </form>
           </div>

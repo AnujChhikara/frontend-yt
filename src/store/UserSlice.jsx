@@ -4,14 +4,23 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
     name:'user',
     initialState: {
-        items:[],
-        totalQuantity :0,
-        changed: false
+        user:[],
+        
     },
     reducers:{
-        replaceCart(state, action){
-            state.totalQuantity = action.payload.totalQuantity
-            state.items = action.payload.items
+        updateUser(state,action){
+            const newUser = action.payload
+            state.user.push({
+                username:newUser.username,
+                email:newUser.email,
+                avatar:newUser.avatar,
+                coverImage:newUser.coverImage,
+                fullName:newUser.fullName,
+                watchHistory: newUser.watchHistory,
+                accessToken: newUser.accessToken,
+                refreshToken: newUser.refreshToken
+            })
+            
         },
       
     }

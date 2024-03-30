@@ -1,8 +1,15 @@
+
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 function Navbar() {
+  const userData =  useSelector((state) => state.user)
+   const user = userData.user[0]   
+   console.log(user)
   return (
     <div className='flex justify-between items-center px-20 pt-4 pb-12'>
         <div className='flex justify-center items-center'>
@@ -24,7 +31,15 @@ function Navbar() {
                 </svg></button>
         </div></div>
         <div className='flex justify-center items-center space-x-2'>
-            <div>
+          {
+            user && <>
+            <Image width={40} height={40} className='rounded-full w-10 h-10' src={user.avatar} alt='avatar'/>
+            <h4>{user.fullName}</h4>
+            </>
+          }
+          {
+            !user && <>
+           <div>
                 <svg className='w-8' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="9" r="3" stroke="#FFCF81" strokeWidth="1.5"/>
                     <path d="M17.9691 20C17.81 17.1085 16.9247 15 11.9999 15C7.07521 15 6.18991 17.1085 6.03076 20" stroke="#FFCF81" strokeWidth="1.5" strokeLinecap="round"/>
@@ -32,6 +47,9 @@ function Navbar() {
                 </svg>
             </div>
             <Link href="/register">Sign In</Link>
+            </>
+          }
+            
             
         </div>
     </div>
