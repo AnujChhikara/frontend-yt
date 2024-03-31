@@ -126,10 +126,15 @@ export default function RegsiterPage()  {
 
                     
 
-                <div className='flex justify-center items-center space-x-8 pt-6'>   
+                <div className='flex justify-start items-center space-x-12 pt-6'>   
                 <button type='submit' className='bg-gray-900 border text-white w-72 hover:bg-gray-700 duration-500 px-4 py-4 rounded'>Register</button>
                
-                <Link href='/login' className='border text-center w-72 px-4 py-4 hover:bg-green-300 hover:text-black rounded duration-500 font-semibold '>Log in</Link>
+                <div className='flex flex-col items-center'>
+          
+                <p className='text-[16px] text-gray-300'>Already registered? <Link href='/login' className='font-bold underline '>Login</Link></p>
+            
+                
+                </div>
                 </div>
                 
                 

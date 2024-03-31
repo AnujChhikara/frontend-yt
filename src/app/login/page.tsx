@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client'
 import React, { useState } from 'react'
 import Input from '../../components/input'
@@ -73,10 +74,11 @@ export default function LoginPage() {
     return (
       <main className='w-screen  flex justify-center pt-8 '>
       <div className='flex bg-transparent px-4 py-4 border-gray-700 border justify-center  items-center '>
-          <div className=' rounded  text-white flex  px-12 flex-col space-y-8 justify-center items-start'>
-              <div>
-                <h3 className='font-bold text-3xl'>Login
+          <div className=' rounded  text-white flex  px-12 flex-col space-y-6 justify-center items-center'>
+              <div className='flex flex-col items-center'>
+                <h3 className='font-semibold text-3xl'>Welcome Back!
                 </h3>
+                <p className='text-[12px] text-gray-300'>Don't have account yet? <Link href='/register' className='font-bold underline '>Register</Link></p>
                 {
                 errorMsg? <p className='text-red-400 text-sm absolute'>{errorMsg}</p>: <></>
               }
@@ -102,12 +104,12 @@ export default function LoginPage() {
                   {
                     !isProcessing && <button className='bg-gray-900 border text-white w-72 hover:bg-gray-700 duration-500 px-4 py-4 rounded'>Log in</button>
                   }
-                  <Link href='/register' className='border text-center w-72 px-4 py-4 hover:bg-green-300 hover:text-black rounded duration-500 '>Register</Link>
+                  
                   </div>
               </form>
           </div>
       
-          <Image width={500} height={500} src="https://images.unsplash.com/photo-1632010752286-94f8b0f7be68?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fG1vdGl2YXRpb25hbCUyMHF1b3Rlc3xlbnwwfHwwfHx8MA%3D%3D"
+          <Image className='rounded-xl m-4 shadow-lg shadow-gray-400 hover:scale-105 duration-1000' width={500} height={500} src="https://images.unsplash.com/photo-1632010752286-94f8b0f7be68?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fG1vdGl2YXRpb25hbCUyMHF1b3Rlc3xlbnwwfHwwfHx8MA%3D%3D"
           alt='random quote' />
   
       </div></main>
