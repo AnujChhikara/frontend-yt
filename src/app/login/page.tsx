@@ -4,15 +4,18 @@ import React, { useState } from 'react'
 import Input from '../../components/input'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { userActions } from '../../store/userSlice'
+import { redirect } from 'next/navigation'
+
 
 export default function LoginPage() {
     const [errorMsg, setErrorMessage] = useState('')
     const[isProcessing, setIsProcessing] = useState(false)
     const url = process.env.url
-  
-   const dispatch =  useDispatch()
+    const dispatch =  useDispatch()
+    const[isLoggedIn, setIsLoggedIn] = useState(false)
+
   
 
     const handleFormSubmittion = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -55,21 +58,25 @@ export default function LoginPage() {
                 refreshToken: data.refreshToken
             }))
 
-           
-            
-            // window.location.href = '/';
             setIsProcessing(false)
-
+            setIsLoggedIn(true)
+            
         }
         else{
             const error = await response.json()
             console.log("logged in failed");
             setErrorMessage(error.msg)
             setIsProcessing(false)
+            setIsLoggedIn(false)
+           
         }
 
     }
-
+    
+      if(isLoggedIn){
+        redirect('/')
+      } 
+    
     
     return (
       <main className='w-screen  flex justify-center pt-8 '>
@@ -80,11 +87,15 @@ export default function LoginPage() {
                 </h3>
                 <p className='text-[12px] text-gray-300'>Don't have account yet? <Link href='/register' className='font-bold underline '>Register</Link></p>
                 {
-                errorMsg? <p className='text-red-400 text-sm absolute'>{errorMsg}</p>: <></>
+                errorMsg? <p className='text-red-400 text-sm relative'>{errorMsg}</p>: <></>
               }
-                
+               {
+                !errorMsg? <p className='text-red-400 text-sm relative'></p>: <></>
+              }
                 </div>
-             
+               
+                
+               
               <form className='flex flex-col space-y-6 ' onSubmit={handleFormSubmittion}>
                   <div className='flex flex-col space-y-4 '>
                   <Input name="email" placeholder="email" type="email" />

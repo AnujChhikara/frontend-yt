@@ -4,16 +4,42 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { userActions } from '@/store/userSlice'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+
 
 
 function Navbar() {
   const userData =  useSelector((state:any) => state.user)
    const user = userData.user[0]   
-   console.log(user)
+   
+   const dispatch = useDispatch()
+  const logoutUser = () => {dispatch(userActions.logoutUser({
+    
+  }))}
   return (
-    <div className='flex justify-between items-center px-20 pt-8 pb-12'>
+    <div className='flex  bg-zinc-900 justify-between  px-20 pt-4 pb-3'>
        <Link href='/'>
         <div className='flex justify-center items-center'>
           <Image width={40} height={20} src="https://www.svgrepo.com/show/448261/youtube.svg" alt="logo"/>
@@ -36,11 +62,36 @@ function Navbar() {
         <div className='flex justify-center items-center space-x-2'>
           {
             user && <>
-            <Avatar>
-        <AvatarImage src={user.avatar} />
-        <AvatarFallback>AC</AvatarFallback>
-        </Avatar>
-            <h4>{user.fullName}</h4>
+            
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger ><Avatar>
+                  <AvatarImage src={user.avatar} />
+                  <AvatarFallback>AC</AvatarFallback>
+                  </Avatar></DropdownMenuTrigger>
+              <DropdownMenuContent className='bg-gray-800 opacity-90 font-bold'>
+                <DropdownMenuLabel>{user.username}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Channel Stats</DropdownMenuItem>
+                
+                <DropdownMenuItem className='bg-green-400 my-2 text-gray-800 font-bold'>Health Checkup</DropdownMenuItem>
+                <AlertDialog>
+                  <AlertDialogTrigger className='py-1 bg-red-600 text-black px-8  rounded'>Log Out</AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                     
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction> <button onClick={logoutUser}>Continue</button></AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                
+              </DropdownMenuContent>
+            </DropdownMenu>
             </>
           }
           {

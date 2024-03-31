@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React, { useRef, useState } from 'react'
 import Input from '../../components/input'
 import Link from 'next/link'
-
+import { redirect } from 'next/navigation'
 
 export default function RegsiterPage()  {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
@@ -70,7 +70,7 @@ export default function RegsiterPage()  {
    if(response.ok) {
     const res_data = await response.json()
     console.log(res_data)
-    window.location.href = '/login';
+    
    }
    else{
     const error = await response.json()
@@ -139,6 +139,10 @@ export default function RegsiterPage()  {
                 
                 
             </form>
+            <div className='flex flex-col items-center text-center'>
+            <p className='text-[12px] text-gray-400 text-center'>  * By clicking continue, you agree to our Terms of</p>
+            <p className='text-[12px] text-gray-400 text-center'>Service and Privacy Policy.</p>
+        </div>
         </div>
      <div>
       <Image className='m-4  shadow-lg shadow-[#b9b9b9] rounded-2xl ' width={450} height={450} src="https://images.unsplash.com/photo-1531857454108-c65232a962a8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTAyfHxtb3RpdmF0aW9uYWwlMjBxdW90ZXN8ZW58MHx8MHx8fDA%3D"

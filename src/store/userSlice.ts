@@ -38,6 +38,9 @@ const userSlice = createSlice({
             })
             
         },
+        logoutUser(state, action){
+            state.user = []
+        }
       
     }
 });
