@@ -121,7 +121,7 @@ export default function LoginPage() {
                     isProcessing && <button className='bg-black animate-pulse opacity-90 w-72 text-white hover:opacity-90 duration-500 px-4 py-4 rounded'>Logging in...</button>
                   }
                   {
-                    !isProcessing && <button className='bg-gray-900 border text-white  hover:bg-gray-700 duration-500 px-4 py-4 rounded'>Log in</button>
+                    !isProcessing && <button className='bg-gray-900 w-72 border text-white  hover:bg-gray-700 duration-500 px-4 py-4 rounded'>Log in</button>
                   }
                   
                   </div>
