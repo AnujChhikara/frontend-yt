@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useSelector } from "react-redux"
 import { Button } from "@/components/ui/button"
+import Video from "@/components/video"
 
 export default function UserProfile() {
   const data =  useSelector((state:any) => state.user)
@@ -38,6 +39,17 @@ export default function UserProfile() {
                 </svg>
                     <p className="text-2xl font-bold">History</p>
                 </h3>
+                <div>
+                    <Video
+                    videoUrl="http://res.cloudinary.com/dlahahicg/video/upload/v1711610958/moqqc7d34k2cqpzioyvt.mp4" 
+                    thumbnailUrl="http://res.cloudinary.com/dlahahicg/image/upload/v1711610960/rxku9gardygblph6qqej.jpg"
+                     duration="30.03"
+                      owner="Anuj"
+                       views="50"
+                        createdAt="4days" 
+                    
+                    />
+                </div>
 
             </div>
              {/* user history div end */}
