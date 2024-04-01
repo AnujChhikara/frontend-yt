@@ -5,11 +5,14 @@ import React, { useRef, useState } from 'react'
 import Input from '../../components/input'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { toast } from "sonner"
+
 
 export default function RegsiterPage()  {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null);
-
+  const [errorMsg, setErrorMessage] = useState('')
+  const[isProcessing, setIsProcessing] = useState(false)
  
   const avatarFileInputRef = useRef<HTMLInputElement>(null)
   const coverImageFileInputRef = useRef<HTMLInputElement>(null)
@@ -50,6 +53,7 @@ export default function RegsiterPage()  {
 
   const handelFormSubmittion= async(event: React.FormEvent<HTMLFormElement>) => {
    event.preventDefault()
+   setIsProcessing(true)
     
    const formData = new FormData();
    formData.append('fullName', event.currentTarget.fullName.value);
@@ -61,7 +65,7 @@ export default function RegsiterPage()  {
          
    
 
-   const response = await fetch('http://localhost:8000/api/v1/users/register',{
+   const response = await fetch(process.env.url + '/users/register',{
     method:"POST",
     
     body:formData
@@ -69,12 +73,23 @@ export default function RegsiterPage()  {
 
    if(response.ok) {
     const res_data = await response.json()
+    setIsProcessing(false)
     console.log(res_data)
+    toast("Registration Successful", {
+      description: 'User has been register successfully',
+      action: {
+        label: "Okay",
+        onClick: () => console.log("Welcome to the App"),
+      },
+    })
+  
     
    }
    else{
     const error = await response.json()
     console.log(error)
+    setErrorMessage(error.msg)
+    setIsProcessing(false)
    }
 
    
@@ -85,7 +100,14 @@ export default function RegsiterPage()  {
     <main className='w-screen  flex justify-center pt-8'>
     <div className='   flex justify-center bg-transparent border border-gray-700 rounded  items-center'>
         <div className=' rounded py-8 text-white flex px-6 flex-col space-y-4 justify-start items-start '>
+          <div>
             <h3 className='font-bold text-3xl mb-8'>Registration</h3>
+            {
+                errorMsg? <p className='text-red-400 text-sm relative'>{errorMsg}</p>: <></>
+              }
+               {
+                !errorMsg? <p className='text-red-400 text-sm relative'></p>: <></>
+              }</div>
             <form className='flex flex-col space-y-8 ' onSubmit={handelFormSubmittion}>
               <div className='flex space-x-8'>
               <Input name="username" placeholder="username" type="text" required  />
@@ -95,7 +117,7 @@ export default function RegsiterPage()  {
                 <Input name="fullName" placeholder="full name" type="text" required  />
                 <Input name="password" placeholder="password" type="text" required   />
               </div>
-              <div className='flex space-x-32'>
+              <div className='flex space-x-16'>
               <div className=''>
                   <input required ref={avatarFileInputRef} accept='image/jpeg, image/png, image/jpg' onChange={handleAvatarFileChange}  type='file' hidden name='avatar' id='avatar' className=' w-80 rounded-md h-10 px-4 py-2 bg-transparent border border-gray-200' />
                   <div onClick={handleAvatarFileSelect} className='flex text-gray-400 space-x-4 items-center cursor-pointer'>
@@ -115,7 +137,7 @@ export default function RegsiterPage()  {
                   {coverImagePreview && (
                     <Image width={100} height={100}
                      src={coverImagePreview} alt="cover image Preview"
-                     className='rounded-full w-20 h-10'  />
+                     className=' w-24 h-6'  />
                   )}
                      
                       <Image width={30} height={30} src="https://www.svgrepo.com/show/530408/upload.svg" alt='avatar upload'/>
@@ -126,8 +148,13 @@ export default function RegsiterPage()  {
 
                     
 
-                <div className='flex justify-start items-center space-x-12 pt-6'>   
-                <button type='submit' className='bg-gray-900 border text-white w-72 hover:bg-gray-700 duration-500 px-4 py-4 rounded'>Register</button>
+                <div className='flex justify-start items-center space-x-12 pt-6'>   {
+                  isProcessing && <button type='submit' className='bg-gray-900 border text-white w-72 animate-pulse hover:bg-gray-700 duration-500 px-4 py-4 rounded'>Registering user</button>
+                }
+                {
+                  !isProcessing && <button type='submit' className='bg-gray-900 border text-white w-72 hover:bg-gray-700 duration-500 px-4 py-4 rounded'>Register</button>
+                }
+                
                
                 <div className='flex flex-col items-center'>
           

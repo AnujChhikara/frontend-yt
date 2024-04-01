@@ -4,7 +4,7 @@ import "./globals.css";
 import ReduxProvider from "../store/ReduxProvider";
 const inter = Inter({ subsets: ["latin"] });
 import Navbar from "@/components/Navbar";
-
+import { Toaster } from "@/components/ui/sonner"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,6 +22,7 @@ export default function RootLayout({
       
       <body className={inter.className}><Navbar/>
       {children}
+      <Toaster />
       </body>
     </html></ReduxProvider>
   );

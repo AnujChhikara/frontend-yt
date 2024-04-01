@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../../store/userSlice'
 import { redirect } from 'next/navigation'
-
+import { toast } from "sonner"
 
 export default function LoginPage() {
     const [errorMsg, setErrorMessage] = useState('')
@@ -32,7 +32,7 @@ export default function LoginPage() {
           }
 
         
-        const response = await fetch(url +'/api/v1/users/login',
+        const response = await fetch(url +'/users/login',
         {
             method:"POST",
             headers:{
@@ -46,7 +46,7 @@ export default function LoginPage() {
             const data =res_data.data
             const userData = data.user
             
-            console.log(userData)
+            
             dispatch(userActions.updateUser({
               username:userData.username,
                 email:userData.email,
@@ -60,11 +60,18 @@ export default function LoginPage() {
 
             setIsProcessing(false)
             setIsLoggedIn(true)
+            toast("Login Successful", {
+              description: 'User has been logged in successfully',
+              action: {
+                label: "Okay",
+                onClick: () => console.log("Welcome back to the App"),
+              },
+            })
             
         }
         else{
             const error = await response.json()
-            console.log("logged in failed");
+            
             setErrorMessage(error.msg)
             setIsProcessing(false)
             setIsLoggedIn(false)
@@ -74,6 +81,7 @@ export default function LoginPage() {
     }
     
       if(isLoggedIn){
+        
         redirect('/')
       } 
     
@@ -110,10 +118,10 @@ export default function LoginPage() {
                   
                   <div className='flex flex-col justify-center items-center space-y-4 pt-6'>
                   {
-                    isProcessing && <button className='bg-black animate-pulse opacity-90 text-white hover:opacity-90 duration-500 px-4 py-4 rounded'>Logging in...</button>
+                    isProcessing && <button className='bg-black animate-pulse opacity-90 w-72 text-white hover:opacity-90 duration-500 px-4 py-4 rounded'>Logging in...</button>
                   }
                   {
-                    !isProcessing && <button className='bg-gray-900 border text-white w-72 hover:bg-gray-700 duration-500 px-4 py-4 rounded'>Log in</button>
+                    !isProcessing && <button className='bg-gray-900 border text-white  hover:bg-gray-700 duration-500 px-4 py-4 rounded'>Log in</button>
                   }
                   
                   </div>
