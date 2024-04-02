@@ -28,7 +28,7 @@ import {
     UserPlus,
     Users,
   } from "lucide-react" 
-  import { Button } from "@/components/ui/button"
+ 
   import {
     DropdownMenu,
     DropdownMenuContent,
@@ -91,7 +91,7 @@ export default function Navigation() {
         <DropdownMenuItem>
             
             <User className="mr-2 h-4 w-4" />
-            <Link href='/profile'><span>{user.fullName.toUpperCase()}</span></Link>
+            <Link href='/profile'><span className='text-[13px]'>{user.fullName.toUpperCase()}</span></Link>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
            
             </DropdownMenuItem>

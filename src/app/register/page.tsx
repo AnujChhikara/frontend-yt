@@ -4,7 +4,6 @@ import Image from 'next/image'
 import React, { useRef, useState } from 'react'
 import Input from '../../components/input'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 import { toast } from "sonner"
 
 

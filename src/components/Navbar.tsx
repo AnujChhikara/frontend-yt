@@ -7,7 +7,12 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import {} from '@/store/userSlice'
 import Navigation from './Navigation'
-
+import { Search, Upload } from 'lucide-react'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
 
 
 
@@ -33,16 +38,25 @@ function Navbar() {
             placeholder='search..'
              className='bg-transparent px-3 py-1  w-80 h-10 rounded-3xl rounded-r-none ' />
              <button>
-             <svg className='h-8' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path opacity="0.1" d="M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" fill="#323232"/>
-                <path d="M15 15L21 21" stroke="#BBBBBB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="#BBBBBB" strokeWidth="2"/>
-                </svg></button>
+             <Search size={32} color="#6c6a6a" /></button>
         </div></div>
         <div className='flex justify-center items-center space-x-2 mr-10'>
           {
             user && <>
                  <Navigation/>
+                 <HoverCard>
+                    <HoverCardTrigger>
+                    <div className='pl-8'>
+                      <Link href='/videoUpload'>
+                      <Upload /></Link>
+
+                    </div>
+                    </HoverCardTrigger>
+                    <HoverCardContent className='bg-black text-sm border-none w-40'>
+                      Upload your video
+                    </HoverCardContent>
+                  </HoverCard>
+                
             </>
           }
           {
@@ -60,7 +74,8 @@ function Navbar() {
             
             
         </div>
-    </div></div>
+    </div>
+    </div>
   )
 }
 

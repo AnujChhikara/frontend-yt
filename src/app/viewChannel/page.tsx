@@ -5,15 +5,14 @@ import { BadgeInfo, ListVideo, Youtube } from 'lucide-react'
 import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { redirect } from 'next/navigation'
 
 export default function ViewChannel() {
   const userData =  useSelector((state:any) => state.user)
     const user = userData.user[0] 
     
-    if(!user) {
-      return <div>
-        please kogin first
-      </div>
+    if(!user) { 
+      redirect('/')
     }
     else{
 
