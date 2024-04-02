@@ -4,32 +4,154 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useSelector } from "react-redux"
-import { Button } from "@/components/ui/button"
 import Video from "@/components/video"
+import { useEffect, useState } from "react"
+import PlaylistCard from '@/components/PlaylistCard'
 
+interface Owner {
+    _id: string;
+    username: string;
+    fullName: string;
+    avatar: string;
+}
+  
+interface HistoryData {
+    _id: string;
+    title: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string;
+    duration: number;
+    isPublished: boolean;
+    owner: Owner;
+    thumbnail: string;
+    videoFile: string;
+    view: number;
+    __v: number;
+}
+
+interface Video {
+    _id: string;
+    createdAt: string;
+    description: string;
+    name: string;
+    owner: string;
+    updatedAt: string;
+    videos: any[]; // This should be defined as per the structure of the videos array
+    __v: number;
+}
+  
+type Playlist = {
+    _id: string;
+    createdAt: string;
+    description: string;
+    name: string;
+    owner: string;
+    updatedAt: string;
+    videos: Video[];
+    __v: number;
+};
+  
 export default function UserProfile() {
-  const data =  useSelector((state:any) => state.user)
-  const userData = data.user[0]
-  
-  
+    const[userHistoryData, setUserHistoryData] = useState<HistoryData[]>([]);
+    const[userPlaylists, setUserPlaylists] = useState<Playlist[]>([]);
+    const data =  useSelector((state:any) => state.user)
+    const user = data.user[0]
+
+
+    if(!user){
+        return <div>
+          Not Authorized or please login first
+        </div>
+      }
+      else{
+      const accessToken = user.accessToken
+
+      //fetching user watch history 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+
+        const fetchVideo = async() => {
+          try {
+            const response = await fetch(process.env.url + '/users/history',{
+              method:'Get',
+              headers:{
+                'Authorization': `Bearer ${accessToken}`
+              }
     
+            })
+    
+            if(response.ok){
+               const res_data = await response.json()
+               const watchHistory = res_data.data
+               setUserHistoryData(watchHistory)
+               
+            }
+            else{
+              const error = await response.json()
+              console.log(error)
+            }
+          } catch (error) {
+            console.log(error)
+          }
+        }
+       
+          fetchVideo()
+        
+      }, [data, accessToken]);
+  
+     //fetching user playlists
+     // eslint-disable-next-line react-hooks/rules-of-hooks
+     useEffect(() => {
+
+        const fetchPlaylists = async() => {
+          try {
+            const response = await fetch(process.env.url + '/playlist/user/66052f4e5ff551c458b6f9d4',{
+              method:'Get',
+              headers:{
+                'Authorization': `Bearer ${accessToken}`
+              }
+    
+            })
+    
+            if(response.ok){
+               const res_data = await response.json()
+               const userplaylitsData = res_data.data
+               setUserPlaylists(userplaylitsData)
+               
+            }
+            else{
+              const error = await response.json()
+              console.log(error)
+            }
+          } catch (error) {
+            console.log(error)
+          }
+        }
+       
+          fetchPlaylists()
+        
+      }, [data, accessToken]);
+
+      
+
   return (
     <div className="px-12 pt-6">
         {
-            userData &&<>
+            user &&<>
             <div className="flex flex-col space-y-12 ">
                 <div className="flex items-center space-x-4 justify-start">
             <Link href='/viewChannel' className="flex space-x-4 items-center ">
-             <Image width={100} height={100} className="w-40 h-40 rounded-full" src={userData.avatar} alt="user image" />
+             <Image width={100} height={100} className="w-40 h-40 rounded-full" src={user.avatar} alt="user image" />
             <div>
-                <h2 className="font-semibold text-4xl">{userData.fullName}</h2>
-                <p className="flex items-center gap-2">@{userData.username}. <p className="text-sm text-gray-400">Explore Your Channel</p></p>
+                <h2 className="font-semibold text-4xl">{user.fullName}</h2>
+                <h3 className="flex items-center gap-2">@{user.username}. <p className="text-sm text-gray-400">Explore Your Channel</p></h3>
             </div>
             </Link>
        
             </div>
            {/* user history div start */}
-            <div className="flex flex-col">
+            <div className="flex flex-col space-y-4">
 
                 <h3 className="flex space-x-2">
                 <svg className="w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,24 +161,36 @@ export default function UserProfile() {
                 </svg>
                     <p className="text-2xl font-bold">History</p>
                 </h3>
-                <div>
-                    <Video
-                    videoId="66051c5fe9a65eab955fd124"
-                    videoUrl="http://res.cloudinary.com/dlahahicg/video/upload/v1711610958/moqqc7d34k2cqpzioyvt.mp4" 
-                    thumbnailUrl="http://res.cloudinary.com/dlahahicg/image/upload/v1711610960/rxku9gardygblph6qqej.jpg"
-                     duration="30.03"
-                      owner="Anuj"
-                       views="50"
-                        createdAt="4days" 
-                    
-                    />
+                <div className="flex flex-wrap gap-12">
+                  {userHistoryData && <>
+                  {
+                    userHistoryData.map((video) => (
+                      
+                        <Video
+                        key={video._id}
+                        videoId={video._id}
+                        videoUrl={video.videoFile}
+                        thumbnailUrl={video.thumbnail}
+                          owner={video.owner}
+                          views={video.view}
+                          createdAt= {video.createdAt}
+                          duration = {video.duration}
+                          description= {video.description}
+                        
+                        />
+                        
+                    ))
+                  }
+                  
+                  
+                  </>}
                 </div>
 
             </div>
              {/* user history div end */}
 
              {/* user playlist div start */}
-            <div className="flex flex-col">
+            <div className="flex flex-col space-y-4">
 
                     <h3 className="flex space-x-2">
                     <svg className="w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,6 +200,21 @@ export default function UserProfile() {
                     </svg>
                         <p className="text-2xl font-bold">Playlists</p>
                     </h3>
+                    <div className="flex flex-wrap gap-12">
+                        {userPlaylists && <>
+                        {
+                            userPlaylists.map((playlist) => (
+                                <PlaylistCard
+                                key={playlist._id}
+                                name={playlist.name}
+                                description={playlist.description}
+                                owner={playlist.owner}
+                                
+                                />))
+                        }
+                        
+                        </>}
+                    </div>
 
                     </div>
                     {/* user playlist div end */}
@@ -76,4 +225,5 @@ export default function UserProfile() {
         
         </div>
   )
+}
 }

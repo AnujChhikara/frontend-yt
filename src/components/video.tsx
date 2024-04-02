@@ -2,18 +2,27 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 
+
+interface Owner {
+  _id: string;
+  username: string;
+  fullName: string;
+  avatar: string;
+}
+
 interface VideoProps {
     videoUrl: string;
     thumbnailUrl: string;
-    duration: string;
-    owner: string;
-    views: string;
+    duration: number;
+    owner: Owner;
+    views: number;
     videoId:string;
     createdAt: string;
+    description: string
   }
  
 
-  const Video: React.FC<VideoProps> = ({ videoUrl,videoId, thumbnailUrl, duration, owner, views, createdAt }) => {
+  const Video: React.FC<VideoProps> = ({ videoUrl,description, videoId, thumbnailUrl, duration, owner, views, createdAt }) => {
     return (
       <div className='flex flex-col space-y-2 font-bold text-gray-300'>
         <Link href={`/watchVideo/${videoId}`}
@@ -24,8 +33,8 @@ interface VideoProps {
         </span>
         </Link>
         
-        <h3>Title: Video Title here</h3>
-        <h4 className='text-sm text-gray-300'>by {owner}</h4>
+        <h3>{description}</h3>
+        <h4 className='text-sm text-gray-300'>by {owner.fullName}</h4>
       </div>
     );
   };
