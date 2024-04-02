@@ -136,7 +136,7 @@ export default function UserProfile() {
       
 
   return (
-    <div className="px-12 pt-6">
+    <div className="px-40 pt-12">
         {
             user &&<>
             <div className="flex flex-col space-y-12 ">

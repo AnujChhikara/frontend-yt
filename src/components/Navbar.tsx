@@ -4,30 +4,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { userActions } from '@/store/userSlice'
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { healthCheck } from '@/functions/indes'
-import { toast } from "sonner"
+import { useSelector } from 'react-redux'
+import {} from '@/store/userSlice'
+import Navigation from './Navigation'
+
 
 
 
@@ -36,20 +16,10 @@ function Navbar() {
   const userData =  useSelector((state:any) => state.user)
    const user = userData.user[0]   
    
-   const dispatch = useDispatch()
-  const logoutUser = () => {
-    toast("Logout Successful", {
-      description: 'User has been logged out successfully',
-      action: {
-        label: "Okay",
-        onClick: () => console.log("Welcome back to the App"),
-      },
-    })
-    dispatch(userActions.logoutUser({})
-    
-    )}
+ 
   return (
-    <div className='flex   bg-zinc-900 justify-between  px-16 pt-4 pb-3'>
+    <div className='w-screen  bg-zinc-900 '>
+      <div className='flex justify-between px-20 pt-4 pb-3'>
        <Link href='/'>
         <div className='flex justify-center items-center'>
           <Image width={40} height={20} src="https://www.svgrepo.com/show/448261/youtube.svg" alt="logo"/>
@@ -69,41 +39,10 @@ function Navbar() {
                 <path d="M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="#BBBBBB" strokeWidth="2"/>
                 </svg></button>
         </div></div>
-        <div className='flex justify-center items-center space-x-2'>
+        <div className='flex justify-center items-center space-x-2 mr-10'>
           {
             user && <>
-            
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger ><Avatar>
-                  <AvatarImage src={user.avatar} />
-                  <AvatarFallback>AC</AvatarFallback>
-                  </Avatar></DropdownMenuTrigger>
-              <DropdownMenuContent className='bg-gray-800 opacity-90 font-bold'>
-                <DropdownMenuLabel>{user.username}</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className='cursor-pointer '><Link href='/profile'>Profile</Link></DropdownMenuItem>
-                <DropdownMenuItem className='cursor-pointer '>Channel Stats</DropdownMenuItem>
-                
-                <DropdownMenuItem className=' my-2 cursor-pointer   font-bold'><div 
-                onClick={healthCheck}
-                >Health Checkup</div></DropdownMenuItem>
-                <AlertDialog>
-                  <AlertDialogTrigger className='py-1  pl-3 font-bold text-[15px] rounded'>Log Out</AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                     
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction> <div onClick={logoutUser}>Continue</div></AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-                
-              </DropdownMenuContent>
-            </DropdownMenu>
+                 <Navigation/>
             </>
           }
           {
@@ -121,7 +60,7 @@ function Navbar() {
             
             
         </div>
-    </div>
+    </div></div>
   )
 }
 
