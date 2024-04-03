@@ -4,8 +4,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { useSelector } from 'react-redux'
-import {} from '@/store/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { userActions } from '@/store/userSlice'
 import Navigation from './Navigation'
 import { Search, Upload } from 'lucide-react'
 import {
@@ -20,8 +20,31 @@ import { redirect } from 'next/navigation'
 
 
 function Navbar() {
-  const userData =  useSelector((state:any) => state.user)
-   const user = userData.user[0]  
+
+  const userData:any =  localStorage.getItem('user')
+  const data:any =  localStorage.getItem('data')
+  const dispatch = useDispatch()
+  
+
+  if(userData){
+    dispatch(userActions.updateUser({
+      username:userData.username,
+        email:userData.email,
+        avatar:userData.avatar,
+        coverImage:userData.coverImage,
+        fullName:userData.fullName,
+        watchHistory: userData.watchHistory,
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
+        id:userData._id
+    }))
+
+  }
+ 
+
+
+  const userDataFromRedux =  useSelector((state:any) => state.user)
+   const user = userDataFromRedux.user[0]  
 
   
    const handleClick = () => {

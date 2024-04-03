@@ -46,19 +46,9 @@ export default function LoginPage() {
             const data =res_data.data
             const userData = data.user
             
-            
-            
-            dispatch(userActions.updateUser({
-              username:userData.username,
-                email:userData.email,
-                avatar:userData.avatar,
-                coverImage:userData.coverImage,
-                fullName:userData.fullName,
-                watchHistory: userData.watchHistory,
-                accessToken: data.accessToken,
-                refreshToken: data.refreshToken,
-                id:userData._id
-            }))
+        
+           localStorage.setItem('user', userData)
+           localStorage.setItem('data', data)
 
             setIsProcessing(false)
             setIsLoggedIn(true)
