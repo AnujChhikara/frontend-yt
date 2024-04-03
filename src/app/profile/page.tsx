@@ -165,6 +165,7 @@ export default function UserProfile() {
                         <Video
                         key={video._id}
                         videoId={video._id}
+                        title={video.title}
                         videoUrl={video.videoFile}
                         thumbnailUrl={video.thumbnail}
                           owner={video.owner}

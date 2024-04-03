@@ -88,13 +88,13 @@ export default function Navigation() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-        <DropdownMenuItem>
+        <Link href='/profile'> <DropdownMenuItem>
             
             <User className="mr-2 h-4 w-4" />
-            <Link href='/profile'><span className='text-[13px]'>{user.fullName.toUpperCase()}</span></Link>
+            <span className='text-[13px]'>{user.fullName.toUpperCase()}</span>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
            
-            </DropdownMenuItem>
+            </DropdownMenuItem></Link>
           <DropdownMenuItem>
             <CreditCard className="mr-2 h-4 w-4" />
             <div 

@@ -13,13 +13,27 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import { redirect } from 'next/navigation'
+
 
 
 
 
 function Navbar() {
   const userData =  useSelector((state:any) => state.user)
-   const user = userData.user[0]   
+   const user = userData.user[0]  
+
+  
+   const handleClick = () => {
+    console.log('handleClick function called');
+    if (user) {
+        console.log('User is logged in');
+        redirect('/profile');
+    } else {
+        console.log('User is not logged in');
+        // Handle the case when the user is not logged in
+    }
+};
    
  
   return (
@@ -44,14 +58,16 @@ function Navbar() {
           {
             user && <>
                  <Navigation/>
-                 <HoverCard>
-                    <HoverCardTrigger>
-                    <div className='pl-8'>
+                 <HoverCard >
+                   <div>
+                    <HoverCardTrigger asChild  >
                       <Link href='/videoUpload'>
-                      <Upload /></Link>
+                    <div className='pl-8 ' >
+                     
+                      <Upload />
 
-                    </div>
-                    </HoverCardTrigger>
+                    </div></Link>
+                    </HoverCardTrigger></div>
                     <HoverCardContent className='bg-black text-sm border-none w-40'>
                       Upload your video
                     </HoverCardContent>
@@ -74,6 +90,7 @@ function Navbar() {
             
             
         </div>
+    
     </div>
     </div>
   )

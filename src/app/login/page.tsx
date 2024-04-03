@@ -47,6 +47,7 @@ export default function LoginPage() {
             const userData = data.user
             
             
+            
             dispatch(userActions.updateUser({
               username:userData.username,
                 email:userData.email,
@@ -55,7 +56,8 @@ export default function LoginPage() {
                 fullName:userData.fullName,
                 watchHistory: userData.watchHistory,
                 accessToken: data.accessToken,
-                refreshToken: data.refreshToken
+                refreshToken: data.refreshToken,
+                id:userData._id
             }))
 
             setIsProcessing(false)

@@ -29,14 +29,20 @@ export async function healthCheck  () {
    }
 }
 
-export async function fetchVideo(id:string) {
-  const response =  await fetch(process.env.url+ '/videos/'+ id)
+export async function getUserVideos({userId, accessToken}: {userId:String, accessToken:string}) {
+  const response = await fetch(process.env.url+'/videos/?page=1&limit=10&query=test&sortBy=createdAt&userId=' +userId+'&sortType=newest',
+  {
+    headers:{
+      'Authorization': `Bearer ${accessToken}`
+    }
+  })
+
   if(response.ok) {
     const res_data = await response.json()
-    return res_data
-  } else{
+    return res_data.data
+  } 
+  else{
     const error = await response.json()
     console.log(error)
-    return error
   }
 }

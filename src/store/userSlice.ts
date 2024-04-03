@@ -9,6 +9,7 @@ interface User {
     watchHistory: any[]; // Update the type as per the actual type of watchHistory
     accessToken: string;
     refreshToken: string;
+    id:string
 }
 
 interface UserSliceState {
@@ -34,7 +35,8 @@ const userSlice = createSlice({
                 fullName:newUser.fullName,
                 watchHistory: newUser.watchHistory,
                 accessToken: newUser.accessToken,
-                refreshToken: newUser.refreshToken
+                refreshToken: newUser.refreshToken,
+                id: newUser.id
             })
             
         },

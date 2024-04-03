@@ -11,6 +11,7 @@ interface Owner {
 }
 
 interface VideoProps {
+  title:string,
     videoUrl: string;
     thumbnailUrl: string;
     duration: number;
@@ -22,7 +23,7 @@ interface VideoProps {
   }
  
 
-  const Video: React.FC<VideoProps> = ({ videoUrl,description, videoId, thumbnailUrl, duration, owner, views, createdAt }) => {
+  const Video: React.FC<VideoProps> = ({title, videoUrl,description, videoId, thumbnailUrl, duration, owner, views, createdAt }) => {
     return (
       <div className='flex flex-col space-y-2 font-bold text-gray-300'>
         <Link href={`/watchVideo/${videoId}`}
