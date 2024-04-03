@@ -45,10 +45,25 @@ export default function LoginPage() {
             const res_data = await response.json()
             const data =res_data.data
             const userData = data.user
+
+            // Store user data in local storage
+            localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('refreshToken', data.refreshToken);
             
-        
-           localStorage.setItem('user', userData)
-           localStorage.setItem('data', data)
+            
+            
+            dispatch(userActions.updateUser({
+              username:userData.username,
+                email:userData.email,
+                avatar:userData.avatar,
+                coverImage:userData.coverImage,
+                fullName:userData.fullName,
+                watchHistory: userData.watchHistory,
+                accessToken: data.accessToken,
+                refreshToken: data.refreshToken,
+                id:userData._id
+            }))
 
             setIsProcessing(false)
             setIsLoggedIn(true)

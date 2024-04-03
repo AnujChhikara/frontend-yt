@@ -52,13 +52,19 @@ import { toast } from "sonner"
 
 
 export default function Navigation() {
-    
+    const dispatch = useDispatch()
     const userData =  useSelector((state:any) => state.user)
     const user = userData.user[0] 
 
     
-    const dispatch = useDispatch()
+    
+    const clearLocalStorage = () => {
+      localStorage.removeItem('user');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+    };
     const logoutUser = () => {
+
       toast("Logout Successful", {
         description: 'User has been logged out successfully',
         action: {
@@ -66,8 +72,8 @@ export default function Navigation() {
           onClick: () => console.log("Welcome back to the App"),
         },
       })
+      clearLocalStorage();
       dispatch(userActions.logoutUser({})
-      
       )}
 
 
@@ -91,7 +97,7 @@ export default function Navigation() {
         <Link href='/profile'> <DropdownMenuItem>
             
             <User className="mr-2 h-4 w-4" />
-            <span className='text-[13px]'>{user.fullName.toUpperCase()}</span>
+            <span className='text-[13px]'>{user.fullName}</span>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
            
             </DropdownMenuItem></Link>

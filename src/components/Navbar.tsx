@@ -4,8 +4,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { userActions } from '@/store/userSlice'
+import { useSelector } from 'react-redux'
+import {} from '@/store/userSlice'
 import Navigation from './Navigation'
 import { Search, Upload } from 'lucide-react'
 import {
@@ -14,50 +14,46 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 import { redirect } from 'next/navigation'
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../store/userSlice';
+import { clearLocalStorageAfterInactivity } from '@/functions'
 
 
 
 
 
 function Navbar() {
+  const dispatch = useDispatch();
 
-  const userData:any =  localStorage.getItem('user')
-  const data:any =  localStorage.getItem('data')
-  const dispatch = useDispatch()
-  
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedRefreshToken = localStorage.getItem('refreshToken');
 
-  if(userData){
-    dispatch(userActions.updateUser({
-      username:userData.username,
-        email:userData.email,
-        avatar:userData.avatar,
-        coverImage:userData.coverImage,
-        fullName:userData.fullName,
-        watchHistory: userData.watchHistory,
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
-        id:userData._id
-    }))
-
-  }
- 
-
-
-  const userDataFromRedux =  useSelector((state:any) => state.user)
-   const user = userDataFromRedux.user[0]  
-
-  
-   const handleClick = () => {
-    console.log('handleClick function called');
-    if (user) {
-        console.log('User is logged in');
-        redirect('/profile');
-    } else {
-        console.log('User is not logged in');
-        // Handle the case when the user is not logged in
+      // Initialize Redux state with stored user data
+      dispatch(userActions.updateUser({
+        username: parsedUser.username,
+        email: parsedUser.email,
+        avatar: parsedUser.avatar,
+        coverImage: parsedUser.coverImage,
+        fullName: parsedUser.fullName,
+        watchHistory: parsedUser.watchHistory,
+        accessToken: storedAccessToken,
+        refreshToken: storedRefreshToken,
+        id: parsedUser._id
+      }));
     }
-};
-   
+  }, [dispatch]);
+
+  const userData =  useSelector((state:any) => state.user)
+  const user = userData.user[0]  
+  
+
+  clearLocalStorageAfterInactivity(30 * 60 * 1000);
+
  
   return (
     <div className='w-screen  bg-zinc-900 '>

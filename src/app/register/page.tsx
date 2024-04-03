@@ -5,6 +5,8 @@ import React, { useRef, useState } from 'react'
 import Input from '../../components/input'
 import Link from 'next/link'
 import { toast } from "sonner"
+import { redirect } from 'next/navigation'
+
 
 
 export default function RegsiterPage()  {
@@ -73,7 +75,7 @@ export default function RegsiterPage()  {
    if(response.ok) {
     const res_data = await response.json()
     setIsProcessing(false)
-    console.log(res_data)
+    redirect('/login')
     toast("Registration Successful", {
       description: 'User has been register successfully',
       action: {
@@ -110,11 +112,11 @@ export default function RegsiterPage()  {
             <form className='flex flex-col space-y-8 ' onSubmit={handelFormSubmittion}>
               <div className='flex space-x-8'>
               <Input name="username" placeholder="username" type="text" required  />
-                <Input name="email" placeholder="email" type="text" required   />
+                <Input name="email" placeholder="email" type="email" required   />
               </div>
               <div className='flex space-x-8'>
                 <Input name="fullName" placeholder="full name" type="text" required  />
-                <Input name="password" placeholder="password" type="text" required   />
+                <Input name="password" placeholder="password" type="password" required   />
               </div>
               <div className='flex space-x-16'>
               <div className=''>
@@ -131,7 +133,7 @@ export default function RegsiterPage()  {
                   </div>
                 </div>
                 <div>
-                  <input required type='file' ref={coverImageFileInputRef} accept='image/jpeg, image/png, image/jpg' onChange={handleCoverImageFileChange} hidden  name='coverImage' id='coverImage' className=' w-80 rounded-md h-10 px-4 py-2 bg-transparent border border-gray-200' />
+                  <input type='file' ref={coverImageFileInputRef} accept='image/jpeg, image/png, image/jpg' onChange={handleCoverImageFileChange} hidden  name='coverImage' id='coverImage' className=' w-80 rounded-md h-10 px-4 py-2 bg-transparent border border-gray-200' />
                   <div onClick={handleCoverImageFileSelect}  className='flex text-gray-400 space-x-4 items-center cursor-pointer'>
                   {coverImagePreview && (
                     <Image width={100} height={100}
@@ -148,7 +150,7 @@ export default function RegsiterPage()  {
                     
 
                 <div className='flex justify-start items-center space-x-12 pt-6'>   {
-                  isProcessing && <button type='submit' className='bg-gray-900 border text-white w-72 animate-pulse hover:bg-gray-700 duration-500 px-4 py-4 rounded'>Registering user</button>
+                  isProcessing && <button type='submit' className='bg-gray-900 border text-white w-72 animate-pulse hover:bg-gray-700 duration-700 px-4 py-4 rounded'>Registering user</button>
                 }
                 {
                   !isProcessing && <button type='submit' className='bg-gray-900 border text-white w-72 hover:bg-gray-700 duration-500 px-4 py-4 rounded'>Register</button>
