@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['media1.giphy.com', 'media4.giphy.com','res.cloudinary.com']
+        domains: ['res.cloudinary.com', 'images.unsplash.com', 'imgs.search.brave.com']
+    },
+    env:{
+        url: 'http://localhost:8000/api/v1'
     }
 };
 

@@ -1,12 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface User {
+    username: string;
+    email: string;
+    avatar: string;
+    coverImage: string;
+    fullName: string;
+    watchHistory: any[]; // Update the type as per the actual type of watchHistory
+    accessToken: string;
+    refreshToken: string;
+    id:string
+}
+
+interface UserSliceState {
+    user: User[];
+}
+
+
+const initialState: UserSliceState = {
+    user: [],
+};
 
 const userSlice = createSlice({
     name:'user',
-    initialState: {
-        user:[],
-        
-    },
+    initialState,
     reducers:{
         updateUser(state,action){
             const newUser = action.payload
@@ -18,10 +35,14 @@ const userSlice = createSlice({
                 fullName:newUser.fullName,
                 watchHistory: newUser.watchHistory,
                 accessToken: newUser.accessToken,
-                refreshToken: newUser.refreshToken
+                refreshToken: newUser.refreshToken,
+                id: newUser.id
             })
             
         },
+        logoutUser(state, action){
+            state.user = []
+        }
       
     }
 });
@@ -31,4 +52,4 @@ const userSlice = createSlice({
 
 export const userActions = userSlice.actions;
 
-export default userSlice;
+export default userSlice.reducer;
