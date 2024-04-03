@@ -24,17 +24,33 @@ interface VideoProps {
  
 
   const Video: React.FC<VideoProps> = ({title, videoUrl,description, videoId, thumbnailUrl, duration, owner, views, createdAt }) => {
+   
+    function formatSecondsToMinutes(second:number) {
+      // Calculate minutes and remaining seconds
+      const minutes = Math.floor(second / 60);
+      const remainingSeconds = Math.round(second % 60);
+      
+      // Format the result as minutes:seconds
+      const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+      const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
+  
+      return `${formattedMinutes}:${formattedSeconds}`;
+  }
+
+  const videoDuration = formatSecondsToMinutes(duration)
+    
     return (
       <div className='flex flex-col space-y-2 font-bold text-gray-300'>
         <Link href={`/watchVideo/${videoId}`}
          className='flex items-end space-x-[185px]'>
         <Image width={100} height={100} className='w-60 h-40 rounded-md m-2 ml-0 shadow-sm shadow-white' src={thumbnailUrl} alt="Thumbnail" />
         <span  className='bg-black absolute text-white rounded-xl px-1 py-0.5 mb-3  text-sm '>
-            {duration}
+            {videoDuration}
         </span>
         </Link>
         
-        <h3>{description}</h3>
+        <h3>{title}</h3>
+      
         <h4 className='text-sm text-gray-300'>by {owner.fullName}</h4>
       </div>
     );

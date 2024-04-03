@@ -2,6 +2,7 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { LikeVideo } from "@/functions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -69,6 +70,11 @@ export default function ViewVideo({params}:{params: {slug:string}}) {
       fetchVideo()
     }
   }, [id, data, accessToken]);
+  const videoId = videoData!._id
+
+  const handleLikeButton = () => {
+    LikeVideo({videoId, accessToken})
+  }
  
   
  
@@ -81,6 +87,7 @@ export default function ViewVideo({params}:{params: {slug:string}}) {
       Your browser does not support the video tag.
       </video>
       <h3 className="text-3xl font-bold">{videoData.title}</h3>
+      <p>{videoData.description}</p>
       <div className="flex justify-between items-center"> 
       <div className="flex space-x-4 items-center">
       <Avatar className="w-20 h-20" >
@@ -95,14 +102,14 @@ export default function ViewVideo({params}:{params: {slug:string}}) {
       <div className="flex space-x-4 font-bold bg-gray-900 px-4 py-2 rounded-3xl ">
         <div className="flex items-end space-x-2 ">
           <div className="flex items-end space-x-1 ">
-            <button>
+            <button onClick={handleLikeButton}>
             <ThumbsUp size={32} color="#6c6a6a" /></button>
-            <p>Likes No.</p>
+            <p>xxK</p>
             </div>
             <div className="h-full bg-gray-300 w-[1px]"></div>
         </div>
       
-        <button className="flex items-end">
+        <button onClick={handleLikeButton} className="flex items-end">
         <ThumbsDown size={32} color="#6c6a6a" />
          </button>
       </div>

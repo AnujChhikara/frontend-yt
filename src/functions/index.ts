@@ -29,7 +29,7 @@ export async function healthCheck  () {
    }
 }
 
-export async function getUserVideos({userId, accessToken}: {userId:String, accessToken:string}) {
+export async function getUserVideos({userId, accessToken}: {userId:string, accessToken:string}) {
   const response = await fetch(process.env.url+'/videos/?page=1&limit=10&query=test&sortBy=createdAt&userId=' +userId+'&sortType=newest',
   {
     headers:{
@@ -44,5 +44,25 @@ export async function getUserVideos({userId, accessToken}: {userId:String, acces
   else{
     const error = await response.json()
     console.log(error)
+  }
+}
+
+export async function LikeVideo({videoId ,accessToken}:{videoId:string, accessToken:string} ){
+  const response = await fetch(process.env.url+'/likes/toggle/v/' +videoId,
+  
+  {
+    method: "POST",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`
+    }
+  })
+
+  if(response.ok) {
+    const res_data = await response.json()
+    console.log(res_data)
+  } 
+  else{
+    const error = await response.json()
+    console.log(error.msg)
   }
 }

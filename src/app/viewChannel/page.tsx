@@ -71,8 +71,20 @@ export default function ViewChannel() {
              {
              
               userVideos.map((video:any = {}) => (
-                console.log(video.title)
-              
+                <Video
+                key={video._id}
+                videoId={video._id}
+                title={video.title}
+                videoUrl={video.videoFile}
+                thumbnailUrl={video.thumbnail}
+                  owner={video.owner}
+                  views={video.view}
+                  createdAt= {video.createdAt}
+                  duration = {video.duration}
+                  description= {video.description}
+                
+                />
+                
               ))
              }
              </>}
