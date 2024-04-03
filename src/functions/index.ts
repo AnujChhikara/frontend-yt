@@ -59,7 +59,7 @@ export async function LikeVideo({videoId ,accessToken}:{videoId:string, accessTo
 
   if(response.ok) {
     const res_data = await response.json()
-    console.log(res_data)
+     return res_data
   } 
   else{
     const error = await response.json()

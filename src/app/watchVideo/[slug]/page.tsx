@@ -26,6 +26,7 @@ interface VideoData {
 
 export default function ViewVideo({params}:{params: {slug:string}}) {
   const [videoData, setVideoData] = useState<VideoData>()
+  const [liked, setLiked] = useState(false);
 
   const id = params.slug
   const data =  useSelector((state:any) => state.user)
@@ -70,10 +71,12 @@ export default function ViewVideo({params}:{params: {slug:string}}) {
       fetchVideo()
     }
   }, [id, data, accessToken]);
-  const videoId = videoData!._id
+
+
 
   const handleLikeButton = () => {
-    LikeVideo({videoId, accessToken})
+    setLiked(!liked)
+    LikeVideo({videoId:id, accessToken})
   }
  
   
@@ -103,15 +106,23 @@ export default function ViewVideo({params}:{params: {slug:string}}) {
         <div className="flex items-end space-x-2 ">
           <div className="flex items-end space-x-1 ">
             <button onClick={handleLikeButton}>
-            <ThumbsUp size={32} color="#6c6a6a" /></button>
-            <p>xxK</p>
+            {liked && <ThumbsUp size={32} color="#6c6a6a" />}
+            {!liked && <ThumbsUp size={32} color="#FF3EA5" />}
+            
+            </button>
+           
             </div>
             <div className="h-full bg-gray-300 w-[1px]"></div>
         </div>
-      
-        <button onClick={handleLikeButton} className="flex items-end">
-        <ThumbsDown size={32} color="#6c6a6a" />
+        {
+          liked? <button disabled onClick={handleLikeButton} className="flex items-end">
+          <ThumbsDown  size={32} color="#6c6a6a" />
+           </button> : <button  onClick={handleLikeButton} className="flex items-end">
+        <ThumbsDown  size={32} color="#6c6a6a" />
          </button>
+        }
+      
+        
       </div>
       </div>
       </div>
