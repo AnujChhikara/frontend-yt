@@ -17,7 +17,7 @@ import { redirect } from 'next/navigation'
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../store/userSlice';
-import { clearLocalStorageAfterInactivity } from '@/functions'
+
 
 
 
@@ -52,7 +52,7 @@ function Navbar() {
   const user = userData.user[0]  
   
 
-  clearLocalStorageAfterInactivity(30 * 60 * 1000);
+ 
 
  
   return (

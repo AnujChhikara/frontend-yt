@@ -118,10 +118,7 @@ export default function Navigation() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Users className="mr-2 h-4 w-4" />
-            <span>Team</span>
-          </DropdownMenuItem>
+          
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <UserPlus className="mr-2 h-4 w-4" />
@@ -147,7 +144,7 @@ export default function Navigation() {
           </DropdownMenuSub>
           <DropdownMenuItem>
             <Plus className="mr-2 h-4 w-4" />
-            <span>New Team</span>
+            <span>Contact Me</span>
             <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>

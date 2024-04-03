@@ -67,31 +67,4 @@ export async function LikeVideo({videoId ,accessToken}:{videoId:string, accessTo
   }
 }
 
-export const clearLocalStorageAfterInactivity = (timeoutInMilliseconds:number) => {
-  let inactivityTimeout:any;
-
-  const resetInactivityTimer = () => {
-    clearTimeout(inactivityTimeout);
-    inactivityTimeout = setTimeout(() => {
-      // Clear local storage after the specified timeout
-      
-        localStorage.removeItem('user');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-     
-    }, timeoutInMilliseconds);
-  };
-
-  // Reset the timer whenever there is user activity
-  const handleUserActivity = () => {
-    resetInactivityTimer();
-  };
-
-  // Start the timer initially
-  resetInactivityTimer();
-
-  // Add event listeners for user activity
-  window.addEventListener('mousemove', handleUserActivity);
-  window.addEventListener('keypress', handleUserActivity);
-};
 
