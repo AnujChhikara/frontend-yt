@@ -39,7 +39,7 @@ export default function ViewChannel() {
 
  
      
- console.log(userVideos)
+
   return (
     <div className='w-screen flex justify-center items-center'>
     <div className='w-1/2 flex flex-col pt-4 justify-center items-center'>
@@ -50,7 +50,7 @@ export default function ViewChannel() {
       <div className='flex justify-start items-start space-x-4'>
         <Image width={200} height={200} className='rounded-full'  alt="banner" src={user.avatar}/>
         <div className='mt-4 space-y-2'><h4 className='font-bold text-4xl'>{user.fullName}</h4>
-        <p className='text-gray-400 flex space-x-4 justify-center items-center'><div>@{user.username}</div> <div className='bg-gray-800 text-gray-300 px-2  rounded-2xl opacity-60'>11K Subscribers</div></p>
+        <div className='text-gray-400 flex space-x-4 justify-center items-center'><div>@{user.username}</div> <div className='bg-gray-800 text-gray-300 px-2  rounded-2xl opacity-60'>11K Subscribers</div></div>
         <Button className=' rounded-2xl opacity-90' variant="outline">Subscribe</Button>
         </div>
       </div>

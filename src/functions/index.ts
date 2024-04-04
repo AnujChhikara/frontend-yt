@@ -1,4 +1,5 @@
-import { toast } from "sonner"
+
+import {toast} from 'sonner'
 
 export async function healthCheck  () {
    const response =  await fetch(process.env.url+ '/healthcheck')
@@ -68,3 +69,52 @@ export async function LikeVideo({videoId ,accessToken}:{videoId:string, accessTo
 }
 
 
+export async function fetchVideoByid({videoId, accessToken}:{accessToken:string, videoId:string}) {
+ 
+    try {
+      const response = await fetch(process.env.url + '/videos/'+ videoId,{
+        method:'Get',
+        headers:{
+          'Authorization': `Bearer ${accessToken}`
+        }
+
+      })
+
+      if(response.ok){
+         const res_data = await response.json()
+         const video = res_data.video
+         return video
+       
+        
+      }
+      else{
+        const error = await response.json()
+        console.log(error)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+export async function getChannelStats({channelId, accessToken}: {channelId:string, accessToken:string}){
+ 
+  const response = await fetch(process.env.url+'/dashboard/stats/'+channelId,
+  {
+    headers:{
+      'Authorization': `Bearer ${accessToken}`
+    }
+   
+  })
+
+  if(response.ok) {
+    const res_data = await response.json()
+    console.log(res_data)
+    return res_data.data
+  } 
+  else{
+    const error = await response.json()
+    console.log(error)
+  }
+
+}

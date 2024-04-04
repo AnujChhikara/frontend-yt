@@ -109,12 +109,13 @@ export default function Navigation() {
             </div>
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
+          <Link href='/channelStats'>
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
             <span>Channel Stats</span>
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
-         
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

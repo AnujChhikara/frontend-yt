@@ -2,8 +2,9 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LikeVideo } from "@/functions";
+import { LikeVideo, fetchVideoByid } from "@/functions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -23,7 +24,6 @@ interface VideoData {
 }
 
 
-
 export default function ViewVideo({params}:{params: {slug:string}}) {
   const [videoData, setVideoData] = useState<VideoData>()
   const [liked, setLiked] = useState(false);
@@ -31,52 +31,31 @@ export default function ViewVideo({params}:{params: {slug:string}}) {
   const id = params.slug
   const data =  useSelector((state:any) => state.user)
   const user = data.user[0]
-  if(!user){
-    return <div>
-      Not Authorized or please login first
-    </div>
+
+  if(!user) { 
+    redirect('/')
   }
-  else{
-  const accessToken = user.accessToken
-  
-   
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+ 
+  //fetching video by id
   useEffect(() => {
-
-    const fetchVideo = async() => {
-      try {
-        const response = await fetch(process.env.url + '/videos/'+ id,{
-          method:'Get',
-          headers:{
-            'Authorization': `Bearer ${accessToken}`
-          }
-
-        })
-
-        if(response.ok){
-           const res_data = await response.json()
-           const video = res_data.video
-           console.log(res_data)
-           setVideoData(video)
-        }
-        else{
-          const error = await response.json()
-          console.log(error)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    if(id){
+    if(id) {
+    const fetchVideo = async  () =>
+    {  
+     const video = await fetchVideoByid({videoId:id, accessToken:user.accessToken})
+     setVideoData(video)
+   }
       fetchVideo()
-    }
-  }, [id, data, accessToken]);
+  
+  }
+                  
+    
+  }, [id, data, user.accessToken]);
 
 
 
   const handleLikeButton = () => {
     setLiked(!liked)
-    LikeVideo({videoId:id, accessToken})
+    LikeVideo({videoId:id, accessToken:user.accessToken})
   }
  
   
@@ -129,4 +108,4 @@ export default function ViewVideo({params}:{params: {slug:string}}) {
 }
     </div>
   )
-}}
+}
