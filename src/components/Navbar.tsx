@@ -7,7 +7,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import {} from '@/store/userSlice'
 import Navigation from './Navigation'
-import { Search, Upload } from 'lucide-react'
+import { Clapperboard, Search, Upload } from 'lucide-react'
 import {
   HoverCard,
   HoverCardContent,
@@ -56,13 +56,12 @@ function Navbar() {
 
  
   return (
-    <div className='w-screen  bg-zinc-900 '>
+    <div className='w-screen bg-gradient-to-r from-gray-700 via-gray-900 to-black'>
       <div className='flex justify-between px-20 pt-4 pb-3'>
        <Link href='/'>
-        <div className='flex justify-center items-center'>
-          <Image width={40} height={20} src="https://www.svgrepo.com/show/448261/youtube.svg" alt="logo"/>
-
-
+        <div className='flex justify-center items-center gap-1'>
+        <Clapperboard/>
+  
             <h1 className='font-semibold  text-2xl text-white'>Vidloom</h1>
         </div></Link>
         <div className='flex justify-center items-center '>
