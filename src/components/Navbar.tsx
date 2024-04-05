@@ -7,7 +7,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import {} from '@/store/userSlice'
 import Navigation from './Navigation'
-import { Clapperboard, Search, Upload } from 'lucide-react'
+import { Clapperboard, MessageSquareQuote, Search, Upload } from 'lucide-react'
 import {
   HoverCard,
   HoverCardContent,
@@ -17,9 +17,6 @@ import { redirect } from 'next/navigation'
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../store/userSlice';
-
-
-
 
 
 
@@ -72,7 +69,9 @@ function Navbar() {
              <button>
              <Search size={32} color="#6c6a6a" /></button>
         </div></div>
+        
         <div className='flex justify-center items-center space-x-2 mr-10'>
+        
           {
             user && <>
                  <Navigation/>
