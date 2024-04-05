@@ -7,7 +7,7 @@ import { useSelector } from "react-redux"
 import Video from "@/components/video"
 import { useEffect, useState } from "react"
 import PlaylistCard from '@/components/PlaylistCard'
-import { History, ListVideo } from "lucide-react"
+import { History, ListVideo, Pencil } from "lucide-react"
 import { redirect } from "next/navigation"
 interface Owner {
     _id: string;
@@ -140,7 +140,8 @@ export default function UserProfile() {
         {
             user &&<>
             <div className="flex flex-col space-y-12 ">
-                <div className="flex items-center space-x-4 justify-start">
+                <div className="flex items-center  space-x-20
+                 justify-between">
             <Link href='/viewChannel' className="flex space-x-4 items-center ">
              <Image width={100} height={100} className="w-40 h-40 rounded-full" src={user.avatar} alt="user image" />
             <div>
@@ -148,6 +149,11 @@ export default function UserProfile() {
                 <h3 className="flex items-center gap-2">@{user.username}. <p className="text-sm text-gray-400">Explore Your Channel</p></h3>
             </div>
             </Link>
+            <div className="bg-accent text-lg px-4 py-2 rounded-md hover:opacity-50 duration-500">
+              <Link className="flex items-center space-x-2" href='/editProfile'>
+               <p>Edit Profile</p><Pencil />
+              </Link>
+            </div>
        
             </div>
            {/* user history div start */}

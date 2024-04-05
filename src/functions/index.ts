@@ -109,7 +109,6 @@ export async function getChannelStats({channelId, accessToken}: {channelId:strin
 
   if(response.ok) {
     const res_data = await response.json()
-    console.log(res_data)
     return res_data.data
   } 
   else{
@@ -117,4 +116,74 @@ export async function getChannelStats({channelId, accessToken}: {channelId:strin
     console.log(error)
   }
 
+}
+
+export async function changeUserPassword({accessToken,oldPassword, newPassword}: {oldPassword:any, newPassword:any, accessToken:string}) {
+  const data = 
+    {
+      oldPassword:oldPassword,
+      newPassword:newPassword
+  }
+
+  const response = await fetch(process.env.url+'/users/changePassword',
+  {
+    method:"POST",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type' : 'application/json'
+    },
+
+    body:JSON.stringify(data)
+  })
+
+  if(response.ok) {
+    toast("Account Details Updated", {
+      description: 'Please login with new credentials',
+      action: {
+        label: "Okay",
+        onClick: () => console.log('Sorry'),
+      },
+    })
+    const data = await response.json()
+     return {status:true, data:data }
+  } 
+  else{
+    const error = await response.json()
+    return {status:false, data: error.msg }  
+  }
+}
+
+export async function updateUserAccount({accessToken,fullName, email}: {fullName:any, email:any, accessToken:string}) {
+  const data = 
+    {
+      fullName:fullName,
+      email:email
+  }
+
+  const response = await fetch(process.env.url+'/users/updateDetails',
+  {
+    method:"POST",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type' : 'application/json'
+    },
+
+    body:JSON.stringify(data)
+  })
+
+  if(response.ok) {
+    toast("Account Details Updated", {
+      description: 'Please login with new credentials',
+      action: {
+        label: "Okay",
+        onClick: () => console.log('Sorry'),
+      },
+    })
+    const data = await response.json()
+     return {status:true, data:data }
+  } 
+  else{
+    const error = await response.json()
+    return {status:false, data: error.msg }  
+  }
 }

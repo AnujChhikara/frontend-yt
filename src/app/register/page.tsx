@@ -73,9 +73,7 @@ export default function RegsiterPage()  {
    })
 
    if(response.ok) {
-    const res_data = await response.json()
     setIsProcessing(false)
-    redirect('/login')
     toast("Registration Successful", {
       description: 'User has been register successfully',
       action: {
@@ -83,7 +81,7 @@ export default function RegsiterPage()  {
         onClick: () => console.log("Welcome to the App"),
       },
     })
-  
+    redirect('/login')
     
    }
    else{
@@ -170,6 +168,7 @@ export default function RegsiterPage()  {
             <div className='flex flex-col items-center text-center'>
             <p className='text-[12px] text-gray-400 text-center'>  * By clicking continue, you agree to our Terms of</p>
             <p className='text-[12px] text-gray-400 text-center'>Service and Privacy Policy.</p>
+            <p>*username can not be changed</p>
         </div>
         </div>
      <div>
