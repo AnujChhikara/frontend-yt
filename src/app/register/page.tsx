@@ -180,10 +180,7 @@ export default function RegsiterPage()  {
             
         </div>
         </div>
-     <div>
-      <Image className='m-4  shadow-lg shadow-[#b9b9b9] rounded-2xl ' width={450} height={450} src="https://images.unsplash.com/photo-1531857454108-c65232a962a8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTAyfHxtb3RpdmF0aW9uYWwlMjBxdW90ZXN8ZW58MHx8MHx8fDA%3D"
-      alt="random quote" />
-     </div>
+
        
      
         

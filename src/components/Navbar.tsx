@@ -53,8 +53,9 @@ function Navbar() {
 
  
   return (
+    <div>
     <div className='w-screen main bg-gradient-to-r from-gray-700 via-gray-900 to-black'>
-      <div className='flex justify-between px-20 pt-4 pb-3'>
+      <div className='flex justify-between items-center px-12 py-2'>
        <Link href='/'>
         <div className='flex justify-center items-center gap-1'>
         <Clapperboard/>
@@ -63,7 +64,7 @@ function Navbar() {
         </div></Link>
         
         
-        <div className='flex justify-center items-center space-x-2 mr-10'>
+        <div className='flex justify-center items-center space-x-2 '>
         
           {
             user && <>
@@ -87,20 +88,22 @@ function Navbar() {
           }
           {
             !user && <>
-           <div>
-                <svg className='w-8' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="9" r="3" stroke="#FFCF81" strokeWidth="1.5"/>
-                    <path d="M17.9691 20C17.81 17.1085 16.9247 15 11.9999 15C7.07521 15 6.18991 17.1085 6.03076 20" stroke="#FFCF81" strokeWidth="1.5" strokeLinecap="round"/>
-                    <path d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7" stroke="#FFCF81" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
-            </div>
-            <Link href="/register">Register</Link>
+            <Link className='font-semibold pr-4' href='/login'>Log In</Link>
+            <Link className=' font-semibold mt-3' href="/register"><button className="inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white">
+                <span className=" px-3 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                Register
+                </span>
+                </button></Link>
             </>
           }
             
             
         </div>
     
+    </div>
+    </div>
+    <div className='flex flex-row absolute bg-gradient-to-t from-gray-700 via-gray-900 to-black border-r border-gray-800  w-48 h-screen'>
+      hello
     </div>
     </div>
   )

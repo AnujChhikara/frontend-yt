@@ -247,5 +247,4 @@ export async function updateUserCoverImage({accessToken,file}: {accessToken:stri
   }
 }
 
-  
-  
+
