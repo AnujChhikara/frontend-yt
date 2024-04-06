@@ -23,7 +23,7 @@ export async function healthCheck  () {
          description: 'failed to fetch app health',
          action: {
            label: "Okay",
-           onClick: () => console.log('Sorry'),
+           onClick: () => console.log('Okay'),
          },
        })
 
@@ -141,7 +141,7 @@ export async function changeUserPassword({accessToken,oldPassword, newPassword}:
       description: 'Please login with new credentials',
       action: {
         label: "Okay",
-        onClick: () => console.log('Sorry'),
+        onClick: () => console.log('Okay'),
       },
     })
     const data = await response.json()
@@ -162,7 +162,7 @@ export async function updateUserAccount({accessToken,fullName, email}: {fullName
 
   const response = await fetch(process.env.url+'/users/updateDetails',
   {
-    method:"POST",
+    method:"PATCH",
     headers:{
       'Authorization': `Bearer ${accessToken}`,
       'Content-Type' : 'application/json'
@@ -187,3 +187,68 @@ export async function updateUserAccount({accessToken,fullName, email}: {fullName
     return {status:false, data: error.msg }  
   }
 }
+
+export async function updateUserAvatar({accessToken,file}: {accessToken:string, file:any}) {
+
+  const response = await fetch(process.env.url+'/users/updateAvatar',
+  {
+    method:"PATCH",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+    body:file
+  })
+
+  if(response.ok) {
+    toast("User Avatar Updated", {
+      description: 'You can see new avatar in top navbar',
+      action: {
+        label: "Okay",
+        onClick: () => console.log('Okay'),
+      },
+    })
+    const data = await response.json()
+     return {status:true, data:data }
+  } 
+  else{
+    const error = await response.json()
+    return {status:false, data: error.msg }  
+  }
+}
+
+
+export async function updateUserCoverImage({accessToken,file}: {accessToken:string, file:any}) {
+
+  const response = await fetch(process.env.url+'/users/updateCoverImage',
+  {
+    method:"PATCH",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+    body:file
+  })
+
+  if(response.ok) {
+    toast("User Cover Image Updated", {
+      description: 'You can see new cover image in your channel',
+      action: {
+        label: "Okay",
+        onClick: () => console.log('Okay'),
+      },
+    })
+    const data = await response.json()
+     return {status:true, data:data }
+  } 
+  else{
+    const error = await response.json()
+    return {status:false, data: error.msg }  
+  }
+}
+
+  
+  
+  
+  
+  

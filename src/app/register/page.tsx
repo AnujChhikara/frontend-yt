@@ -14,6 +14,7 @@ export default function RegsiterPage()  {
   const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null);
   const [errorMsg, setErrorMessage] = useState('')
   const[isProcessing, setIsProcessing] = useState(false)
+  const[isRegisteredSuccessfully, setIsRegisteredSuccessfully] = useState(false)
  
   const avatarFileInputRef = useRef<HTMLInputElement>(null)
   const coverImageFileInputRef = useRef<HTMLInputElement>(null)
@@ -73,6 +74,8 @@ export default function RegsiterPage()  {
    })
 
    if(response.ok) {
+    setIsRegisteredSuccessfully(true)
+    
     setIsProcessing(false)
     toast("Registration Successful", {
       description: 'User has been register successfully',
@@ -81,7 +84,7 @@ export default function RegsiterPage()  {
         onClick: () => console.log("Welcome to the App"),
       },
     })
-    redirect('/login')
+ 
     
    }
    else{
@@ -91,8 +94,10 @@ export default function RegsiterPage()  {
     setIsProcessing(false)
    }
 
-   
+  }
 
+  if(isRegisteredSuccessfully){
+    redirect('/login')
   }
 
   return (

@@ -48,7 +48,7 @@ export default function ViewChannel() {
         <Image width={800} height={200} className='w-[800px] h-40 rounded-lg'  alt="banner" src={user.coverImage? user.coverImage : 'https://imgs.search.brave.com/ZdnvNA_L2tghfSRYQYSV-HMY0g7bE0PV7WJ_-rrcD98/rs:fit:860:0:0/g:ce/aHR0cHM6Ly92aXNt/ZS5jby9ibG9nL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDE3LzA0/L3lvdXR1YmUtYmFu/bmVyLXRlbXBsYXRl/cy1oZWFkZXItd2lk/ZS5qcGc'}/>
       </div>
       <div className='flex justify-start items-start space-x-4'>
-        <Image width={200} height={200} className='rounded-full'  alt="banner" src={user.avatar}/>
+        <Image width={200} height={200} className='rounded-xl shadow-lg shadow-white'  alt="banner" src={user.avatar}/>
         <div className='mt-4 space-y-2'><h4 className='font-bold text-4xl'>{user.fullName}</h4>
         <div className='text-gray-400 flex space-x-4 justify-center items-center'><div>@{user.username}</div> <div className='bg-gray-800 text-gray-300 px-2  rounded-2xl opacity-60'>11K Subscribers</div></div>
         <Button className=' rounded-2xl opacity-90' variant="outline">Subscribe</Button>

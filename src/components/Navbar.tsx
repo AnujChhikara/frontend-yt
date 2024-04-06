@@ -53,7 +53,7 @@ function Navbar() {
 
  
   return (
-    <div className='w-screen bg-gradient-to-r from-gray-700 via-gray-900 to-black'>
+    <div className='w-screen main bg-gradient-to-r from-gray-700 via-gray-900 to-black'>
       <div className='flex justify-between px-20 pt-4 pb-3'>
        <Link href='/'>
         <div className='flex justify-center items-center gap-1'>
