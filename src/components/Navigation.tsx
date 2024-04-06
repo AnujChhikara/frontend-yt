@@ -21,6 +21,7 @@ import {
     LogOut,
     Mail,
     MessageSquare,
+    MessageSquareQuote,
     Plus,
     PlusCircle,
     Settings,
@@ -94,6 +95,8 @@ export default function Navigation() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+       
+
         <Link href='/profile'> <DropdownMenuItem>
             
             <User className="mr-2 h-4 w-4" />
@@ -101,6 +104,12 @@ export default function Navigation() {
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
            
             </DropdownMenuItem></Link>
+            <Link href='/myThoughts'>
+            <DropdownMenuItem>
+              <MessageSquareQuote className="mr-2 h-4 w-4" />
+            <div>Thoughts</div>
+              </DropdownMenuItem>
+              </Link>
           <DropdownMenuItem>
             <CreditCard className="mr-2 h-4 w-4" />
             <div 

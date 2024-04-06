@@ -7,19 +7,16 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import {} from '@/store/userSlice'
 import Navigation from './Navigation'
-import { Clapperboard, Search, Upload } from 'lucide-react'
+import { Clapperboard, MessageSquareQuote, Upload } from 'lucide-react'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
-import { redirect } from 'next/navigation'
+
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../store/userSlice';
-
-
-
 
 
 
@@ -56,7 +53,7 @@ function Navbar() {
 
  
   return (
-    <div className='w-screen bg-gradient-to-r from-gray-700 via-gray-900 to-black'>
+    <div className='w-screen main bg-gradient-to-r from-gray-700 via-gray-900 to-black'>
       <div className='flex justify-between px-20 pt-4 pb-3'>
        <Link href='/'>
         <div className='flex justify-center items-center gap-1'>
@@ -64,15 +61,10 @@ function Navbar() {
   
             <h1 className='font-semibold  text-2xl text-white'>Vidloom</h1>
         </div></Link>
-        <div className='flex justify-center items-center '>
-        <div className=' flex items-center space-x-2 border-gray-400 border w-96 h-10 rounded-3xl'>
-            <input type="text"
-            placeholder='search..'
-             className='bg-transparent px-3 py-1  w-80 h-10 rounded-3xl rounded-r-none ' />
-             <button>
-             <Search size={32} color="#6c6a6a" /></button>
-        </div></div>
+        
+        
         <div className='flex justify-center items-center space-x-2 mr-10'>
+        
           {
             user && <>
                  <Navigation/>

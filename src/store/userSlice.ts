@@ -42,6 +42,26 @@ const userSlice = createSlice({
         },
         logoutUser(state, action){
             state.user = []
+        },
+        updateUserAvatar(state,action){
+            const newAvatarUrl = action.payload
+            state.user = state.user.map(user => {
+                return {
+                    ...user,
+                    avatar: newAvatarUrl
+                };
+            });
+        },
+        
+        updateUserCoverImage(state, action) {
+            const newCoverImageUrl = action.payload
+            state.user = state.user.map(user => {
+                return {
+                    ...user,
+                    coverImage: newCoverImageUrl
+                };
+            });
+
         }
       
     }

@@ -23,7 +23,7 @@ export async function healthCheck  () {
          description: 'failed to fetch app health',
          action: {
            label: "Okay",
-           onClick: () => console.log('Sorry'),
+           onClick: () => console.log('Okay'),
          },
        })
 
@@ -31,7 +31,7 @@ export async function healthCheck  () {
 }
 
 export async function getUserVideos({userId, accessToken}: {userId:string, accessToken:string}) {
-  const response = await fetch(process.env.url+'/videos/?page=1&limit=10&query=test&sortBy=createdAt&userId=' +userId+'&sortType=newest',
+  const response = await fetch(process.env.url+'/dashboard/videos/' +userId,
   {
     headers:{
       'Authorization': `Bearer ${accessToken}`
@@ -109,7 +109,6 @@ export async function getChannelStats({channelId, accessToken}: {channelId:strin
 
   if(response.ok) {
     const res_data = await response.json()
-    console.log(res_data)
     return res_data.data
   } 
   else{
@@ -118,3 +117,135 @@ export async function getChannelStats({channelId, accessToken}: {channelId:strin
   }
 
 }
+
+export async function changeUserPassword({accessToken,oldPassword, newPassword}: {oldPassword:any, newPassword:any, accessToken:string}) {
+  const data = 
+    {
+      oldPassword:oldPassword,
+      newPassword:newPassword
+  }
+
+  const response = await fetch(process.env.url+'/users/changePassword',
+  {
+    method:"POST",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type' : 'application/json'
+    },
+
+    body:JSON.stringify(data)
+  })
+
+  if(response.ok) {
+    toast("Account Details Updated", {
+      description: 'Please login with new credentials',
+      action: {
+        label: "Okay",
+        onClick: () => console.log('Okay'),
+      },
+    })
+    const data = await response.json()
+     return {status:true, data:data }
+  } 
+  else{
+    const error = await response.json()
+    return {status:false, data: error.msg }  
+  }
+}
+
+export async function updateUserAccount({accessToken,fullName, email}: {fullName:any, email:any, accessToken:string}) {
+  const data = 
+    {
+      fullName:fullName,
+      email:email
+  }
+
+  const response = await fetch(process.env.url+'/users/updateDetails',
+  {
+    method:"PATCH",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type' : 'application/json'
+    },
+
+    body:JSON.stringify(data)
+  })
+
+  if(response.ok) {
+    toast("Account Details Updated", {
+      description: 'Please login with new credentials',
+      action: {
+        label: "Okay",
+        onClick: () => console.log('Sorry'),
+      },
+    })
+    const data = await response.json()
+     return {status:true, data:data }
+  } 
+  else{
+    const error = await response.json()
+    return {status:false, data: error.msg }  
+  }
+}
+
+export async function updateUserAvatar({accessToken,file}: {accessToken:string, file:any}) {
+
+  const response = await fetch(process.env.url+'/users/updateAvatar',
+  {
+    method:"PATCH",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+    body:file
+  })
+
+  if(response.ok) {
+    toast("User Avatar Updated", {
+      description: 'You can see new avatar in top navbar',
+      action: {
+        label: "Okay",
+        onClick: () => console.log('Okay'),
+      },
+    })
+    const data = await response.json()
+     return {status:true, data:data }
+  } 
+  else{
+    const error = await response.json()
+    return {status:false, data: error.msg }  
+  }
+}
+
+
+export async function updateUserCoverImage({accessToken,file}: {accessToken:string, file:any}) {
+
+  const response = await fetch(process.env.url+'/users/updateCoverImage',
+  {
+    method:"PATCH",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+    body:file
+  })
+
+  if(response.ok) {
+    toast("User Cover Image Updated", {
+      description: 'You can see new cover image in your channel',
+      action: {
+        label: "Okay",
+        onClick: () => console.log('Okay'),
+      },
+    })
+    const data = await response.json()
+     return {status:true, data:data }
+  } 
+  else{
+    const error = await response.json()
+    return {status:false, data: error.msg }  
+  }
+}
+
+  
+  

@@ -75,7 +75,17 @@
   }
 }
 
-body {
+nav {
   overflow-x: hidden;
   overflow-y: hidden;
+}
+body {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+html {
+  scrollbar-color: #222121 #111111; /* Change track color */
+  scroll-behavior: smooth;
+ 
 }
