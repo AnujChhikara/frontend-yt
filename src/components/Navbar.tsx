@@ -7,13 +7,13 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import {} from '@/store/userSlice'
 import Navigation from './Navigation'
-import { Clapperboard, MessageSquareQuote, Search, Upload } from 'lucide-react'
+import { Clapperboard, MessageSquareQuote, Upload } from 'lucide-react'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
-import { redirect } from 'next/navigation'
+
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../store/userSlice';
@@ -61,14 +61,7 @@ function Navbar() {
   
             <h1 className='font-semibold  text-2xl text-white'>Vidloom</h1>
         </div></Link>
-        <div className='flex justify-center items-center '>
-        <div className=' flex items-center space-x-2 border-gray-400 border w-96 h-10 rounded-3xl'>
-            <input type="text"
-            placeholder='search..'
-             className='bg-transparent px-3 py-1  w-80 h-10 rounded-3xl rounded-r-none ' />
-             <button>
-             <Search size={32} color="#6c6a6a" /></button>
-        </div></div>
+        
         
         <div className='flex justify-center items-center space-x-2 mr-10'>
         

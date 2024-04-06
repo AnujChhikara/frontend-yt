@@ -9,12 +9,7 @@ import { useEffect, useState } from "react"
 import PlaylistCard from '@/components/PlaylistCard'
 import { History, ListVideo, Pencil } from "lucide-react"
 import { redirect } from "next/navigation"
-interface Owner {
-    _id: string;
-    username: string;
-    fullName: string;
-    avatar: string;
-}
+
   
 interface HistoryData {
     _id: string;
@@ -24,7 +19,7 @@ interface HistoryData {
     updatedAt: string;
     duration: number;
     isPublished: boolean;
-    owner: Owner;
+    owner: string;
     thumbnail: string;
     videoFile: string;
     view: number;
@@ -146,12 +141,12 @@ export default function UserProfile() {
              <Image width={100} height={100} className="w-40 h-40 rounded-full" src={user.avatar} alt="user image" />
             <div>
                 <h2 className="font-semibold text-4xl">{user.fullName}</h2>
-                <h3 className="flex items-center gap-2">@{user.username}. <p className="text-sm text-gray-400">Explore Your Channel</p></h3>
+                <h3 className="flex text-gray-400 font-semibold items-center gap-2">@{user.username}. <p className="text-sm font-bold text-gray-500">Explore Your Channel</p></h3>
             </div>
             </Link>
-            <div className="bg-accent text-lg px-4 py-2 rounded-md hover:opacity-50 duration-500">
-              <Link className="flex items-center space-x-2" href='/editProfile'>
-               <p>Edit Profile</p><Pencil />
+            <div className="bg-accent text-lg shadow-sm shadow-slate-50 px-4 py-2 rounded-md hover:opacity-50 duration-500">
+              <Link className="flex items-center  space-x-2" href='/editProfile'>
+               <p>Edit Profile</p><Pencil size={20}/>
               </Link>
             </div>
        
@@ -174,7 +169,7 @@ export default function UserProfile() {
                         title={video.title}
                         videoUrl={video.videoFile}
                         thumbnailUrl={video.thumbnail}
-                          owner={video.owner}
+                         owner={video.owner}
                           views={video.view}
                           createdAt= {video.createdAt}
                           duration = {video.duration}

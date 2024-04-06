@@ -31,7 +31,7 @@ export async function healthCheck  () {
 }
 
 export async function getUserVideos({userId, accessToken}: {userId:string, accessToken:string}) {
-  const response = await fetch(process.env.url+'/videos/?page=1&limit=10&query=test&sortBy=createdAt&userId=' +userId+'&sortType=newest',
+  const response = await fetch(process.env.url+'/dashboard/videos/' +userId,
   {
     headers:{
       'Authorization': `Bearer ${accessToken}`
@@ -247,8 +247,5 @@ export async function updateUserCoverImage({accessToken,file}: {accessToken:stri
   }
 }
 
-  
-  
-  
   
   
