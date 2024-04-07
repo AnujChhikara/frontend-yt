@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar" 
-import { BadgeCheck, Dot } from 'lucide-react';
+import { BadgeCheck, Dot, Pencil } from 'lucide-react';
 
 
 
@@ -25,7 +25,9 @@ interface VideoProps {
     const data =  useSelector((state:any) => state.user)
     const user = data.user[0]
     const [ownerDetails, setOwnerDetails]  = useState<any>()
-
+    const [videoOwner, setVideoOwner] = useState(false)
+    
+    //getting video owner details
     useEffect(()=> {
       const fetchVideoOwner = async() => { 
        const response = await getUserByID({userId:owner, accessToken:user.accessToken})
@@ -44,19 +46,19 @@ interface VideoProps {
       }
     }, [user, owner])
 
- // Given timestamp in UTC
+    //checking if logged in user is owner of video
+
+    useEffect(()=> {
+      if(user.id === ownerDetails?._id){
+        setVideoOwner(true)
+      }
+    }, [user, ownerDetails])
+
+//coverting created at to real time
 const timestampUTC = new Date(createdAt);
-
-// Convert UTC timestamp to  Time
 const timestampIST:any = new Date(timestampUTC.getTime())
-
-// Current time in IST
 const currentTimeIST:any = new Date();
-
-// Calculate the difference in milliseconds
 const timeDifference = currentTimeIST - timestampIST;
-
-// Convert milliseconds to hours
 const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
 
    
@@ -73,9 +75,11 @@ const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
   }
 
   const videoDuration = formatSecondsToMinutes(duration)
+  
     
     return (
       <div className='flex flex-col  justify-center items-start space-y-2 font-bold text-gray-300'>
+        <div className='flex space-x-2'>
         <Link href={`/watchVideo/${videoId}`}
          className='flex items-end justify-end'>
         <Image width={320} height={0} className='w-80 h-48 rounded-md' src={thumbnailUrl} alt="Thumbnail" />
@@ -83,6 +87,13 @@ const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
             {videoDuration}
         </span>
         </Link>
+        {
+          videoOwner && <Link href={`/editVideo/${videoId}`}> <Pencil size={20} /> </Link> 
+        }
+        
+
+        </div>
+        
         <div className='flex items-start space-x-2'>
         <Avatar className='w-10 h-10'>
         <AvatarImage src={ownerDetails?.avatar} />
