@@ -5,27 +5,29 @@ import { BadgeInfo, ListVideo, Youtube } from 'lucide-react'
 import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { redirect } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { getUserVideos } from '@/functions'
+import { getUserByID, getUserVideos } from '@/functions'
 import Video from '@/components/video'
+import { redirect } from 'next/navigation'
 
-export default function ViewChannel() {
+export default function ViewChannel({params}:{params: {slug:string}}) {
   const userData =  useSelector((state:any) => state.user)
   const user = userData.user[0] 
+  const id = params.slug
+
+ if(!user) {
+  redirect('/')
+ }
 
   const[userVideos, setUserVideos] = useState<any>()
+  const[channelOwner, setChannelOwner] = useState<any>()
     
-    if(!user) { 
-      redirect('/')
-    }
-
    
     useEffect( () => {
       const fetchUserVideos = async () => {
         try {
             // Call getUserVideos when user.id or user.accessToken changes
-            const userVideos = await getUserVideos({ userId: user.id, accessToken: user.accessToken });
+            const userVideos = await getUserVideos({ userId: id, accessToken: user.accessToken });
             setUserVideos(userVideos);
         } catch (error) {
             // Handle error if any
@@ -35,8 +37,25 @@ export default function ViewChannel() {
   
     fetchUserVideos();
   
-  }, [user.id, user.accessToken]);
+  }, [id, user.accessToken]);
+ 
+  useEffect(()=> {
+    const fetchVideoOwner = async() => {  
+     const response = await getUserByID({userId:id, accessToken:user.accessToken})
+     if(response.status === true){
+      setChannelOwner(response.data)
 
+     }
+     else{
+      console.log(response.data)
+     } 
+     
+     
+    }
+    if(user) {
+      fetchVideoOwner()
+    }
+  }, [id, user])
  
      
 
@@ -45,12 +64,12 @@ export default function ViewChannel() {
     <div className='flex flex-col pt-4 justify-center items-center'>
       <div className='flex flex-col items-start space-y-8'>
       <div>
-        <Image width={800} height={200} className='w-[800px] h-40 rounded-lg'  alt="banner" src={user.coverImage? user.coverImage : 'https://imgs.search.brave.com/ZdnvNA_L2tghfSRYQYSV-HMY0g7bE0PV7WJ_-rrcD98/rs:fit:860:0:0/g:ce/aHR0cHM6Ly92aXNt/ZS5jby9ibG9nL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDE3LzA0/L3lvdXR1YmUtYmFu/bmVyLXRlbXBsYXRl/cy1oZWFkZXItd2lk/ZS5qcGc'}/>
+        <Image width={800} height={200} className='w-[800px] h-40 rounded-lg'  alt="banner" src={channelOwner?.coverImage}/>
       </div>
       <div className='flex space-x-8'>
-        <Image width={200} height={200} className='rounded-xl shadow-md shadow-white'  alt="banner" src={user.avatar}/>
-        <div className='mt-4 space-y-2'><h4 className='font-bold text-4xl'>{user.fullName}</h4>
-        <div className='text-gray-400 flex space-x-4 justify-center items-center'><div>@{user.username}</div> <div className='bg-gray-800 text-gray-300 px-2  rounded-2xl opacity-60'>11K Subscribers</div></div>
+        <Image width={200} height={200} className='rounded-xl shadow-md shadow-white'  alt="banner" src={channelOwner?.avatar}/>
+        <div className='mt-4 space-y-2'><h4 className='font-bold text-4xl'>{channelOwner?.fullName}</h4>
+        <div className='text-gray-400 flex space-x-4 justify-center items-center'><div>@{channelOwner?.username}</div> <div className='bg-gray-800 text-gray-300 px-2  rounded-2xl opacity-60'>11K Subscribers</div></div>
         <Button className=' rounded-2xl opacity-90' variant="outline">Subscribe</Button>
         </div>
       </div>

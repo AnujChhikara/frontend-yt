@@ -102,9 +102,7 @@ function Navbar() {
     
     </div>
     </div>
-    <div className='flex flex-row absolute bg-gradient-to-t from-gray-700 via-gray-900 to-black border-r border-gray-800  w-48 h-screen'>
-      hello
-    </div>
+    
     </div>
   )
 }

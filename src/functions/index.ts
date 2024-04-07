@@ -248,3 +248,38 @@ export async function updateUserCoverImage({accessToken,file}: {accessToken:stri
 }
 
 
+export async function getAllPublishedVideos({accessToken}:{accessToken:string}){
+  const response = await fetch(process.env.url+ '/dashboard/videos/getAllPublishedVideos/published', {
+    headers:{
+      'Authorization': `Bearer ${accessToken}`
+    }
+  })
+
+  if(response.ok) {
+    const data = await response.json()
+     return {status:true, data:data }
+  } 
+  else{
+    const error = await response.json()
+    return {status:false, data: error.msg }  
+  }
+}
+
+export async function getUserByID({userId, accessToken}: {userId:string, accessToken:string}){
+  const response =await fetch(process.env.url+ '/users/getUserById/'+userId,{
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+  })
+
+
+    if(response.ok) {
+      const data = await response.json()
+       return {status:true, data:data }
+    } 
+    else{
+      const error = await response.json()
+      return {status:false, data: error.msg }  
+    }
+}

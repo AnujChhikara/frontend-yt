@@ -1,7 +1,10 @@
+import { getUserByID } from '@/functions';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
-
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar" 
+import { BadgeCheck, Dot } from 'lucide-react';
 
 
 
@@ -19,6 +22,43 @@ interface VideoProps {
  
 
   const Video: React.FC<VideoProps> = ({title, videoUrl,description, videoId, thumbnailUrl, duration, owner, views, createdAt }) => {
+    const data =  useSelector((state:any) => state.user)
+    const user = data.user[0]
+    const [ownerDetails, setOwnerDetails]  = useState<any>()
+
+    useEffect(()=> {
+      const fetchVideoOwner = async() => { 
+       const response = await getUserByID({userId:owner, accessToken:user.accessToken})
+       if(response.status === true){
+        setOwnerDetails(response.data)
+
+       }
+       else{
+        console.log(response.data)
+       } 
+       
+       
+      }
+      if(user) {
+        fetchVideoOwner()
+      }
+    }, [user, owner])
+
+ // Given timestamp in UTC
+const timestampUTC = new Date(createdAt);
+
+// Convert UTC timestamp to  Time
+const timestampIST:any = new Date(timestampUTC.getTime())
+
+// Current time in IST
+const currentTimeIST:any = new Date();
+
+// Calculate the difference in milliseconds
+const timeDifference = currentTimeIST - timestampIST;
+
+// Convert milliseconds to hours
+const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+
    
     function formatSecondsToMinutes(second:number) {
       // Calculate minutes and remaining seconds
@@ -37,16 +77,36 @@ interface VideoProps {
     return (
       <div className='flex flex-col  justify-center items-start space-y-2 font-bold text-gray-300'>
         <Link href={`/watchVideo/${videoId}`}
-         className='flex items-end space-x-[185px]'>
-        <Image width={100} height={100} className='w-60 h-40 rounded-md m-2 ml-0 shadow-sm shadow-white' src={thumbnailUrl} alt="Thumbnail" />
-        <span  className='bg-black absolute text-white rounded-xl px-1 py-0.5 mb-3  text-sm '>
+         className='flex items-end justify-end'>
+        <Image width={320} height={0} className='w-80 h-48 rounded-md' src={thumbnailUrl} alt="Thumbnail" />
+        <span  className='bg-black absolute text-white rounded-xl px-2  py-0.5 mb-1 text-[12px] '>
             {videoDuration}
         </span>
         </Link>
+        <div className='flex items-start space-x-2'>
+        <Avatar className='w-10 h-10'>
+        <AvatarImage src={ownerDetails?.avatar} />
+        <AvatarFallback>AC</AvatarFallback>
+        </Avatar>
+        <div className='flex flex-col'> 
+          <h3 className='text-sm'>{title}</h3>
+          <Link href={`/viewChannel/${owner}`}>
+          <div className='flex items-center space-x-1'>
+          <h4 className='text-[12px] text-gray-400'>by {ownerDetails?.fullName}</h4><p><BadgeCheck size={14} /></p></div>
+        </Link>
+        <div className='text-[12px] flex items-center   text-gray-500'>
+          <p>
+            {views} views
+          </p>
+          <Dot />
+          <p>{hoursDifference} Hours Ago</p>
+        </div>
         
-        <h3>{title}</h3>
-      
-        <h4 className='text-sm text-gray-300'>by  {owner}</h4>
+        </div>
+        
+        
+        </div >
+        
       </div>
     );
   };

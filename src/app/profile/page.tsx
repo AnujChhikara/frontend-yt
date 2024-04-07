@@ -137,7 +137,7 @@ export default function UserProfile() {
             <div className="flex flex-col space-y-12 ">
                 <div className="flex items-center  space-x-20
                  justify-between">
-            <Link href='/viewChannel' className="flex space-x-4 items-center ">
+            <Link href={`/viewChannel/${user.id}`} className="flex space-x-4 items-center ">
              <Image width={100} height={100} className="w-40 h-40 rounded-full" src={user.avatar} alt="user image" />
             <div>
                 <h2 className="font-semibold text-4xl">{user.fullName}</h2>
