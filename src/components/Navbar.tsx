@@ -1,18 +1,28 @@
 
 'use client'
 
-import Image from 'next/image'
+import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import {} from '@/store/userSlice'
 import Navigation from './Navigation'
-import { Clapperboard, MessageSquareQuote, Upload } from 'lucide-react'
+import { Clapperboard, ListVideo, Menu, MessageSquareQuote,History, ThumbsUp, Upload } from 'lucide-react'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import {
+  Sheet,
+  SheetContent,
+  SheetClose,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetFooter,
+  SheetDescription,
+} from "@/components/ui/sheet"
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -56,12 +66,48 @@ function Navbar() {
     <div>
     <div className='w-screen main bg-gradient-to-r from-gray-700 via-gray-900 to-black'>
       <div className='flex justify-between items-center px-12 py-2'>
-       <Link href='/'>
+        <div className='flex space-x-4'>
+        <Sheet>
+            <SheetTrigger><Menu /></SheetTrigger>
+            <SheetContent side={'left'} className='w-60'>
+              <SheetHeader>
+                <SheetTitle className='pt-4 underline mb-8'>Welcome to Vidloom</SheetTitle>
+                </SheetHeader>
+          
+                <SheetDescription className="flex flex-col space-y-4">
+              <SheetClose asChild>
+          
+              <Link href='/'>
+               <Button className="flex w-48 items-end justify-center space-x-1"><ThumbsUp size={20} /><p>Like Videos</p></Button>
+               </Link>
+             </SheetClose>
+             <SheetClose asChild>
+              <Link href='/'>
+               <Button className="flex w-48 items-end justify-center space-x-1"><History size={20}/><p>Watch History</p></Button>
+               </Link>
+               </SheetClose>
+               <SheetClose asChild>
+               <Link href='/'>
+               <Button className="flex w-48 items-end justify-center space-x-1"><ListVideo size={20} /><p>Your Playlists</p></Button>
+               </Link>
+               </SheetClose>
+               <SheetClose asChild>
+               <Link href='/myThoughts'>
+               <Button className="flex w-48  items-end justify-center space-x-1"><MessageSquareQuote size={20} /><p>Your Tweets</p></Button>
+               </Link>
+               </SheetClose>
+              
+               </SheetDescription>
+               </SheetContent>
+          </Sheet>
+          <Link href='/'>
         <div className='flex justify-center items-center gap-1'>
         <Clapperboard/>
   
             <h1 className='font-semibold  text-2xl text-white'>Vidloom</h1>
         </div></Link>
+        </div>
+      
         
         
         <div className='flex justify-center items-center space-x-2 '>
@@ -102,6 +148,7 @@ function Navbar() {
     
     </div>
     </div>
+   
     
     </div>
   )
