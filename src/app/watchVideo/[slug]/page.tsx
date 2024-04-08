@@ -28,7 +28,6 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
 
   const encodedId = params.slug
   const decodedId = decodeURIComponent(encodedId);
-
   const [videoId, ownerId] = decodedId.split('+');
 
 
@@ -52,6 +51,8 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
 
       if(response.status === true) {
         setVideoData(response.data.video)
+       
+      
 
       }
       else{
@@ -60,13 +61,14 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
     }
     if(user){
       fetchVideo()
+      
     }
   },
 
  [videoId, user]
 
 )
-  
+
 
 //   //getting video owner details
   useEffect(()=> { 
@@ -74,12 +76,6 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
      const response = await getUserByID({userId:ownerId, accessToken:user.accessToken})
      if(response.status === true){
       setOwnerDetails(response.data)
-      const addingVideoToWatchHistory = async() => {
-        addVideoToWatchHistory({videoId:videoId, accessToken:user.accessToken})
-      }
-    
-      addingVideoToWatchHistory()
-    
 
      }
      else{
@@ -88,11 +84,12 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
      
      
     }
-    if(user) {
+    if(user ) {
       fetchVideoOwner()
+ 
     }
-  }, [user, ownerId, videoId])
-   
+  }, [user, ownerId])
+
 
 
   const handleLikeButton = () => {

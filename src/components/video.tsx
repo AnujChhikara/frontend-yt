@@ -1,4 +1,4 @@
-import { getUserByID } from '@/functions';
+import { addVideoToWatchHistory, getUserByID } from '@/functions';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
@@ -76,11 +76,20 @@ const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
 
   const videoDuration = formatSecondsToMinutes(duration)
   
+
+  function handleClick () {
+    const addingVideoToWatchHistory = async() => { 
+      const response = await addVideoToWatchHistory({videoId:videoId, accessToken:user.accessToken})
+     }
+   
+     addingVideoToWatchHistory()
+  }
+
     
     return (
       <div className='flex flex-col  justify-center items-start space-y-2 font-bold text-gray-300'>
         <div className='flex space-x-2'>
-        <Link href={`/watchVideo/${videoId}+${ownerDetails?._id}`}
+        <Link onClick={handleClick} href={`/watchVideo/${videoId}+${ownerDetails?._id}`}
          className='flex items-end justify-end'>
         <Image width={320} height={0} className='w-80 h-48 rounded-md' src={thumbnailUrl} alt="Thumbnail" />
         <span  className='bg-black absolute text-white rounded-xl px-2  py-0.5 mb-1 text-[12px] '>

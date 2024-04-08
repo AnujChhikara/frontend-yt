@@ -21,13 +21,14 @@ export default function HomePage() {
         if(user){
             fetchVideos()
         }
-      }, [user])
+      }, [user])  
 
+     
   return (
     <div >
         <div className="flex flex-wrap gap-x-4 gap-y-8">
 
-       
+      
       {videosData && <>
              {
              

@@ -289,7 +289,6 @@ export async function addVideoToWatchHistory({videoId, accessToken} : {videoId:s
 
   })
 
-
     if(response.ok) {
       const data = await response.json()
        return {status:true, data:data }
