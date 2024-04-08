@@ -24,26 +24,31 @@ interface VideoData {
 }
 
 
-export default function ViewVideo({params}:{params: {slug:string}}) {
+export default function ViewVideo({params}:{params: {slug:any}}) {
+
+  const encodedId = params.slug
+  const decodedId = decodeURIComponent(encodedId);
+
+  const [videoId, ownerId] = decodedId.split('+');
+
+
   const [videoData, setVideoData] = useState<VideoData>()
   const [liked, setLiked] = useState(false);
   const [ownerDetails, setOwnerDetails]  = useState<any>()
-
-  const id = params.slug
   const data =  useSelector((state:any) => state.user)
   const user = data.user[0]
-
   
+
 
   if(!user) { 
     redirect('/')
   }
   
  
-  //fetching video by id
+//   //fetching video by id
   useEffect(()=> {
     const fetchVideo = async() => {
-      const response = await fetchVideoByid({videoId:id, accessToken:user.accessToken})
+      const response = await fetchVideoByid({videoId, accessToken:user.accessToken})
 
       if(response.status === true) {
         setVideoData(response.data.video)
@@ -58,23 +63,19 @@ export default function ViewVideo({params}:{params: {slug:string}}) {
     }
   },
 
- [id, user]
+ [videoId, user]
 
 )
   
 
-
- 
-  
-  const ownerId = videoData?.owner
-  //getting video owner details
+//   //getting video owner details
   useEffect(()=> { 
     const fetchVideoOwner = async() => { 
      const response = await getUserByID({userId:ownerId, accessToken:user.accessToken})
      if(response.status === true){
       setOwnerDetails(response.data)
       const addingVideoToWatchHistory = async() => {
-        addVideoToWatchHistory({videoId:id, accessToken:user.accessToken})
+        addVideoToWatchHistory({videoId:videoId, accessToken:user.accessToken})
       }
     
       addingVideoToWatchHistory()
@@ -90,20 +91,18 @@ export default function ViewVideo({params}:{params: {slug:string}}) {
     if(user) {
       fetchVideoOwner()
     }
-  }, [user, ownerId, id])
+  }, [user, ownerId, videoId])
    
 
 
   const handleLikeButton = () => {
     setLiked(!liked)
-    LikeVideo({videoId:id, accessToken:user.accessToken})
+    LikeVideo({videoId:videoId, accessToken:user.accessToken})
   }
 
  
   return (
     <div className="flex flex-col justify-center items-center mt-20">
-
-      Hello
       {videoData && <div className="flex flex-col space-y-4 justify-start">
          <video className="rounded-2xl shadow-gray-400 shadow-lg mb-6" width="800" height="800" controls>
         <source src={videoData!.videoFile} type="video/mp4"/>
