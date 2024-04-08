@@ -41,7 +41,7 @@ export default function EditVideo({params}:{params: {slug:string}}) {
     const fetchVideo = async  () =>
     {  
      const video = await fetchVideoByid({videoId:id, accessToken:user.accessToken})
-     setVideoData(video)
+     setVideoData(video.data.video)
    }
       fetchVideo()
   

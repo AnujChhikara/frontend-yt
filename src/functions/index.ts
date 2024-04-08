@@ -71,7 +71,6 @@ export async function LikeVideo({videoId ,accessToken}:{videoId:string, accessTo
 
 export async function fetchVideoByid({videoId, accessToken}:{accessToken:string, videoId:string}) {
  
-    try {
       const response = await fetch(process.env.url + '/videos/'+ videoId,{
         method:'Get',
         headers:{
@@ -80,20 +79,17 @@ export async function fetchVideoByid({videoId, accessToken}:{accessToken:string,
 
       })
 
-      if(response.ok){
-         const res_data = await response.json()
-         const video = res_data.video
-         return video
-       
-        
-      }
+      if(response.ok) {
+
+        const data = await response.json()
+     
+         return {status:true, data:data }
+      } 
       else{
         const error = await response.json()
-        console.log(error)
+        return {status:false, data: error.msg }  
       }
-    } catch (error) {
-      console.log(error)
-    }
+
   }
 
 
@@ -265,8 +261,28 @@ export async function getAllPublishedVideos({accessToken}:{accessToken:string}){
   }
 }
 
-export async function getUserByID({userId, accessToken}: {userId:string, accessToken:string}){
+export async function getUserByID({userId, accessToken}: {userId:any, accessToken:string}){
   const response =await fetch(process.env.url+ '/users/getUserById/'+userId,{
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+  })
+
+
+    if(response.ok) {
+      const data = await response.json()
+       return {status:true, data:data }
+    } 
+    else{
+      const error = await response.json()
+      return {status:false, data: error.msg }  
+    }
+}
+
+export async function addVideoToWatchHistory({videoId, accessToken} : {videoId:string, accessToken:string}){
+  const response =await fetch(process.env.url+ '/videos/watchHistory/' +videoId,{
+    method:"PATCH",
     headers:{
       'Authorization': `Bearer ${accessToken}`,
     },

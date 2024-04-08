@@ -2,7 +2,7 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LikeVideo, fetchVideoByid } from "@/functions";
+import { LikeVideo, addVideoToWatchHistory, fetchVideoByid, getUserByID } from "@/functions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -27,41 +27,83 @@ interface VideoData {
 export default function ViewVideo({params}:{params: {slug:string}}) {
   const [videoData, setVideoData] = useState<VideoData>()
   const [liked, setLiked] = useState(false);
+  const [ownerDetails, setOwnerDetails]  = useState<any>()
 
   const id = params.slug
   const data =  useSelector((state:any) => state.user)
   const user = data.user[0]
 
+  
+
   if(!user) { 
     redirect('/')
   }
+  
  
   //fetching video by id
-  useEffect(() => {
-    if(id) {
-    const fetchVideo = async  () =>
-    {  
-     const video = await fetchVideoByid({videoId:id, accessToken:user.accessToken})
-     setVideoData(video)
-   }
-      fetchVideo()
-  
-  }
-                  
-    
-  }, [id, data, user.accessToken]);
+  useEffect(()=> {
+    const fetchVideo = async() => {
+      const response = await fetchVideoByid({videoId:id, accessToken:user.accessToken})
 
+      if(response.status === true) {
+        setVideoData(response.data.video)
+
+      }
+      else{
+        console.log(response.status)
+      }
+    }
+    if(user){
+      fetchVideo()
+    }
+  },
+
+ [id, user]
+
+)
+  
+
+
+ 
+  
+  const ownerId = videoData?.owner
+  //getting video owner details
+  useEffect(()=> { 
+    const fetchVideoOwner = async() => { 
+     const response = await getUserByID({userId:ownerId, accessToken:user.accessToken})
+     if(response.status === true){
+      setOwnerDetails(response.data)
+      const addingVideoToWatchHistory = async() => {
+        addVideoToWatchHistory({videoId:id, accessToken:user.accessToken})
+      }
+    
+      addingVideoToWatchHistory()
+    
+
+     }
+     else{
+      console.log(response.data)
+     } 
+     
+     
+    }
+    if(user) {
+      fetchVideoOwner()
+    }
+  }, [user, ownerId, id])
+   
 
 
   const handleLikeButton = () => {
     setLiked(!liked)
     LikeVideo({videoId:id, accessToken:user.accessToken})
   }
- 
-  
+
  
   return (
     <div className="flex flex-col justify-center items-center mt-20">
+
+      Hello
       {videoData && <div className="flex flex-col space-y-4 justify-start">
          <video className="rounded-2xl shadow-gray-400 shadow-lg mb-6" width="800" height="800" controls>
         <source src={videoData!.videoFile} type="video/mp4"/>
@@ -73,11 +115,11 @@ export default function ViewVideo({params}:{params: {slug:string}}) {
       <div className="flex justify-between items-center"> 
       <div className="flex space-x-4 items-center">
       <Avatar className="w-20 h-20" >
-          <AvatarImage src={user.avatar} />
+          <AvatarImage src={ownerDetails?.avatar} />
           <AvatarFallback>AC</AvatarFallback>
       </Avatar>
       <div>
-      <h3 className="font-semibold text-xl">{user.fullName}</h3>
+      <h3 className="font-semibold text-xl">{ownerDetails?.fullName}</h3>
       <p className="tex-sm text-gray-400">xx Subscribers</p>
       </div>
       </div>
