@@ -319,6 +319,47 @@ export async function addVideoToWatchHistory({videoId, accessToken} : {videoId:s
     }
 }
 
+export async function getUserWatchHistory({accessToken}:{accessToken:string}) {
+  
+  const response =await fetch(process.env.url+ '/users/history',{
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+  })
+
+    if(response.ok) {
+      const data = await response.json()
+       return {status:true, data:data }
+    } 
+    else{
+      const error = await response.json()
+      return {status:false, data: error.msg }  
+    }
+
+  
+}
+
+export async function getUserLikedVideo({accessToken}: {accessToken:string}){
+  const response =await fetch(process.env.url+ '/likes/videos',{
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+  })
+
+    if(response.ok) {
+      const data = await response.json()
+       return {status:true, data:data }
+    } 
+    else{
+      const error = await response.json()
+      return {status:false, data: error.msg }  
+    }
+
+
+}
+
 export async function getAllTweets({ accessToken} : { accessToken:string}){
   const response =await fetch(process.env.url+ '/tweets/getAllTweets',{
     headers:{

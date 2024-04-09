@@ -123,8 +123,8 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
         <div className="flex items-end space-x-2 ">
           <div className="flex items-end space-x-1 ">
             <button onClick={handleLikeButton}>
-            {liked && <ThumbsUp size={32} color="#6c6a6a" />}
-            {!liked && <ThumbsUp size={32} color="#FF3EA5" />}
+            {liked && <ThumbsUp size={32} color="#FF004D" />}
+            {!liked && <ThumbsUp size={32} color="#6c6a6a"  />}
             
             </button>
            

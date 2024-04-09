@@ -1,7 +1,7 @@
 
 'use client'
 import { Button } from '@/components/ui/button'
-import { BadgeInfo, ListVideo, Youtube } from 'lucide-react'
+import {ListVideo, Youtube } from 'lucide-react'
 import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"

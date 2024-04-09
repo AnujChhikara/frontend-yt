@@ -64,6 +64,7 @@ export default function Navigation() {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     };
+    
     const logoutUser = () => {
 
       toast("Logout Successful", {

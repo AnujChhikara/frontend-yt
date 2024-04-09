@@ -7,7 +7,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import {} from '@/store/userSlice'
 import Navigation from './Navigation'
-import { Clapperboard, ListVideo, Menu, MessageSquareQuote,History, ThumbsUp, Upload } from 'lucide-react'
+import { Clapperboard, ListVideo, Menu, MessageSquareQuote,History, ThumbsUp, Upload, Home } from 'lucide-react'
 import {
   HoverCard,
   HoverCardContent,
@@ -75,25 +75,31 @@ function Navbar() {
                 </SheetHeader>
           
                 <SheetDescription className="flex flex-col space-y-4">
+                <SheetClose asChild>
+          
+          <Link  href='/'>
+           <Button className="flex w-48 pl-8 items-end justify-start text-start space-x-1"><Home size={20} /><p>Home Page</p></Button>
+           </Link>
+         </SheetClose>
               <SheetClose asChild>
           
-              <Link href='/'>
-               <Button className="flex w-48 items-end justify-center space-x-1"><ThumbsUp size={20} /><p>Like Videos</p></Button>
+              <Link href='/likedVideos'>
+               <Button className="flex w-48 pl-8  items-end justify-start space-x-1"><ThumbsUp size={20} /><p>Like Videos</p></Button>
                </Link>
              </SheetClose>
              <SheetClose asChild>
-              <Link href='/'>
-               <Button className="flex w-48 items-end justify-center space-x-1"><History size={20}/><p>Watch History</p></Button>
+              <Link href='/watchHistory'>
+               <Button className="flex w-48 pl-8  items-end justify-start space-x-1"><History size={20}/><p>Watch History</p></Button>
                </Link>
                </SheetClose>
                <SheetClose asChild>
                <Link href='/'>
-               <Button className="flex w-48 items-end justify-center space-x-1"><ListVideo size={20} /><p>Your Playlists</p></Button>
+               <Button className="flex w-48 pl-8  items-end justify-start space-x-1"><ListVideo size={20} /><p>Your Playlists</p></Button>
                </Link>
                </SheetClose>
                <SheetClose asChild>
                <Link href='/myThoughts'>
-               <Button className="flex w-48  items-end justify-center space-x-1"><MessageSquareQuote size={20} /><p>Your Tweets</p></Button>
+               <Button className="flex w-48 pl-8   items-end justify-start space-x-1"><MessageSquareQuote size={20} /><p>Thoughts</p></Button>
                </Link>
                </SheetClose>
               
