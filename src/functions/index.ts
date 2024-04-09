@@ -387,8 +387,8 @@ export async function checkLiked({ accessToken, id} : { accessToken:string, id:s
   })
 
     if(response.ok) {
-     
-       return { liked: true, msg: 'Video already liked' }
+      const data = await response.json() 
+      return { liked: true, data:data }
     } 
     else if (response.status === 400) {
       // Video not liked

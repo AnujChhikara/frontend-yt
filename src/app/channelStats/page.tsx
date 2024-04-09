@@ -47,7 +47,7 @@ export default function ChannelStats() {
 
 
   return (
-    <div className='w-scree h-screen flex justify-center '>
+    <div className='w-scree h-auto flex justify-center '>
         <div className='border flex flex-col justify-start items-center space-y-8 border-zinc-700 rounded-xl p-8 w-5/6 h-5/6 mt-12'>
            <h2 className='font-bold mb-4 text-4xl  underline'>Dashboard</h2>
            <div className='flex justify-start space-x-20'>

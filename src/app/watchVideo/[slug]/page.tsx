@@ -103,7 +103,8 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
       const response = await checkLiked({accessToken:user.accessToken, id:videoId})
 
       if(response?.liked === true) {
-        setLiked(true)
+        const data = response.data
+        setLiked(data.liked)
       } 
       else{
         setLiked(false)
