@@ -68,6 +68,26 @@ export async function LikeVideo({videoId ,accessToken}:{videoId:string, accessTo
   }
 }
 
+export async function LikeTweet({tweetId ,accessToken}:{tweetId:string, accessToken:string} ){
+  const response = await fetch(process.env.url+'/likes/toggle/t/' +tweetId,
+  
+  {
+    method: "POST",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`
+    }
+  })
+
+  if(response.ok) {
+    const res_data = await response.json()
+     return res_data
+  } 
+  else{
+    const error = await response.json()
+    console.log(error.msg)
+  }
+}
+
 
 export async function fetchVideoByid({videoId, accessToken}:{accessToken:string, videoId:string}) {
  
