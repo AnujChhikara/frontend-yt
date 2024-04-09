@@ -55,6 +55,7 @@ export default function VideoUpload() {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
+
   const handleThumbnailFileSelect =() =>{
     thumbnailFileInputRef.current!.click();
   }
@@ -88,16 +89,21 @@ export default function VideoUpload() {
       reader.readAsDataURL(file);
     }
   };
+  
+
 
   const handelFormSubmittion= async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setIsProcessing(true)
-     
+    const selectElement:any = document.getElementById('category');
+    const category = selectElement?.value;
+      
     const formData = new FormData();
     formData.append('title', titleRef.current!.value);
     formData.append('description', descriptionRef.current!.value);
     formData.append('thumbnail', thumbnailFileInputRef.current!.files![0]);
     formData.append('video', videoFileInputRef.current!.files![0])
+    formData.append('category', category)
     
     try {
       const response = await fetch(process.env.url + '/videos',{
@@ -194,17 +200,31 @@ export default function VideoUpload() {
                     !thumbnailPreview && (
                       <ImageUp size={32} color="#949494" />
                     )
-                  }
-                      
-                     
+                  }                 
                     <h4>Upload your Video Thumbnail</h4>
                   </div>
                 </div>
                 </div>
-        <div className='flex flex-col space-y-2 justify-start items-start'>
-          <Label htmlFor='title'>Video Title</Label>
-         <input required  ref={titleRef} type="text" name="title" id='title' placeholder='video title' className=' bg-transparent px-4 py-1 rounded-lg border border-input ' />
-        </div>
+                <div className='flex justify-center items-center space-x-4'>
+                <div className='flex flex-col space-y-2 justify-start items-start'>
+                  <Label htmlFor='title'>Video Title</Label>
+                <input required  ref={titleRef} type="text" name="title" id='title' placeholder='video title' className=' bg-transparent px-4 py-1 rounded-lg border border-input ' />
+                </div>
+                <div className='flex flex-col bg-transparent space-y-2 justify-start items-start'>
+                  
+                <Label htmlFor="category">Select Video Category</Label>
+                  <select className='' id="category" >
+                    <option className='' value="general">General</option>
+                    <option className='' value="gaming">Gaming</option>
+                    <option className='' value="tech">Tech</option>
+                    <option className='' value="comedy">Comedy</option>
+                    <option className='' value="music">Music</option>
+                  </select>
+                 
+                </div>
+               
+                </div>
+       
         <div className='flex flex-col space-y-2 w-full'>
         <Label htmlFor='title'>Video Description</Label>
         <textarea required ref={descriptionRef} placeholder='video description' id='description' className='"flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",'/>

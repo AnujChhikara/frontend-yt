@@ -120,39 +120,32 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
 
  
   return (
-    <div className="flex flex-col justify-center items-center mt-20">
-      {videoData && <div className="flex flex-col space-y-4 justify-start">
-         <video className="rounded-2xl shadow-gray-400 shadow-lg mb-6" width="800" height="800" controls>
+    <div className="flex flex-col justify-center items-start mt-10 mx-10">
+      {videoData && <div className="flex flex-col space-y- justify-start">
+         <video className="rounded-2xl shadow-inner shadow-gray-200 mb-6" width="700" height="500" controls>
         <source src={videoData!.videoFile} type="video/mp4"/>
         
       Your browser does not support the video tag.
       </video>
-      <h3 className="text-3xl font-bold">{videoData.title}</h3>
-      <Accordion type="single" collapsible>
-        <AccordionItem value="item-1">
-          <AccordionTrigger>Description</AccordionTrigger>
-          <AccordionContent className="w-[600px]">
-          {videoData.description}
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+      <h3 className="text-xl font-bold">{videoData.title}</h3>
+     
       <div className="flex justify-between items-center"> 
-      <div className="flex space-x-4 items-center">
-      <Avatar className="w-20 h-20" >
+      <div className="flex space-x-4 pt-2 items-center">
+      <Avatar className="w-12 h-12" >
           <AvatarImage src={ownerDetails?.avatar} />
           <AvatarFallback>AC</AvatarFallback>
       </Avatar>
       <div>
-      <h3 className="font-semibold text-xl">{ownerDetails?.fullName}</h3>
-      <p className="tex-sm text-gray-400">xx Subscribers</p>
+      <h3 className="font-semibold text-lg">{ownerDetails?.fullName}</h3>
+      <p className="text-[12px] text-gray-400">xx Subscribers</p>
       </div>
       </div>
       <div className="flex space-x-4 font-bold bg-gray-900 px-4 py-2 rounded-3xl ">
         <div className="flex items-end space-x-2 ">
           <div className="flex items-end space-x-1 ">
             <button onClick={handleLikeButton}>
-            {liked && <ThumbsUp size={32} color="#FF004D" />}
-            {!liked && <ThumbsUp size={32} color="#6c6a6a"  />}
+            {liked && <ThumbsUp size={24} color="#FF004D" />}
+            {!liked && <ThumbsUp size={24} color="#6c6a6a"  />}
             
             </button>
            
@@ -161,15 +154,23 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
         </div>
         {
           liked? <button disabled onClick={handleLikeButton} className="flex items-end">
-          <ThumbsDown  size={32} color="#6c6a6a" />
+          <ThumbsDown  size={24} color="#6c6a6a" />
            </button> : <button  onClick={handleLikeButton} className="flex items-end">
-        <ThumbsDown  size={32} color="#6c6a6a" />
+        <ThumbsDown  size={24} color="#6c6a6a" />
          </button>
         }
       
         
       </div>
       </div>
+      <Accordion type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger className="text-gray-300">Description</AccordionTrigger>
+          <AccordionContent className="w-[600px]">
+          {videoData.description}
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
       </div>
 }
     </div>
