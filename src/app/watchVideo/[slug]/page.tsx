@@ -2,11 +2,17 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LikeVideo, addVideoToWatchHistory, fetchVideoByid, getUserByID } from "@/functions";
+import { LikeVideo, addVideoToWatchHistory, checkLiked, fetchVideoByid, getUserByID } from "@/functions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 interface VideoData {
   _id: string;
@@ -89,8 +95,22 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
  
     }
   }, [user, ownerId])
+ 
 
+  //checking if user already liked the video or not
+   useEffect(()=> {
+     const checkLike = async() =>{
+      const response = await checkLiked({accessToken:user.accessToken, id:videoId})
 
+      if(response?.liked === true) {
+        setLiked(true)
+      } 
+      else{
+        setLiked(false)
+      }
+     }
+     checkLike()
+   }, [videoId, user])
 
   const handleLikeButton = () => {
     setLiked(!liked)
@@ -107,7 +127,14 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
       Your browser does not support the video tag.
       </video>
       <h3 className="text-3xl font-bold">{videoData.title}</h3>
-      <p>{videoData.description}</p>
+      <Accordion type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger>Description</AccordionTrigger>
+          <AccordionContent className="w-[600px]">
+          {videoData.description}
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
       <div className="flex justify-between items-center"> 
       <div className="flex space-x-4 items-center">
       <Avatar className="w-20 h-20" >

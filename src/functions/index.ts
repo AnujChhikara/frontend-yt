@@ -377,3 +377,20 @@ export async function getAllTweets({ accessToken} : { accessToken:string}){
       return {status:false, data: error.msg }  
     }
 }
+
+export async function checkLiked({ accessToken, id} : { accessToken:string, id:string}){
+  const response =await fetch(process.env.url+ '/likes/isLiked/v/'+id,{
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+  })
+
+    if(response.ok) {
+     
+       return { liked: true, msg: 'Video already liked' }
+    } 
+    else if (response.status === 400) {
+      // Video not liked
+      return { liked: false, msg: 'Video not liked' }}
+}

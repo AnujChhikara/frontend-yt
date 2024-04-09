@@ -23,7 +23,7 @@ export default function LikedVideo() {
 
             if(response.status === true) {
         
-                const data = response.data.data[0]
+                const data = response.data.data
                 setLikedVideo(data)
                
             }
@@ -37,7 +37,6 @@ export default function LikedVideo() {
         userLikedVideo()
     },[user])
 
-    // console.log(likedVideo)
     
   return (
     <div className="pt-20 mx-12 flex flex-col space-y-8 justify-center items-start" >
@@ -47,23 +46,25 @@ export default function LikedVideo() {
         </div>
         
         {
-           likedVideo && <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+           likedVideo && <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {
-               likedVideo.map((video)=> (
-                <Video
-                key={video._id}
-                videoId={video._id}
-                title={video.title}
-                videoUrl={video.videoFile}
-                thumbnailUrl={video.thumbnail}
-                  owner={video.owner}
-                  views={video.view}
-                  createdAt= {video.createdAt}
-                  duration = {video.duration}
-                  description= {video.description}
-                
-                />      
-               ))
+               likedVideo.map(item=> {
+                return  item.map((video:any)=> (
+                    <Video
+                    key={video._id}
+                    videoId={video._id}
+                    title={video.title}
+                    videoUrl={video.videoFile}
+                    thumbnailUrl={video.thumbnail}
+                      owner={video.owner}
+                      views={video.view}
+                      createdAt= {video.createdAt}
+                      duration = {video.duration}
+                      description= {video.description}
+                    
+                    />      
+                   ))
+               })
 }</div>
         }
         
