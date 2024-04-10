@@ -101,6 +101,8 @@ export default function ViewChannel({params}:{params: {slug:string}}) {
                   createdAt= {video.createdAt}
                   duration = {video.duration}
                   description= {video.description}
+                  edit={true}
+
                 
                 />
                 

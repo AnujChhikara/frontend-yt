@@ -13,20 +13,20 @@ interface VideoProps {
     videoUrl: string;
     thumbnailUrl: string;
     duration: number;
-    owner: string;
+    owner: any;
     views: number;
     videoId:string;
     createdAt: string;
     description: string
+    edit:boolean
   }
  
 
-  const Video: React.FC<VideoProps> = ({title, videoUrl,description, videoId, thumbnailUrl, duration, owner, views, createdAt }) => {
+  const Video: React.FC<VideoProps> = ({title, videoUrl,description, videoId, thumbnailUrl, duration, owner, views, createdAt, edit }) => {
     const data =  useSelector((state:any) => state.user)
     const user = data.user[0]
     const [ownerDetails, setOwnerDetails]  = useState<any>()
     const [videoOwner, setVideoOwner] = useState(false)
-    
     //getting video owner details
     useEffect(()=> {
       const fetchVideoOwner = async() => { 
@@ -84,8 +84,8 @@ const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
    
      addingVideoToWatchHistory()
   }
-
-    
+ 
+ 
     return (
       <div className='flex flex-col  justify-center items-start space-y-2 font-bold text-gray-300'>
         <div className='flex space-x-2'>
@@ -96,9 +96,9 @@ const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
             {videoDuration}
         </span>
         </Link>
-        {
-          videoOwner && <Link href={`/editVideo/${videoId}`}> <Pencil size={20} /> </Link> 
-        }
+        {edit && 
+                 videoOwner && <Link href={`/editVideo/${videoId}`}> <Pencil size={20} /> </Link> 
+          }
         
 
         </div>
@@ -110,7 +110,7 @@ const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
         </Avatar>
         <div className='flex flex-col'> 
           <h3 className='text-sm'>{title}</h3>
-          <Link href={`/viewChannel/${owner}`}>
+          <Link href={`/viewChannel/${ownerDetails?._id}`}>
           <div className='flex items-center space-x-1'>
           <h4 className='text-[12px] text-gray-400'>by {ownerDetails?.fullName}</h4><p><BadgeCheck size={14} /></p></div>
         </Link>

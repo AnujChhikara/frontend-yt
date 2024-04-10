@@ -10,6 +10,7 @@ import PlaylistCard from '@/components/PlaylistCard'
 import { History, ListVideo, Pencil } from "lucide-react"
 import { redirect } from "next/navigation"
 
+
   
 interface HistoryData {
     _id: string;
@@ -19,7 +20,7 @@ interface HistoryData {
     updatedAt: string;
     duration: number;
     isPublished: boolean;
-    owner: string;
+    owner: any;
     thumbnail: string;
     videoFile: string;
     view: number;
@@ -31,7 +32,7 @@ interface Video {
     createdAt: string;
     description: string;
     name: string;
-    owner: string;
+    owner: any;
     updatedAt: string;
     videos: any[]; // This should be defined as per the structure of the videos array
     __v: number;
@@ -42,7 +43,7 @@ type Playlist = {
     createdAt: string;
     description: string;
     name: string;
-    owner: string;
+    owner: any;
     updatedAt: string;
     videos: Video[];
     __v: number;
@@ -127,9 +128,6 @@ export default function UserProfile() {
       }, [data, user.accessToken]);
  
 
-    
-      
-
   return (
     <div className="px-40 pt-12">
         {
@@ -169,11 +167,12 @@ export default function UserProfile() {
                         title={video.title}
                         videoUrl={video.videoFile}
                         thumbnailUrl={video.thumbnail}
-                         owner={video.owner}
+                         owner={video.owner._id}
                           views={video.view}
                           createdAt= {video.createdAt}
                           duration = {video.duration}
                           description= {video.description}
+                          edit={true}
                         
                         />
                         

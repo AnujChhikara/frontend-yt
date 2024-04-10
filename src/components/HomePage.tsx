@@ -44,6 +44,7 @@ export default function HomePage() {
                   createdAt= {video.createdAt}
                   duration = {video.duration}
                   description= {video.description}
+                  edit={false}
                 
                 />
                 
