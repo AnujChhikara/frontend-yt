@@ -394,3 +394,21 @@ export async function checkLiked({ accessToken, id} : { accessToken:string, id:s
       // Video not liked
       return { liked: false, msg: 'Video not liked' }}
 }
+
+export async function deleteVideo({ accessToken, id} : { accessToken:string, id:string}){
+  const response =await fetch(process.env.url+ '/videos/'+id,{
+    method:"DELETE",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+  })
+
+    if(response.ok) {
+      const data = await response.json() 
+      return data
+    } 
+    else if (response.status === 400) {
+      // Video not liked
+      return {msg:"Failed to delete Video"}}
+}

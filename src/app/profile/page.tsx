@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import PlaylistCard from '@/components/PlaylistCard'
 import { History, ListVideo, Pencil } from "lucide-react"
 import { redirect } from "next/navigation"
+import { deleteVideo } from "@/functions"
 
 
   
@@ -92,7 +93,7 @@ export default function UserProfile() {
        
           fetchVideo()
         
-      }, [data, user.accessToken]);
+      }, [ user]);
   
      //fetching user playlists
 
@@ -125,8 +126,10 @@ export default function UserProfile() {
        
           fetchPlaylists()
         
-      }, [data, user.accessToken]);
+      }, [user]);
  
+
+
 
   return (
     <div className="px-40 pt-12">

@@ -4,8 +4,8 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar" 
-import { BadgeCheck, Dot, Pencil } from 'lucide-react';
-
+import { BadgeCheck, Dot, Pencil} from 'lucide-react';
+import { VideoEditButton } from './compUi/videoEditButton';
 
 
 interface VideoProps {
@@ -88,7 +88,7 @@ const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
  
     return (
       <div className='flex flex-col  justify-center items-start space-y-2 font-bold text-gray-300'>
-        <div className='flex space-x-2'>
+        <div className='flex'>
         <Link onClick={handleClick} href={`/watchVideo/${videoId}+${ownerDetails?._id}`}
          className='flex items-end justify-end'>
         <Image width={320} height={0} className='w-80 h-48 rounded-md' src={thumbnailUrl} alt="Thumbnail" />
@@ -97,7 +97,7 @@ const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
         </span>
         </Link>
         {edit && 
-                 videoOwner && <Link href={`/editVideo/${videoId}`}> <Pencil size={20} /> </Link> 
+                 videoOwner && <VideoEditButton key={videoId} videoId={videoId}/>
           }
         
 
@@ -109,7 +109,7 @@ const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
         <AvatarFallback>AC</AvatarFallback>
         </Avatar>
         <div className='flex flex-col'> 
-          <h3 className='text-sm'>{title}</h3>
+          <h3 className='w-80 text-sm'>{title}</h3>
           <Link href={`/viewChannel/${ownerDetails?._id}`}>
           <div className='flex items-center space-x-1'>
           <h4 className='text-[12px] text-gray-400'>by {ownerDetails?.fullName}</h4><p><BadgeCheck size={14} /></p></div>

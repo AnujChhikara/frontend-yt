@@ -126,6 +126,7 @@ export default function VideoUpload() {
         if (titleRef.current) titleRef.current.value = '';
         if (descriptionRef.current) descriptionRef.current.value = '';
         setThumbnailPreview(null)
+        setVideoPreview(null)
 
 
         toast("Video Uploaded", {

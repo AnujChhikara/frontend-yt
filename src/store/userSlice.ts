@@ -19,6 +19,7 @@ interface UserSliceState {
 
 const initialState: UserSliceState = {
     user: [],
+    
 };
 
 const userSlice = createSlice({
@@ -59,6 +60,15 @@ const userSlice = createSlice({
                 return {
                     ...user,
                     coverImage: newCoverImageUrl
+                };
+            });
+
+        },
+        isChanged(state, action){
+            state.user = state.user.map(user => {
+                return {
+                    ...user,
+                    
                 };
             });
 
