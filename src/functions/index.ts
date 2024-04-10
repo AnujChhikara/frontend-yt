@@ -1,4 +1,5 @@
 
+import { subscribe } from 'diagnostics_channel'
 import {toast} from 'sonner'
 
 export async function healthCheck  () {
@@ -395,6 +396,23 @@ export async function checkLiked({ accessToken, id} : { accessToken:string, id:s
       return { liked: false, msg: 'Video not liked' }}
 }
 
+export async function checkIfSubscribed({ accessToken, channelId} : { accessToken:string, channelId:string}){
+  const response =await fetch(process.env.url+ '/subscriptions/isSubscribed/'+ channelId,{
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+  })
+
+    if(response.ok) {
+      const data = await response.json() 
+      return { subscribe: true, data:data }
+    } 
+    else if (response.status === 400) {
+      // Video not liked
+      return { subscribe: false, msg: 'Server Error' }}
+}
+
 export async function deleteVideo({ accessToken, id} : { accessToken:string, id:string}){
   const response =await fetch(process.env.url+ '/videos/'+id,{
     method:"DELETE",
@@ -411,4 +429,24 @@ export async function deleteVideo({ accessToken, id} : { accessToken:string, id:
     else if (response.status === 400) {
       // Video not liked
       return {msg:"Failed to delete Video"}}
+}
+
+export async function ToggleSubscription({channelId ,accessToken}:{channelId:string, accessToken:string} ){
+  const response = await fetch(process.env.url+'/subscriptions/c/' +channelId,
+  
+  {
+    method: "POST",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`
+    }
+  })
+
+  if(response.ok) {
+    const res_data = await response.json()
+     return res_data
+  } 
+  else{
+    const error = await response.json()
+    console.log(error.msg)
+  }
 }

@@ -2,7 +2,7 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LikeVideo, addVideoToWatchHistory, checkLiked, fetchVideoByid, getUserByID } from "@/functions";
+import { LikeVideo, ToggleSubscription, addVideoToWatchHistory, checkIfSubscribed, checkLiked, fetchVideoByid, getUserByID } from "@/functions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -39,6 +39,7 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
 
   const [videoData, setVideoData] = useState<VideoData>()
   const [liked, setLiked] = useState(false);
+  const [subscribe, setSubscribe] = useState(false);
   const [ownerDetails, setOwnerDetails]  = useState<any>()
   const data =  useSelector((state:any) => state.user)
   const user = data.user[0]
@@ -113,14 +114,41 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
      checkLike()
    }, [videoId, user])
 
+
+
+   //checking if user already subscribed?
+  useEffect(()=> {
+    const checkSubscribed= async() =>{
+     const response = await checkIfSubscribed({accessToken:user.accessToken,channelId:ownerId})
+
+     if(response?.subscribe === true) {
+       const data = response.data
+       setSubscribe(data.subscribed)
+     } 
+     else{
+       setSubscribe(false)
+     }
+    }
+    checkSubscribed()
+  }, [ownerId, user])
+
+
   const handleLikeButton = () => {
     setLiked(!liked)
     LikeVideo({videoId:videoId, accessToken:user.accessToken})
   }
 
+  const handleSubscribeButton =() =>{
+    setSubscribe(!subscribe)
+    ToggleSubscription({channelId:ownerId, accessToken:user.accessToken})
+  }
+
+
  
   return (
     <div className="flex flex-col justify-center items-start mt-10 mx-10">
+
+      
       {videoData && <div className="flex flex-col space-y- justify-start">
          <video className="rounded-2xl shadow-inner shadow-gray-200 mb-6" width="700" height="500" controls>
         <source src={videoData!.videoFile} type="video/mp4"/>
@@ -139,8 +167,19 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
       <h3 className="font-semibold text-lg">{ownerDetails?.fullName}</h3>
       <p className="text-[12px] text-gray-400">xx Subscribers</p>
       </div>
+      
       </div>
+      <div className="flex  justify-center items-center space-x-2">
+      {subscribe? 
+       <button onClick={handleSubscribeButton} className="bg-green-500 px-3 py-2 rounded-3xl">
+        Subscribed
+      </button> :
+       <button onClick={handleSubscribeButton} className="bg-red-500 px-3 py-2 rounded-3xl hover:bg-red-400">
+       Subscribe
+     </button>}
+      
       <div className="flex space-x-4 font-bold bg-gray-900 px-4 py-2 rounded-3xl ">
+    
         <div className="flex items-end space-x-2 ">
           <div className="flex items-end space-x-1 ">
             <button onClick={handleLikeButton}>
@@ -161,6 +200,7 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
         }
       
         
+      </div>
       </div>
       </div>
       <Accordion type="single" collapsible>
