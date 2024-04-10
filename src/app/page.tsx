@@ -26,7 +26,7 @@ export default function Home() {
  
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between pt-16 px-1/11">
+    <main className="flex min-h-screen flex-col items-center justify-between pt-16 px-10">
       
      
       <div>

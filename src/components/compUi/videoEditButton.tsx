@@ -41,7 +41,7 @@ export function VideoEditButton({videoId}:{videoId:string}) {
 
     const data =  useSelector((state:any) => state.user)
     const user = data.user[0] 
-    const [isVideoDeleted, setIsVideoDeleted] = React.useState(false)
+    
 
     if(!user) {
         redirect('/login')
@@ -57,7 +57,7 @@ export function VideoEditButton({videoId}:{videoId:string}) {
      const response = await deletingVideo()
      if(response.data.response.acknowledged === true) {
          dispatch(userActions.isChanged({}))
-        setIsVideoDeleted(true)
+        
      }
    
     setIsDeleting(false)
@@ -84,8 +84,8 @@ export function VideoEditButton({videoId}:{videoId:string}) {
             <DropdownMenuSeparator />
          
             <AlertDialog>
-        <AlertDialogTrigger className='py-1 text-red-600  font-bold text-[15px] rounded'>
-        <div className="flex space-x-1">
+        <AlertDialogTrigger className='py-1 pl-2 text-red-600  font-bold text-[15px] rounded'>
+        <div className="flex justify-center items-center space-x-1">
                 <Trash className="mr-2 h-4 w-4" />
                  {
                     isDeleting? ' Deleting Video' : ' Delete Video'

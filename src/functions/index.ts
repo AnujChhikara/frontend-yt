@@ -450,3 +450,62 @@ export async function ToggleSubscription({channelId ,accessToken}:{channelId:str
     console.log(error.msg)
   }
 }
+
+export  async function editVideo({accessToken, videoId, formData}:{accessToken:string, videoId:string, formData:any}){
+  const response = await fetch(process.env.url+ '/videos/' + videoId,{
+    method:"PATCH",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`
+    },
+    body:formData
+
+  })
+
+  if(response.ok){
+    const res_data = await response.json()
+    return {status:true, data:res_data}
+  }
+
+  else{
+    const error = await response.json()
+    return {status:true, data:error}
+  }
+}
+
+export function formatTimeDifference(createdAt: string) {
+  const timestampUTC = new Date(createdAt);
+  const timestampIST: any = new Date(timestampUTC.getTime());
+  const currentTimeIST: any = new Date();
+  const timeDifference = currentTimeIST - timestampIST;
+  const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+
+  if (hoursDifference < 1) {
+    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+    if (minutesDifference < 1) {
+      return 'Just now';
+    } else {
+      return `${minutesDifference} minute${minutesDifference > 1 ? 's' : ''} ago`;
+    }
+  } else if (hoursDifference < 24) {
+    return `${hoursDifference} hour${hoursDifference > 1 ? 's' : ''} ago`;
+  } else {
+    const daysDifference = Math.floor(hoursDifference / 24);
+    if (daysDifference === 1) {
+      return `1 day ago`;
+    } else {
+      return `${daysDifference} days ago`;
+    }
+  }
+}
+
+export function formatSecondsToMinutes(second:number) {
+  // Calculate minutes and remaining seconds
+  const minutes = Math.floor(second / 60);
+  const remainingSeconds = Math.round(second % 60);
+  
+  // Format the result as minutes:seconds
+  const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+  const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
+
+  return `${formattedMinutes}:${formattedSeconds}`;
+}

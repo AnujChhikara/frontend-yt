@@ -1,7 +1,7 @@
 'use client'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar" 
 import { Separator } from "@/components/ui/separator"
-import { LikeTweet, getUserByID } from "@/functions"
+import { LikeTweet, formatTimeDifference, getUserByID } from "@/functions"
 import { Star } from "lucide-react"
 import { useEffect, useState } from "react"
 
@@ -39,11 +39,7 @@ export default function Tweets({userId, tweet, createdAt, accessToken, id}:{user
 
 
 
-const timestampUTC = new Date(createdAt);
-const timestampIST:any = new Date(timestampUTC.getTime())
-const currentTimeIST:any = new Date();
-const timeDifference = currentTimeIST - timestampIST;
-const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+  const formattedTimeDifference = formatTimeDifference(createdAt);
 
   return (
     <div className="flex flex-col space-y-4 bg-black/[90%] px-6 py-4 rounded-3xl  shadow-inner shadow-gray-900 hover:scale-105 duration-500">
@@ -70,7 +66,7 @@ const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
       
         
        
-        <p className="text-sm text-gray-400">{hoursDifference} hours ago</p>
+        <p className="text-sm text-gray-400">{formattedTimeDifference}</p>
         <Separator className="bg-white" orientation="vertical" />
         {
           isLiked? <button onClick={handleLikeButton} className="flex items-end">

@@ -1,4 +1,4 @@
-import { addVideoToWatchHistory, getUserByID } from '@/functions';
+import { addVideoToWatchHistory, formatSecondsToMinutes, formatTimeDifference, getUserByID } from '@/functions';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
@@ -55,49 +55,14 @@ interface VideoProps {
     }, [user, ownerDetails])
 
 //coverting created at to real time
-function formatTimeDifference(createdAt: string) {
-  const timestampUTC = new Date(createdAt);
-  const timestampIST: any = new Date(timestampUTC.getTime());
-  const currentTimeIST: any = new Date();
-  const timeDifference = currentTimeIST - timestampIST;
-  const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
 
-  if (hoursDifference < 1) {
-    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
-    if (minutesDifference < 1) {
-      return 'Just now';
-    } else {
-      return `${minutesDifference} minute${minutesDifference > 1 ? 's' : ''} ago`;
-    }
-  } else if (hoursDifference < 24) {
-    return `${hoursDifference} hour${hoursDifference > 1 ? 's' : ''} ago`;
-  } else {
-    const daysDifference = Math.floor(hoursDifference / 24);
-    if (daysDifference === 1) {
-      return `1 day ago`;
-    } else {
-      return `${daysDifference} days ago`;
-    }
-  }
-}
 
 const formattedTimeDifference = formatTimeDifference(createdAt);
 
 
    
-    function formatSecondsToMinutes(second:number) {
-      // Calculate minutes and remaining seconds
-      const minutes = Math.floor(second / 60);
-      const remainingSeconds = Math.round(second % 60);
-      
-      // Format the result as minutes:seconds
-      const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-      const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
-  
-      return `${formattedMinutes}:${formattedSeconds}`;
-  }
 
-  const videoDuration = formatSecondsToMinutes(duration)
+  const videoDuration = formatSecondsToMinutes(duration) 
   
 
   function handleClick () {
@@ -136,11 +101,11 @@ const formattedTimeDifference = formatTimeDifference(createdAt);
         </Avatar>
         <div className='flex flex-col'> 
           <h3 className='w-80 text-sm'>{title}</h3>
-          <div className='flex items-center justify-between'>
+          <div className=' w-60  flex items-center justify-between'>
 
           <Link href={`/viewChannel/${ownerDetails?._id}`}>
           <div className='flex items-center space-x-1'>
-          <h4 className='text-[12px] text-gray-400'>by {ownerDetails?.fullName}</h4><p><BadgeCheck size={14} /></p></div>
+          <h4 className='text-[12px] text-gray-400'> {ownerDetails?.fullName}</h4><p><BadgeCheck size={14} /></p></div>
         </Link>
         
 

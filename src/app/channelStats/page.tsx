@@ -67,7 +67,7 @@ export default function ChannelStats() {
            </div>
            <div className='flex flex-col justify-center items-center'>
             <h2 className='font-bold mb-4 text-3xl  underline'>Recent Videos</h2>
-            <div className='flex justify-center items-center space-x-8'>
+            <div className='grid grid-cols-2 gap-6 pt-4'>
             {channelStats && <>
              {
           
@@ -83,7 +83,7 @@ export default function ChannelStats() {
                   createdAt= {video.createdAt}
                   duration = {video.duration}
                   description= {video.description}
-                
+                  edit={true}
                 />
                 
               ))

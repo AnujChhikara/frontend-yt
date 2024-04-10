@@ -135,8 +135,7 @@ export default function LoginPage() {
               </form>
           </div>
       
-          <Image className='rounded-xl m-4 shadow-lg shadow-gray-400 hover:scale-105 duration-1000' width={500} height={500} src="https://images.unsplash.com/photo-1632010752286-94f8b0f7be68?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fG1vdGl2YXRpb25hbCUyMHF1b3Rlc3xlbnwwfHwwfHx8MA%3D%3D"
-          alt='random quote' />
+         
   
       </div></main>
     )
