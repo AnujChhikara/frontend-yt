@@ -55,15 +55,22 @@ interface VideoProps {
     }, [user, ownerDetails])
 
 //coverting created at to real time
-function formatTimeDifference(createdAt:string) {
+function formatTimeDifference(createdAt: string) {
   const timestampUTC = new Date(createdAt);
-  const timestampIST:any= new Date(timestampUTC.getTime());
-  const currentTimeIST:any = new Date();
+  const timestampIST: any = new Date(timestampUTC.getTime());
+  const currentTimeIST: any = new Date();
   const timeDifference = currentTimeIST - timestampIST;
   const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
 
-  if (hoursDifference < 24) {
-    return `${hoursDifference} hours ago`;
+  if (hoursDifference < 1) {
+    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+    if (minutesDifference < 1) {
+      return 'Just now';
+    } else {
+      return `${minutesDifference} minute${minutesDifference > 1 ? 's' : ''} ago`;
+    }
+  } else if (hoursDifference < 24) {
+    return `${hoursDifference} hour${hoursDifference > 1 ? 's' : ''} ago`;
   } else {
     const daysDifference = Math.floor(hoursDifference / 24);
     if (daysDifference === 1) {
@@ -103,11 +110,14 @@ const formattedTimeDifference = formatTimeDifference(createdAt);
  
  
     return (
-      <div className='flex flex-col  justify-center items-start space-y-2 font-bold text-gray-300'>
+      <div className='flex flex-col items-start space-y-2 font-bold text-gray-300'>
         <div className='flex'>
         <Link onClick={handleClick} href={`/watchVideo/${videoId}+${ownerDetails?._id}`}
          className='flex items-end justify-end'>
-        <Image width={320} height={0} className='w-80 h-48 rounded-md' src={thumbnailUrl} alt="Thumbnail" />
+          <div className=''>
+          <Image width={320}  height={0} className='w-80 h-[180px] rounded-md' src={thumbnailUrl} alt="Thumbnail" />
+          </div>
+        
         <span  className='bg-black absolute text-white rounded-xl px-2  py-0.5 mb-1 text-[12px] '>
             {videoDuration}
         </span>
@@ -126,17 +136,23 @@ const formattedTimeDifference = formatTimeDifference(createdAt);
         </Avatar>
         <div className='flex flex-col'> 
           <h3 className='w-80 text-sm'>{title}</h3>
+          <div className='flex items-center justify-between'>
+
           <Link href={`/viewChannel/${ownerDetails?._id}`}>
           <div className='flex items-center space-x-1'>
           <h4 className='text-[12px] text-gray-400'>by {ownerDetails?.fullName}</h4><p><BadgeCheck size={14} /></p></div>
         </Link>
-        <div className='text-[12px] flex items-center   text-gray-500'>
+        
+
+          <div className='text-[12px] flex items-center space-x-2   text-gray-500'>
           <p>
             {views} views
           </p>
-          <Dot />
+          •
           <p>{formattedTimeDifference}</p>
         </div>
+          </div>
+         
         
         </div>
         

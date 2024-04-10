@@ -64,7 +64,7 @@ function Navbar() {
  
   return (
     <div>
-    <div className='w-screen main bg-gradient-to-r from-gray-700 via-gray-900 to-black'>
+    <div className='w-screen shadow-lg py-2 shadow-black'>
       <div className='flex justify-between items-center px-12 py-2'>
         <div className='flex space-x-4'>
         <Sheet>

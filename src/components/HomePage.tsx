@@ -26,13 +26,16 @@ export default function HomePage() {
      
   return (
     <div >
-        <div className="flex flex-wrap gap-x-4 gap-y-8">
+      <h2 className="text-4xl font-bold">What&apos; New</h2>
+      <p className="text-sm pb-4">Explore the latest videos added to our collection. Stay updated with fresh content!</p>
+        <div className="flex flex-wrap  gap-y-8">
+        
 
       
       {videosData && <>
              {
              
-              videosData.data.map((video:any = {}) => (
+              videosData.data.slice(0, 10).reverse().map((video:any = {}) => (
                 <Video
                 key={video._id}
                 videoId={video._id}
