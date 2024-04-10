@@ -55,11 +55,27 @@ interface VideoProps {
     }, [user, ownerDetails])
 
 //coverting created at to real time
-const timestampUTC = new Date(createdAt);
-const timestampIST:any = new Date(timestampUTC.getTime())
-const currentTimeIST:any = new Date();
-const timeDifference = currentTimeIST - timestampIST;
-const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+function formatTimeDifference(createdAt:string) {
+  const timestampUTC = new Date(createdAt);
+  const timestampIST:any= new Date(timestampUTC.getTime());
+  const currentTimeIST:any = new Date();
+  const timeDifference = currentTimeIST - timestampIST;
+  const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+
+  if (hoursDifference < 24) {
+    return `${hoursDifference} hours ago`;
+  } else {
+    const daysDifference = Math.floor(hoursDifference / 24);
+    if (daysDifference === 1) {
+      return `1 day ago`;
+    } else {
+      return `${daysDifference} days ago`;
+    }
+  }
+}
+
+const formattedTimeDifference = formatTimeDifference(createdAt);
+
 
    
     function formatSecondsToMinutes(second:number) {
@@ -119,7 +135,7 @@ const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
             {views} views
           </p>
           <Dot />
-          <p>{hoursDifference} Hours Ago</p>
+          <p>{formattedTimeDifference}</p>
         </div>
         
         </div>
