@@ -19,10 +19,11 @@ interface VideoProps {
     createdAt: string;
     description: string
     edit:boolean
+    isPublished:boolean
   }
  
 
-  const Video: React.FC<VideoProps> = ({title, videoUrl,description, videoId, thumbnailUrl, duration, owner, views, createdAt, edit }) => {
+  const Video: React.FC<VideoProps> = ({title,isPublished, videoId, thumbnailUrl, duration, owner, views, createdAt, edit }) => {
     const data =  useSelector((state:any) => state.user)
     const user = data.user[0]
     const [ownerDetails, setOwnerDetails]  = useState<any>()
@@ -88,7 +89,7 @@ const formattedTimeDifference = formatTimeDifference(createdAt);
         </span>
         </Link>
         {edit && 
-                 videoOwner && <VideoEditButton key={videoId} videoId={videoId}/>
+                 videoOwner && <VideoEditButton key={videoId} isPublished={isPublished} videoId={videoId}/>
           }
         
 

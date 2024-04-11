@@ -451,6 +451,27 @@ export async function ToggleSubscription({channelId ,accessToken}:{channelId:str
   }
 }
 
+export async function TogglePublish({videoId ,accessToken}:{videoId:string, accessToken:string} ){
+  const response = await fetch(process.env.url+'/videos/toggle/publish/' +videoId,
+  
+  {
+    method: "PATCH",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`
+    }
+  })
+
+  if(response.ok) {
+    const res_data = await response.json()
+     return {success:true, data:res_data}
+  } 
+  else{
+    const error = await response.json()
+    return {success:false, data:error}
+  }
+}
+
+
 export  async function editVideo({accessToken, videoId, formData}:{accessToken:string, videoId:string, formData:any}){
   const response = await fetch(process.env.url+ '/videos/' + videoId,{
     method:"PATCH",

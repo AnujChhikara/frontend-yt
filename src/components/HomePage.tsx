@@ -48,6 +48,7 @@ export default function HomePage() {
                   duration = {video.duration}
                   description= {video.description}
                   edit={false}
+                  isPublished={video.isPublished}
                 
                 />
                 

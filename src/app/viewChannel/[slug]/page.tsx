@@ -90,28 +90,29 @@ export default function ViewChannel({params}:{params: {slug:string}}) {
              {
              
               userVideos.map((video:any = {}) => (
-                <Video
-                key={video._id}
-                videoId={video._id}
-                title={video.title}
-                videoUrl={video.videoFile}
-                thumbnailUrl={video.thumbnail}
-                  owner={video.owner}
-                  views={video.view}
-                  createdAt= {video.createdAt}
-                  duration = {video.duration}
-                  description= {video.description}
-                  edit={true}
-
-                
-                />
+                video.isPublished && <div key={video._id}>
+                        <Video
+                        key={video._id}
+                        videoId={video._id}
+                        title={video.title}
+                        videoUrl={video.videoFile}
+                        thumbnailUrl={video.thumbnail}
+                        owner={video.owner._id}
+                        views={video.view}
+                        createdAt={video.createdAt}
+                        duration={video.duration}
+                        description={video.description}
+                        isPublished={video.isPublished}
+                        edit={false}
+                      />
+                      </div>    
                 
               ))
              }
              </>}
           </div>
         }</TabsContent>
-        <TabsContent value="playlist">Change your password here.</TabsContent>
+        <TabsContent value="playlist"></TabsContent>
       
       </Tabs>
 

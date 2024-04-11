@@ -84,6 +84,7 @@ export default function ChannelStats() {
                   duration = {video.duration}
                   description= {video.description}
                   edit={true}
+                  isPublished={video.isPublished}
                 />
                 
               ))

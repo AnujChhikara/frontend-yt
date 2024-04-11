@@ -49,20 +49,23 @@ export default function LikedVideo() {
            likedVideo && <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {
                likedVideo.map(item=> {
-                return  item.map((video:any)=> (
-                    <Video
-                    key={video._id}
-                    videoId={video._id}
-                    title={video.title}
-                    videoUrl={video.videoFile}
-                    thumbnailUrl={video.thumbnail}
-                      owner={video.owner}
-                      views={video.view}
-                      createdAt= {video.createdAt}
-                      duration = {video.duration}
-                      description= {video.description}
-                    
-                    />      
+                return  item.map((video:any)=> ( 
+                    video.isPublished && <div key={video._id}>
+                        <Video
+                        key={video._id}
+                        videoId={video._id}
+                        title={video.title}
+                        videoUrl={video.videoFile}
+                        thumbnailUrl={video.thumbnail}
+                        owner={video.owner}
+                        views={video.view}
+                        createdAt={video.createdAt}
+                        duration={video.duration}
+                        description={video.description}
+                        isPublished={video.isPublished}
+                        edit={false}
+                      />
+                      </div>    
                    ))
                })
 }</div>

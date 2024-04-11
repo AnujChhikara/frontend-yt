@@ -7,7 +7,7 @@ import { useSelector } from "react-redux"
 import Video from "@/components/video"
 import { useEffect, useState } from "react"
 import PlaylistCard from '@/components/PlaylistCard'
-import { History, ListVideo, Pencil } from "lucide-react"
+import { FolderLock, History, ListVideo, Pencil } from "lucide-react"
 import { redirect } from "next/navigation"
 import { deleteVideo } from "@/functions"
 
@@ -164,20 +164,22 @@ export default function UserProfile() {
                   {
                     userHistoryData.map((video) => (
                       
-                        <Video
-                        key={video._id}
-                        videoId={video._id}
-                        title={video.title}
-                        videoUrl={video.videoFile}
-                        thumbnailUrl={video.thumbnail}
-                         owner={video.owner._id}
-                          views={video.view}
-                          createdAt= {video.createdAt}
-                          duration = {video.duration}
-                          description= {video.description}
-                          edit={true}
-                        
-                        />
+                      video.isPublished && <div key={video._id}>
+                      <Video
+                      key={video._id}
+                      videoId={video._id}
+                      title={video.title}
+                      videoUrl={video.videoFile}
+                      thumbnailUrl={video.thumbnail}
+                      owner={video.owner._id}
+                      views={video.view}
+                      createdAt={video.createdAt}
+                      duration={video.duration}
+                      description={video.description}
+                      isPublished={video.isPublished}
+                      edit={true}
+                    />
+                    </div>    
                         
                     ))
                   }
@@ -193,27 +195,68 @@ export default function UserProfile() {
             <div className="flex flex-col space-y-4">
 
                     <h3 className="flex space-x-2">
-                    <ListVideo size={32} color="#6c6a6a" />
-                        <p className="text-2xl font-bold">Playlists</p>
+                    <FolderLock size={32} color="#6c6a6a" />
+                    
+                        <p className="text-2xl font-bold">Private Videos</p>
                     </h3>
                     <div className="flex flex-wrap gap-12">
-                        {userPlaylists && <>
-                        {
-                            userPlaylists.map((playlist) => (
-                                <PlaylistCard
-                                key={playlist._id}
-                                name={playlist.name}
-                                description={playlist.description}
-                                owner={playlist.owner}
-                                
-                                />))
-                        }
+                  {userHistoryData && <>
+                  {
+                    userHistoryData.map((video) => (
+                      
+                      !video.isPublished && <div key={video._id}>
+                      <Video
+                      key={video._id}
+                      videoId={video._id}
+                      title={video.title}
+                      videoUrl={video.videoFile}
+                      thumbnailUrl={video.thumbnail}
+                      owner={video.owner._id}
+                      views={video.view}
+                      createdAt={video.createdAt}
+                      duration={video.duration}
+                      description={video.description}
+                      isPublished={video.isPublished}
+                      edit={true}
+                    />
+                    </div>    
                         
-                        </>}
-                    </div>
+                    ))
+                  }
+                  
+                  
+                  </>}
+                </div>
 
                     </div>
                     {/* user playlist div end */}
+
+                    
+             {/* user private video div start */}
+            <div className="flex flex-col space-y-4">
+
+                  <h3 className="flex space-x-2">
+                  <ListVideo size={32} color="#6c6a6a" />
+                      <p className="text-2xl font-bold">Playlists</p>
+                  </h3>
+                  <div className="flex flex-wrap gap-12">
+                      {userPlaylists && <>
+                      {
+                          userPlaylists.map((playlist) => (
+                              <PlaylistCard
+                              key={playlist._id}
+                              name={playlist.name}
+                              description={playlist.description}
+                              owner={playlist.owner}
+                              
+                              />))
+                      }
+                      
+                      </>}
+                  </div>
+
+                  </div>
+                  {/* user private video div end */}
             </div>
             </> 
         }
