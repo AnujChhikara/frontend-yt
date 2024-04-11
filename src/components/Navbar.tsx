@@ -64,8 +64,8 @@ function Navbar() {
  
   return (
     <div>
-    <div className='w-screen shadow-lg py-2 shadow-black'>
-      <div className='flex justify-between items-center px-12 py-2'>
+    <div className='w-screen shadow-lg md:py-2 shadow-black'>
+      <div className='flex justify-between items-center md:px-12 sm:px-2 py-2'>
         <div className='flex space-x-4'>
        {user &&  <Sheet>
             <SheetTrigger><Menu /></SheetTrigger>
@@ -116,7 +116,7 @@ function Navbar() {
       
         
         
-        <div className='flex justify-center items-center space-x-2 '>
+        <div className='flex flex-row-reverse justify-center items-center pr-2 '>
         
           {
             user && <>
@@ -125,9 +125,9 @@ function Navbar() {
                    <div>
                     <HoverCardTrigger asChild  >
                       <Link href='/videoUpload'>
-                    <div className='pl-8 ' >
+                    <div  >
                      
-                      <Upload />
+                      <Upload className="mr-6"/>
 
                     </div></Link>
                     </HoverCardTrigger></div>
@@ -140,8 +140,9 @@ function Navbar() {
           }
           {
             !user && <>
-            <Link className='font-semibold pr-4' href='/login'>Log In</Link>
-            <Link className=' font-semibold mt-3' href="/register"><button className="inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white">
+            <Link className='font-semibold focus:underline' href='/login'>Log In</Link>
+            <Link className=' font-semibold mt-3 mr-1' href="/register">
+              <button className="inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white">
                 <span className=" px-3 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                 Register
                 </span>

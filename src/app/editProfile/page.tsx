@@ -187,12 +187,12 @@ export default function EditProfile() {
  
  
   return (
-   <div className='flex flex-col items-center pt-20'>
+   <div className='flex flex-col items-center md:pt-20 sm:pt-8 pb-12'>
 
      {/* updating user cover image */}
        
      <div>
-      <form onSubmit={handleUserCoverImageForm} className='flex flex-col justify-center items-center space-y-4'>
+      <form onSubmit={handleUserCoverImageForm} className='flex sm:px-4 md:px-0 flex-col justify-center items-center space-y-4'>
           <div className='flex flex-col  items-end justify-end'>
             {
               coverImagePreview? <Image width={800} height={200} className='rounded-xl' src={coverImagePreview} alt='user cover image'/>:
@@ -213,7 +213,7 @@ export default function EditProfile() {
     
  
          
-    <div className='pt-12 flex justify-around items-start space-x-40'>
+    <div className='pt-12 md:flex sm:flex-col sm:flex md:flex-row md:justify-around md:items-start md:space-x-40 sm:space-y-4 md:space-y-0'>
 
      
         {/* for updating user avatar */}
@@ -238,7 +238,7 @@ export default function EditProfile() {
           </div>
           {/* for user details and password change */}
         <div>
-          <Tabs defaultValue="account" className="w-[400px] ">
+          <Tabs defaultValue="account" className="md:w-[400px] sm:w-[320px] ">
             <TabsList className="grid w-full grid-cols-2 bg-black">
               <TabsTrigger value="account">Account</TabsTrigger>
               <TabsTrigger value="password">Password</TabsTrigger>

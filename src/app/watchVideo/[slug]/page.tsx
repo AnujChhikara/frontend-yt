@@ -2,17 +2,18 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LikeVideo, ToggleSubscription, addVideoToWatchHistory, checkIfSubscribed, checkLiked, fetchVideoByid, getUserByID } from "@/functions";
+import { LikeVideo, ToggleSubscription, addVideoToWatchHistory, checkIfSubscribed, checkLiked, fetchVideoByid, getChannelStats, getUserByID } from "@/functions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { userActions } from "@/store/userSlice";
 
 interface VideoData {
   _id: string;
@@ -29,17 +30,35 @@ interface VideoData {
   __v: number;
 }
 
+type Video = {
+  _id: string;
+  videoFile: string;
+  thumbnail: string;
+  title: string;
+  description: string;
+  // Add any other properties if needed
+}
+
+type MyData = {
+  allVideos: Video[];
+  channelId: string;
+  totalSubscribers: number;
+  totalViews: number;
+  // Add any other properties if needed
+}
+
 
 export default function ViewVideo({params}:{params: {slug:any}}) {
 
   const encodedId = params.slug
   const decodedId = decodeURIComponent(encodedId);
   const [videoId, ownerId] = decodedId.split('+');
-
+  const dispatch = useDispatch()
 
   const [videoData, setVideoData] = useState<VideoData>()
   const [liked, setLiked] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
+  const [channelStats, setChannelStats] = useState<MyData>()
   const [ownerDetails, setOwnerDetails]  = useState<any>()
   const data =  useSelector((state:any) => state.user)
   const user = data.user[0]
@@ -131,6 +150,23 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
     }
     checkSubscribed()
   }, [ownerId, user])
+ 
+
+  // fetching channel stats
+  
+  useEffect(()=>{ 
+    
+
+    const getUserChannel = async() => {
+     const stats =  await getChannelStats({accessToken:user.accessToken, channelId:user.id})
+     setChannelStats(stats)
+
+    }
+
+    getUserChannel()
+
+ 
+  },[user])
 
 
   const handleLikeButton = () => {
@@ -138,24 +174,25 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
     LikeVideo({videoId:videoId, accessToken:user.accessToken})
   }
 
-  const handleSubscribeButton =() =>{
+  const handleSubscribeButton = async() =>{
     setSubscribe(!subscribe)
-    ToggleSubscription({channelId:ownerId, accessToken:user.accessToken})
-  }
+    await ToggleSubscription({channelId:ownerId, accessToken:user.accessToken})
+    const updatedStats = await getChannelStats({ accessToken: user.accessToken, channelId: ownerId });
+    setChannelStats(updatedStats); }
 
 
- 
+  const channelSubscribers = channelStats?.totalSubscribers
   return (
-    <div className="flex flex-col justify-center items-start mt-10 mx-10">
+    <div className="flex flex-col justify-center md:items-start sm:items-center mt-10 md:mx-10">
 
       
-      {videoData && <div className="flex flex-col space-y- justify-start">
-         <video className="rounded-2xl shadow-inner shadow-gray-200 mb-6" width="700" height="500" controls>
+      {videoData && <div className="flex flex-col justify-start">
+         <video className="rounded-2xl shadow-inner sm:w-[340px] md:w-[700px] md:h-[500px] shadow-gray-200 mb-6" width="700" height="500" controls>
         <source src={videoData!.videoFile} type="video/mp4"/>
         
       Your browser does not support the video tag.
       </video>
-      <h3 className="text-xl font-bold">{videoData.title}</h3>
+      <h3 className="md:text-xl  sm:text-sm font-bold">sadvgafa</h3>
      
       <div className="flex justify-between items-center"> 
       <div className="flex space-x-4 pt-2 items-center">
@@ -164,21 +201,21 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
           <AvatarFallback>AC</AvatarFallback>
       </Avatar>
       <div>
-      <h3 className="font-semibold text-lg">{ownerDetails?.fullName}</h3>
-      <p className="text-[12px] text-gray-400">xx Subscribers</p>
+      <h3 className="font-semibold md:text-lg">{ownerDetails?.fullName}</h3>
+      <p className="text-[12px] text-gray-400">{channelSubscribers} Subscribers</p>
       </div>
       
       </div>
       <div className="flex  justify-center items-center space-x-2">
       {subscribe? 
-       <button onClick={handleSubscribeButton} className="bg-green-500 px-3 py-2 rounded-3xl">
+       <button onClick={handleSubscribeButton} className="bg-green-500 sm:text-sm md:text-base md:px-3 sm:px-1 md:py-2 sm:py-0.5 rounded-3xl">
         Subscribed
       </button> :
-       <button onClick={handleSubscribeButton} className="bg-red-500 px-3 py-2 rounded-3xl hover:bg-red-400">
+       <button onClick={handleSubscribeButton} className="bg-red-500 sm:text-sm md:text-base md:px-3 sm:px-1 md:py-2 sm:py-0.5 rounded-3xl hover:bg-red-400">
        Subscribe
      </button>}
       
-      <div className="flex space-x-4 font-bold bg-gray-900 px-4 py-2 rounded-3xl ">
+      <div className="flex space-x-4 font-bold bg-gray-900 md:px-4 md:py-2 sm:px-2 sm:py-1 rounded-3xl ">
     
         <div className="flex items-end space-x-2 ">
           <div className="flex items-end space-x-1 ">
@@ -206,7 +243,7 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
           <AccordionTrigger className="text-gray-300">Description</AccordionTrigger>
-          <AccordionContent className="w-[600px]">
+          <AccordionContent className="md:w-[600px] sm:w-80">
           {videoData.description}
           </AccordionContent>
         </AccordionItem>

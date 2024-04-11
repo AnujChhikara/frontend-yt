@@ -172,10 +172,10 @@ export default function Navigation() {
         <DropdownMenuSeparator />
        <div className='flex justify-center items-center px-3'>
           <LogOut className="mr-2 h-4 w-4" />
-          <AlertDialog>
+          <AlertDialog >
         <AlertDialogTrigger className='py-1   font-bold text-[15px] rounded'>Log Out</AlertDialogTrigger>
         <AlertDialogContent>
-          <AlertDialogHeader>
+          <AlertDialogHeader >
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
            
           </AlertDialogHeader>

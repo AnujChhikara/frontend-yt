@@ -101,8 +101,8 @@ const formattedTimeDifference = formatTimeDifference(createdAt);
         <AvatarFallback>AC</AvatarFallback>
         </Avatar>
         <div className='flex flex-col'> 
-          <h3 className='w-80 text-sm'>{title}</h3>
-          <div className=' w-60  flex items-center justify-between'>
+          <h3 className='md:w-80 text-sm'>{title}</h3>
+          <div className=' md:w-60 sm:w-60  flex items-center justify-between'>
 
           <Link href={`/viewChannel/${ownerDetails?._id}`}>
           <div className='flex items-center space-x-1'>

@@ -102,7 +102,7 @@ export default function RegsiterPage()  {
 
   return (
     <main className='w-screen  flex justify-center pt-8'>
-    <div className='   flex justify-center bg-transparent border border-gray-700 rounded  items-center'>
+    <div className='   flex justify-center bg-transparent border border-gray-700 rounded-xl  items-center'>
         <div className=' rounded py-8 text-white flex px-6 flex-col space-y-4 justify-start items-start '>
           <div>
             <h3 className='font-bold text-3xl mb-8'>Registration</h3>
@@ -113,18 +113,18 @@ export default function RegsiterPage()  {
                 !errorMsg? <p className='text-red-400 text-sm relative'></p>: <></>
               }</div>
             <form className='flex flex-col space-y-8 ' onSubmit={handelFormSubmittion}>
-              <div className='flex space-x-8'>
+              <div className='md:flex sm:flex sm:flex-col md:flex-row md:space-x-8  sm:space-y-4 md:space-y-0'>
                 <div className='flex flex-col items-start space-y-1'>
               <Input name="username" placeholder="username" type="text" required  />
               <p className='text-[12px] text-gray-400 text-center items-start'>*username can not be changed</p>
               </div>
                 <Input name="email" placeholder="email" type="email" required   />
               </div>
-              <div className='flex space-x-8'>
+              <div className='md:flex sm:flex sm:flex-col md:flex-row md:space-x-8  sm:space-y-8 md:space-y-0'>
                 <Input name="fullName" placeholder="full name" type="text" required  />
                 <Input name="password" placeholder="password" type="password" required   />
               </div>
-              <div className='flex space-x-16'>
+              <div className='md:flex sm:flex sm:flex-col md:flex-row md:space-x-16  sm:space-y-4 md:space-y-0'>
               <div className=''>
                   <input required ref={avatarFileInputRef} accept='image/jpeg, image/png, image/jpg' onChange={handleAvatarFileChange}  type='file' hidden name='avatar' id='avatar' className=' w-80 rounded-md h-10 px-4 py-2 bg-transparent border border-gray-200' />
                   <div onClick={handleAvatarFileSelect} className='flex text-gray-400 space-x-4 items-center cursor-pointer'>
@@ -155,7 +155,7 @@ export default function RegsiterPage()  {
 
                     
 
-                <div className='flex justify-start items-center space-x-12 pt-6'>   {
+                <div className='flex sm:flex sm:flex-col md:flex-row justify-start items-center md:space-x-12 sm:space-y-2 md:space-y-0 md:pt-6'>   {
                   isProcessing && <button type='submit' className='bg-gray-900 border text-white w-72 animate-pulse hover:bg-gray-700 duration-700 px-4 py-4 rounded'>Registering user</button>
                 }
                 {
@@ -175,7 +175,7 @@ export default function RegsiterPage()  {
             </form>
             <div className='flex flex-col items-center text-center'>
            
-            <p className='text-[12px] text-gray-400 text-center'>  * By clicking continue, you agree to our Terms of</p>
+            <p className='text-[12px] text-gray-400 text-center'>  * By registering here, you agree to our Terms of</p>
             <p className='text-[12px] text-gray-400 text-center'>Service and Privacy Policy.</p>
             
         </div>

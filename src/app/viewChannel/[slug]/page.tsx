@@ -59,10 +59,6 @@ export default function ViewChannel({params}:{params: {slug:string}}) {
     }
   }, [id, user])
 
-  if (!channelOwner) {
-    // Render loading indicator or return null until channelOwner data is fetched
-    redirect
-  }
  
    //checking if user already subscribed?
    useEffect(()=> {
@@ -100,10 +96,10 @@ const createdAtIST = createdAtUTC.toLocaleString('en-IN', {
     <div className='flex flex-col pt-4 justify-center items-center'>
       <div className='flex flex-col items-start space-y-8'>
       <div>
-        {channelOwner && <Image width={200} height={0} className='w-[800px] h-40 rounded-lg'  alt="banner" src={channelOwner?.coverImage}/> }
+        {channelOwner && <Image width={400} height={200} className='md:w-[800px] sm:w-[340px] md:h-32 rounded-lg'  alt="banner" src={channelOwner?.coverImage}/> }
         
       </div>
-      <div className='flex space-x-8'>
+      <div className='sm:flex sm:flex-col md:flex md:flex-row md:space-x-8'>
         {
           channelOwner && <Image width={200} height={200} className='rounded-xl shadow-md shadow-white'  alt="banner" src={channelOwner?.avatar}/>
         }
@@ -122,19 +118,19 @@ const createdAtIST = createdAtUTC.toLocaleString('en-IN', {
       
       
       </div>
-      <hr className='border-gray-300 h-1 w-[800px] my-6' />
-      <div className='flex flex-col ' >
-      <Tabs defaultValue="account" className="w-[800px] ">
-        <TabsList className='w-[800px] justify-around'>
-          <TabsTrigger value="videos"> <div className='flex items-center space-x-1 cursor-pointer'><ListVideo /><p>Videos</p></div> </TabsTrigger>
-          <TabsTrigger value="playlist"><div className='flex items-center space-x-1  cursor-pointer'> <Youtube /><p>Playlists</p></div> </TabsTrigger>
-          <TabsTrigger value="info"><div className='flex items-center space-x-1  cursor-pointer'> <InfoIcon /><p>Channel Info</p></div> </TabsTrigger>
+      <hr className='border-gray-300 h-1 md:w-[800px] sm:w-[320px] my-6' />
+      <div className='flex flex-col' >
+      <Tabs defaultValue="videos" className="md:w-[800px]  sm:w-[340px] ">
+        <TabsList className='md:w-[800px] mb-8 md:px-8 md:justify-between px-4 bg-black sm:w-[340px]'>
+          <TabsTrigger value="videos"> <div className='flex items-center cursor-pointer'><ListVideo size={20} /><p>Videos</p></div> </TabsTrigger>
+          <TabsTrigger value="playlist"><div className='flex items-center space-x-1  cursor-pointer'> <Youtube size={20} /><p>Playlists</p></div> </TabsTrigger>
+          <TabsTrigger value="info"><div className='flex items-center space-x-1  cursor-pointer'> <InfoIcon size={20} /><p>Channel Info</p></div> </TabsTrigger>
         </TabsList>
         <TabsContent value="videos">{
-          <div className='flex flex-wrap gap-4'>
+         <>
 
 {userVideos && userVideos.some((video:any = {})=> video.isPublished) ? (
-  <div>
+  <div className='md:flex md:flex-row md:flex-wrap mt-4 sm:flex sm:flex-col sm:space-y-4 sm:items-center'>
     {userVideos.map((video:any = {}) => (
       video.isPublished && (
         <div key={video._id}>
@@ -144,7 +140,7 @@ const createdAtIST = createdAtUTC.toLocaleString('en-IN', {
             title={video.title}
             videoUrl={video.videoFile}
             thumbnailUrl={video.thumbnail}
-            owner={video.owner._id}
+            owner={id}
             views={video.view}
             createdAt={video.createdAt}
             duration={video.duration}
@@ -162,7 +158,7 @@ const createdAtIST = createdAtUTC.toLocaleString('en-IN', {
     No published videos found.
   </div>
 )}
-          </div>
+          </>
         }</TabsContent>
         <TabsContent value="playlist">No Playlist found.</TabsContent>
         <TabsContent value="info">

@@ -39,7 +39,7 @@ export default function LikedVideo() {
 
     
   return (
-    <div className="pt-20 mx-12 flex flex-col space-y-8 justify-center items-start" >
+    <div className="md:pt-20 sm:pt-8 px-10 flex flex-col space-y-8 justify-center items-start " >
         <div className="flex items-center space-x-2">
            
         <h2 className="text-3xl font-semibold">Liked Videos</h2>

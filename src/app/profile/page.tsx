@@ -132,17 +132,17 @@ export default function UserProfile() {
 
 
   return (
-    <div className="px-40 pt-12">
+    <div className="md:px-40 sm:px-4 pt-12">
         {
             user &&<>
             <div className="flex flex-col space-y-12 ">
-                <div className="flex items-center  space-x-20
+                <div className="md:flex sm:flex sm:flex-col sm:items-start sm:space-y-4 md:space-y-0 md:flex-row items-center  md:space-x-20
                  justify-between">
             <Link href={`/viewChannel/${user.id}`} className="flex space-x-4 items-center ">
-             <Image width={100} height={100} className="w-40 h-40 rounded-full" src={user.avatar} alt="user image" />
-            <div>
-                <h2 className="font-semibold text-4xl">{user.fullName}</h2>
-                <h3 className="flex text-gray-400 font-semibold items-center gap-2">@{user.username}. <p className="text-sm font-bold text-gray-500">Explore Your Channel</p></h3>
+             <Image width={100} height={100} className="md:w-40 md:h-40 sm:w-32 sm:h-32 rounded-full" src={user.avatar} alt="user image" />
+            <div className="">
+                <h2 className="font-semibold md:text-4xl sm:text-2xl">{user.fullName}</h2>
+                <h3 className="flex  text-gray-400 font-semibold items-center gap-2">@{user.username}. <p className="md:text-sm  sm:text-[12px] font-bold text-gray-500">Explore Your Channel</p></h3>
             </div>
             </Link>
             <div className="bg-accent text-lg shadow-sm shadow-slate-50 px-4 py-2 rounded-md hover:opacity-50 duration-500">

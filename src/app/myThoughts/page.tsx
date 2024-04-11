@@ -84,10 +84,10 @@ export default function MyThoughts() {
 
   return (
     <div className='flex h-screen flex-col pt-12 space-y-20 justify-start items-center'>
-      <div className='w-screen flex justify-around'> 
+      <div className='w-screen flex sm:px-4 justify-around'> 
         <div></div>
       <div className=''>
-          <h1 className='text-6xl font-bold'>The conversation starts here</h1>
+          <h1 className='md:text-6xl sm:text-3xl font-bold'>The conversation starts here</h1>
           <h2 className='text-gray-300'>Join the platform for Web enthusiasts and access the latest discussions, news, and insights.</h2>
       </div>
       <div>
@@ -120,10 +120,11 @@ export default function MyThoughts() {
       </div>
       
    
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>{
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
+        {
         allTweets && <>
         {
-          allTweets.map((tweet:any) => (
+          allTweets.slice().reverse().map((tweet:any) => (
             <Tweets
             key={tweet._id} 
             id={tweet._id}

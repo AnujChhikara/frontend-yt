@@ -83,9 +83,9 @@ export function VideoEditButton({videoId, isPublished}:{videoId:string, isPublis
   
 
   return (
-    <div className="">
+    <div className="w-4">
       
-      <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenu  open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button className="rotate-90 focus:bg-transparent" variant="ghost" size="sm">
             <MoreHorizontal />

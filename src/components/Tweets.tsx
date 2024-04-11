@@ -50,7 +50,7 @@ export default function Tweets({userId, tweet, createdAt, accessToken, id}:{user
             <AvatarFallback>AC</AvatarFallback>
       </Avatar>
 
-      <h3>{ownerDetails?.fullName}</h3>
+      <h3 className="underline">{ownerDetails?.fullName}</h3>
       </div>
       <div className="text-sm flex text-gray-300">
         <p className=" w-60">{tweet} </p>

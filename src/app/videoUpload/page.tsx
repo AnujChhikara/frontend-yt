@@ -164,17 +164,17 @@ export default function VideoUpload() {
   
   return (
     <div className='flex flex-col w-screen justify-center items-center'>
-      <h2 className='text-4xl font-semibold py-12 underline '>Upload Your Video</h2>
+      <h2 className='text-4xl font-semibold md:py-12 sm:py-6 underline '>Upload Your Video</h2>
       <div className='border p-4 rounded-lg border-input' >
         {errorMsg && <p className='text-red-400 text-sm relative'>{errorMsg}</p>}
         <form className='flex flex-col px-4justify-center items-start space-y-6' onSubmit={handelFormSubmittion}>
           
           
-           <div className='flex space-x-4'>
+           <div className='md:flex md:space-x-4 sm:space-y-4 md:space-y-0 md:flex-row sm:flex sm:flex-col'>
 
         
               {/* video upload */}
-           <div onClick={handleVideoFileSelect} className='border w-60 h-40 px-8 py-8 border-dotted cursor-pointer '>
+           <div onClick={handleVideoFileSelect} className='border md:w-60 sm:w-80 h-40 px-8 py-8 border-dotted cursor-pointer '>
             
                   <input required type='file' ref={videoFileInputRef} accept="video/*" onChange={handleVideoFileChange} hidden  name='coverImage' id='coverImage' className=' w-80 rounded-md h-10 px-4 py-2 bg-transparent border border-gray-200' />
                   <div   className='flex flex-col space-y-4 text-gray-400  items-center '>
@@ -206,10 +206,10 @@ export default function VideoUpload() {
                   </div>
                 </div>
                 </div>
-                <div className='flex justify-center items-center space-x-4'>
+                <div className='sm:flex sm:flex-col md:flex md:flex-row sm:space-y-4 md:space-y-0 justify-center md:items-center md:space-x-4'>
                 <div className='flex flex-col space-y-2 justify-start items-start'>
                   <Label htmlFor='title'>Video Title</Label>
-                <input required  ref={titleRef} type="text" name="title" id='title' placeholder='video title' className=' bg-transparent px-4 py-1 rounded-lg border border-input ' />
+                <input required maxLength={50} ref={titleRef} type="text" name="title" id='title' placeholder='video title' className=' bg-transparent px-4 py-1 rounded-lg border border-input ' />
                 </div>
                 <div className='flex flex-col bg-transparent space-y-2 justify-start items-start'>
                   
@@ -227,7 +227,7 @@ export default function VideoUpload() {
                 </div>
        
         <div className='flex flex-col space-y-2 w-full'>
-        <Label htmlFor='title'>Video Description</Label>
+        <Label htmlFor='description'>Video Description</Label>
         <textarea required ref={descriptionRef} placeholder='video description' id='description' className='"flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",'/>
         </div>
                 
@@ -244,7 +244,7 @@ export default function VideoUpload() {
       
       </div>
       {videoData?._id && <>
-        <Link className='text-lg flex items-center space-x-2 bg-primary text-accent px-4 py-2 mt-8 rounded-lg font-semibold' href={`/watchVideo/${videoData._id}+${videoData.owner._id}`}>
+        <Link className='text-lg flex items-center space-x-2 bg-primary text-accent px-4 py-2 mb-4 mt-8 rounded-lg font-semibold' href={`/watchVideo/${videoData._id}+${videoData.owner._id}`}>
           <p>Watch Your Video here</p> <ArrowRightFromLine />
         </Link></>}
     </div>

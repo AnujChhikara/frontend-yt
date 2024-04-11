@@ -48,9 +48,9 @@ export default function ChannelStats() {
 
   return (
     <div className='w-scree h-auto flex justify-center '>
-        <div className='border flex flex-col justify-start items-center space-y-8 border-zinc-700 rounded-xl p-8 w-5/6 h-5/6 mt-12'>
+        <div className='border flex flex-col justify-start items-center space-y-8 border-zinc-700 px-4 rounded-xl md:p-8 sm:w-11/12 sm:pt-4  md:w-5/6 md:h-5/6 md:mt-12 sm:mt-6'>
            <h2 className='font-bold mb-4 text-4xl  underline'>Dashboard</h2>
-           <div className='flex justify-start space-x-20'>
+           <div className='md:flex md:flex-row md:space-y-0 sm:flex sm:flex-col sm:space-y-3 justify-start md:space-x-20'>
             <div className='w-60 h-32 p-4 flex justify-start items-center flex-col space-y-4 rounded-lg border border-zinc-700'>
                 <h3 className='font-semibold '>Videos Uploaded</h3>
                 <p>{channelStats?.allVideos.length}</p>
@@ -67,7 +67,7 @@ export default function ChannelStats() {
            </div>
            <div className='flex flex-col justify-center items-center'>
             <h2 className='font-bold mb-4 text-3xl  underline'>Recent Videos</h2>
-            <div className='grid grid-cols-2 gap-6 pt-4'>
+            <div className='grid md:grid-cols-2 sm:grid-cols-1 md:gap-6 sm:gap-4 pt-4'>
             {channelStats && <>
              {
           

@@ -95,8 +95,8 @@ export default function LoginPage() {
     
     return (
       <main className='w-screen  flex justify-center pt-8 '>
-      <div className='flex bg-transparent px-4 py-4 border-gray-700 border justify-center  items-center '>
-          <div className=' rounded  text-white flex  px-12 flex-col space-y-6 justify-center items-center'>
+      <div className='flex bg-transparent px-4 py-4 border-gray-700 border rounded-xl  justify-center  items-center '>
+          <div className=' rounded  text-white flex  md:px-12 sm:px-4 flex-col space-y-6 justify-center items-center'>
               <div className='flex flex-col items-center'>
                 <h3 className='font-semibold text-3xl'>Welcome Back!
                 </h3>
