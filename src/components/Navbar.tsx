@@ -67,7 +67,7 @@ function Navbar() {
     <div className='w-screen shadow-lg py-2 shadow-black'>
       <div className='flex justify-between items-center px-12 py-2'>
         <div className='flex space-x-4'>
-        <Sheet>
+       {user &&  <Sheet>
             <SheetTrigger><Menu /></SheetTrigger>
             <SheetContent side={'left'} className='w-60'>
               <SheetHeader>
@@ -105,7 +105,7 @@ function Navbar() {
               
                </SheetDescription>
                </SheetContent>
-          </Sheet>
+          </Sheet>}
           <Link href='/'>
         <div className='flex justify-center items-center gap-1'>
         <Clapperboard/>
