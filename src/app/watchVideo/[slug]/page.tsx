@@ -50,15 +50,10 @@ type MyData = {
 
 export default function ViewVideo({params}:{params: {slug:any}}) {
 
-  const encodedId = params.slug
-  const decodedId = decodeURIComponent(encodedId);
+  const videoId = params.slug
 
-  //for develpoment
-  // const [videoId, ownerId] = decodedId.split('+');
-  
-  //for production
-  const [videoId, ownerId] = decodedId.split('%20');
 
+   
   const [videoData, setVideoData] = useState<VideoData>()
   const [liked, setLiked] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
@@ -98,8 +93,11 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
  [videoId, user]
 
 )
+let ownerId:any;
 
-
+if(videoData) {
+   ownerId =videoData.owner
+}
 //   //getting video owner details
   useEffect(()=> { 
     const fetchVideoOwner = async() => { 
@@ -114,7 +112,7 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
      
      
     }
-    if(user ) {
+    if(ownerId) {
       fetchVideoOwner()
  
     }
@@ -134,6 +132,7 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
         setLiked(false)
       }
      }
+     
      checkLike()
    }, [videoId, user])
 
@@ -152,7 +151,10 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
        setSubscribe(false)
      }
     }
-    checkSubscribed()
+    if(ownerId){
+      checkSubscribed()
+    }
+    
   }, [ownerId, user])
  
 
@@ -162,15 +164,17 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
     
 
     const getUserChannel = async() => {
-     const stats =  await getChannelStats({accessToken:user.accessToken, channelId:user.id})
+     const stats =  await getChannelStats({accessToken:user.accessToken, channelId:ownerId})
      setChannelStats(stats)
 
     }
-
-    getUserChannel()
+ if(ownerId){
+  getUserChannel()
+ }
+   
 
  
-  },[user])
+  },[user, ownerId])
 
 
   const handleLikeButton = () => {

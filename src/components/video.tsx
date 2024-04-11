@@ -78,7 +78,7 @@ const formattedTimeDifference = formatTimeDifference(createdAt);
     return (
       <div className='flex flex-col items-start space-y-2 font-bold text-gray-300'>
         <div className='flex'>
-        <Link onClick={handleClick} href={`/watchVideo/${videoId}+${ownerDetails?._id}`}
+        <Link onClick={handleClick} href={`/watchVideo/${videoId}`}
          className='flex items-end justify-end'>
           <div className=''>
           <Image width={320}  height={0} className='w-80 h-[180px] rounded-md' src={thumbnailUrl} alt="Thumbnail" />
