@@ -2,18 +2,18 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LikeVideo, ToggleSubscription, addVideoToWatchHistory, checkIfSubscribed, checkLiked, fetchVideoByid, getChannelStats, getUserByID } from "@/functions";
+import { LikeVideo, ToggleSubscription, checkIfSubscribed, checkLiked, fetchVideoByid, getChannelStats, getUserByID } from "@/functions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { userActions } from "@/store/userSlice";
+
 
 interface VideoData {
   _id: string;
@@ -52,8 +52,12 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
 
   const encodedId = params.slug
   const decodedId = decodeURIComponent(encodedId);
-  const [videoId, ownerId] = decodedId.split('+');
-  const dispatch = useDispatch()
+
+  //for develpoment
+  // const [videoId, ownerId] = decodedId.split('+');
+  
+  //for production
+  const [videoId, ownerId] = decodedId.split('%20');
 
   const [videoData, setVideoData] = useState<VideoData>()
   const [liked, setLiked] = useState(false);
