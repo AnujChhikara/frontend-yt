@@ -7,6 +7,7 @@ import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import ReactPlayer from 'react-player'
 import {
   Accordion,
   AccordionContent,
@@ -159,7 +160,6 @@ if(videoData) {
  
 
   // fetching channel stats
-  
   useEffect(()=>{ 
     
 
@@ -193,13 +193,16 @@ if(videoData) {
   return (
     <div className="flex flex-col justify-center md:items-start sm:items-center mt-10 md:mx-10">
 
-      
-      {videoData && <div className="flex flex-col justify-start">
-         <video className="rounded-2xl shadow-inner sm:w-[340px] md:w-[700px] md:h-[500px] shadow-gray-200 mb-6" width="700" height="500" controls>
-        <source src={videoData!.videoFile} type="video/mp4"/>
+     
+      {videoData && <div className="flex sm:w-11/12 md:w-[700px] flex-col justify-start">
+      <ReactPlayer
+            url={videoData!.videoFile}
+            width="100%"
+            height="90%"
+            controls={true}
+            
+        />
         
-      Your browser does not support the video tag.
-      </video>
       <h3 className="md:text-xl  sm:text-sm font-bold">sadvgafa</h3>
      
       <div className="flex justify-between items-center"> 
