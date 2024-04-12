@@ -1,11 +1,12 @@
 'use client'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar" 
 import { Separator } from "@/components/ui/separator"
-import { LikeTweet, formatTimeDifference, getUserByID } from "@/functions"
+import { LikeTweet, checkTweetLiked, formatTimeDifference, getUserByID } from "@/functions"
 import { Star } from "lucide-react"
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { TweetEditButton } from "./compUi/twitterEditButton"
+import { userActions } from "@/store/userSlice"
 
 
 export default function Tweets({userId, tweet, createdAt, accessToken, id}:{userId:string, tweet:string, createdAt:string, accessToken:string, id:string}) {
@@ -14,6 +15,7 @@ export default function Tweets({userId, tweet, createdAt, accessToken, id}:{user
   const [isLiked, setIsLiked]  = useState(false) 
   const data =  useSelector((state:any) => state.user)
   const user = data.user[0]  
+  const dispatch= useDispatch()
 
   
 
@@ -37,9 +39,9 @@ export default function Tweets({userId, tweet, createdAt, accessToken, id}:{user
   }, [accessToken, userId])
 
   //liking user tweet
-  const handleLikeButton = () => {
-    setIsLiked(!isLiked)
-    LikeTweet({tweetId:id, accessToken})
+  const handleLikeButton = async() => {
+   await LikeTweet({tweetId:id, accessToken})
+    dispatch(userActions.isChanged({}))
   }
 
   //check if logged in user is owner of tweet
@@ -49,6 +51,24 @@ export default function Tweets({userId, tweet, createdAt, accessToken, id}:{user
     }
   }, [user, ownerDetails])
 
+    //checking if user already liked the tweet or not
+    useEffect(()=> {
+      const checkLike = async() =>{
+       const response = await checkTweetLiked({accessToken:user.accessToken, id}) 
+ 
+       if(response?.liked === true) {
+         const data = response.data
+         setIsLiked(data.liked)
+       } 
+       else{
+         setIsLiked(false)
+       }
+      }
+      if(id){
+        checkLike()
+      }
+    }, [id, user])
+ 
 
 
   const formattedTimeDifference = formatTimeDifference(createdAt);
@@ -73,7 +93,7 @@ export default function Tweets({userId, tweet, createdAt, accessToken, id}:{user
 
      <div>
   
-      <Separator  className="my-2 w-60 bg-white" />
+      <Separator  className="my-2 sm:w-60 md:w-[200px] bg-white" />
       <div className="flex h-5 items-center space-x-4 text-sm">
       
         

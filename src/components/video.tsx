@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar" 
-import { BadgeCheck, Dot, Pencil} from 'lucide-react';
+import { BadgeCheck} from 'lucide-react';
 import { VideoEditButton } from './compUi/videoEditButton';
 
 
@@ -28,6 +28,8 @@ interface VideoProps {
     const user = data.user[0]
     const [ownerDetails, setOwnerDetails]  = useState<any>()
     const [videoOwner, setVideoOwner] = useState(false)
+
+    
     //getting video owner details
     useEffect(()=> {
       const fetchVideoOwner = async() => { 
@@ -57,16 +59,11 @@ interface VideoProps {
 
 //coverting created at to real time
 
-
 const formattedTimeDifference = formatTimeDifference(createdAt);
-
-
-   
-
-  const videoDuration = formatSecondsToMinutes(duration) 
+const videoDuration = formatSecondsToMinutes(duration) 
   
 
-  function handleClick () {
+function handleClick () {
     const addingVideoToWatchHistory = async() => { 
       const response = await addVideoToWatchHistory({videoId:videoId, accessToken:user.accessToken})
      }

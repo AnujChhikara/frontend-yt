@@ -360,6 +360,26 @@ export async function getUserLikedVideo({accessToken}: {accessToken:string}){
 
 
 }
+export async function getUserLikedTweets({accessToken}: {accessToken:string}){
+  const response =await fetch(process.env.url+ '/likes/tweets',{
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+  })
+
+    if(response.ok) {
+      const data = await response.json()
+       return {status:true, data:data }
+    } 
+    else{
+      const error = await response.json()
+      return {status:false, data: error.msg }  
+    }
+
+
+}
+
 
 export async function getAllTweets({ accessToken} : { accessToken:string}){
   const response =await fetch(process.env.url+ '/tweets/getAllTweets',{
@@ -381,6 +401,23 @@ export async function getAllTweets({ accessToken} : { accessToken:string}){
 
 export async function checkLiked({ accessToken, id} : { accessToken:string, id:string}){
   const response =await fetch(process.env.url+ '/likes/isLiked/v/'+id,{
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+
+  })
+
+    if(response.ok) {
+      const data = await response.json() 
+      return { liked: true, data:data }
+    } 
+    else if (response.status === 400) {
+      // Video not liked
+      return { liked: false, msg: 'Video not liked' }}
+}
+
+export async function checkTweetLiked({ accessToken, id} : { accessToken:string, id:string}){
+  const response =await fetch(process.env.url+ '/likes/isLiked/t/'+id,{
     headers:{
       'Authorization': `Bearer ${accessToken}`,
     },
@@ -522,6 +559,26 @@ export async function DeleteTweet({accessToken, tweetId} : {accessToken:string, 
  
   const response = await fetch(process.env.url+'/tweets/'+tweetId ,{
     method:"Delete",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+   
+
+  })
+
+  if(response.ok) {
+    const res_data = await response.json()
+    return {status:true, data:res_data}
+  }
+  else{
+    const error = await response.json()
+    return {status:false, data:error}
+
+  }
+}
+export async function getUserTweets({accessToken, userId} : {accessToken:string, userId:string}){
+ 
+  const response = await fetch(process.env.url+'/tweets/user/'+userId ,{
     headers:{
       'Authorization': `Bearer ${accessToken}`,
     },

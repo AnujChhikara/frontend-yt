@@ -3,9 +3,6 @@
 
 import * as React from "react"
 import { Pencil, Settings2, Trash} from "lucide-react"
-import { Switch } from "@/components/ui/switch"
-import { Button } from "@/components/ui/button"
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +11,6 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import Link from "next/link"
 import { useDispatch, useSelector } from "react-redux"
 import { redirect } from "next/navigation"
 import {
@@ -28,7 +24,6 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 import { userActions } from "@/store/userSlice"
-import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
 import { DeleteTweet, UpdateTweet } from "@/functions"
 import { toast } from "sonner"
@@ -51,36 +46,6 @@ export function TweetEditButton({tweetId, tweet}:{tweetId:string, tweet:string})
   const [open, setOpen] = React.useState(false)
   const [isDeleting, setIsDeleting] = React.useState(false)
   const [isUpdating, setIsUpdating] = React.useState(false)
-//   const deletingVideo = async () => await deleteVideo({id:videoId, accessToken:user.accessToken})
-//   const togglePublishStatus = async() => await TogglePublish({videoId:videoId, accessToken:user.accessToken})
-
-//   const handleDeleteVideo = async() => {
-//     setIsDeleting(true)
-//      const response = await deletingVideo()
-//      if(response.data.response.acknowledged === true) {
-//          dispatch(userActions.isChanged({}))
-        
-//      }
-   
-//     setIsDeleting(false)
-//   }
-
-//   const handlePublishToggle = async() => {
-
-//      const response = await togglePublishStatus()
-//      if(response.success === true) {
-//      const publishStatus =response.data.data.isPublished
-//       setIsPublishedStatus(publishStatus)
-//          dispatch(userActions.isChanged({}))
-        
-//      }
-
-//      else{
-//       console.log(response.data)
-//      }
-   
-//     setIsDeleting(false)
-//   }
 
 //updating tweet
   const handleUpdateTweet = async() => {
@@ -147,11 +112,11 @@ export function TweetEditButton({tweetId, tweet}:{tweetId:string, tweet:string})
   return (
     <div className="w-4">
       
-      <DropdownMenu  open={open} onOpenChange={setOpen}>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
-          <Button className="rotate-90 focus:bg-transparent" variant="ghost" size="sm">
+        
           <Settings2 />
-          </Button>
+         
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[200px]">
       

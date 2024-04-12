@@ -11,8 +11,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from '@/components/ui/input'
-import { getAllTweets } from '@/functions'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { getAllTweets, getUserLikedTweets, getUserTweets } from '@/functions'
 import { useSelector } from 'react-redux'
 import { redirect } from 'next/navigation'
 import { Textarea } from '@/components/ui/textarea'
@@ -21,6 +21,8 @@ import Tweets from '@/components/Tweets'
 
 export default function MyThoughts() {
   const [allTweets, setAllTweets] = useState<any>([])
+  const [userTweets, setUserTweets] = useState<any>([])
+  const [userLikedTweets, setUserLikedTweets] = useState<any>([])
   const [isPosting, setIsPosting] = useState(false)
  const buttonRef = useRef<HTMLButtonElement>(null)
   const data =  useSelector((state:any) => state.user)
@@ -29,7 +31,7 @@ export default function MyThoughts() {
   if(!user) {
       redirect('/')
   } 
-
+//getting all tweets
   const getTweets = useCallback(async () => { 
     const response = await getAllTweets({ accessToken: user.accessToken })
     if (response.status === true) {
@@ -40,14 +42,49 @@ export default function MyThoughts() {
     }
   }, [user.accessToken])
 
-
   useEffect(()=> {
-    
-    
     getTweets()
   }, [user, getTweets])
 
 
+  //getting logged in User tweets
+ 
+  useEffect(()=> {
+    const fetchUserTweet = async() => {
+      const response = await getUserTweets({accessToken:user.accessToken, userId:user.id})
+
+      if(response.status ===true) {
+        const data =response.data.data
+        setUserTweets(data)
+      }
+
+      else{
+        console.log(response.data)
+      }
+    }
+    if(user) {
+      fetchUserTweet()
+    }
+  }, [user])
+ 
+
+  //getting logged in user liked tweets
+  useEffect(()=> {
+    const likedTweets = async() => {
+      const response = await getUserLikedTweets({accessToken:user.accessToken})
+
+      if(response.status === true){
+        setUserLikedTweets(response.data.data)
+      }
+      else{
+        console.log('error' + response.data)
+      }
+    } 
+    if(user) {
+        likedTweets()
+    }
+  },[user])
+//  posting new tweet
    const handleFormSubmittion = async (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         setIsPosting(true)
@@ -118,9 +155,14 @@ export default function MyThoughts() {
           </Dialog>
           </div>
       </div>
-      
-   
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
+      <Tabs defaultValue="AllTweets" className="md:w-5/6  sm:w-[340px] ">
+        <TabsList className='md:w-[800px] mb-8 md:px-8 md:justify-between bg-gray-900 sm:w-[340px]'>
+          <TabsTrigger value="AllTweets"> <div className='flex items-center  cursor-pointer'><p>Home</p></div> </TabsTrigger>
+          <TabsTrigger value="YourTweets"><div className='flex items-center space-x-1  cursor-pointer'> <p>Your Thoughts</p></div> </TabsTrigger>
+          <TabsTrigger value="LikedTweets"><div className='flex items-center space-x-1  cursor-pointer'><p>Liked Thoughts</p></div> </TabsTrigger>
+        </TabsList> 
+        <TabsContent value="AllTweets">
+        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8'>
         {
         allTweets && <>
         {
@@ -132,8 +174,6 @@ export default function MyThoughts() {
             createdAt={tweet.createdAt}
             userId={tweet.owner}
             accessToken={user.accessToken}
-
-            
             />
           ))
              }
@@ -141,7 +181,54 @@ export default function MyThoughts() {
         }
        
       </div>
-    
+        </TabsContent>
+        <TabsContent value="YourTweets">
+        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8'>
+        {
+        userTweets && <>
+        { 
+          userTweets.slice().reverse().map((tweet:any) => (
+            <Tweets
+            key={tweet._id} 
+            id={tweet._id}
+            tweet={tweet.content}
+            createdAt={tweet.createdAt}
+            userId={tweet.owner}
+            accessToken={user.accessToken}
+            />
+          ))
+             }
+        </>
+        }
+       
+      </div>
+        </TabsContent>
+
+        <TabsContent value="LikedTweets">
+       
+        {
+           userLikedTweets && <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            {
+               userLikedTweets.map((item:any) => {
+                return   item.slice().reverse().map((tweet:any) => (
+                  <Tweets
+                  key={tweet._id} 
+                  id={tweet._id}
+                  tweet={tweet.content}
+                  createdAt={tweet.createdAt}
+                  userId={tweet.owner}
+                  accessToken={user.accessToken}
+                  />
+                      
+                   ))
+               })
+}</div>
+        }
+
+        </TabsContent>
+        
+        </Tabs>
+      
     </div>
   )
 }
