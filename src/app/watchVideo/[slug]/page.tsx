@@ -2,10 +2,10 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LikeVideo, ToggleSubscription, checkIfSubscribed, checkLiked, fetchVideoByid, getChannelStats, getUserByID } from "@/functions";
+import { AddComment, GetVideoComment, LikeVideo, ToggleSubscription, checkIfSubscribed, checkLiked, fetchVideoByid, getChannelStats, getUserByID } from "@/functions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { redirect } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Accordion,
@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { toast } from "sonner";
 
 
 interface VideoData {
@@ -56,12 +57,16 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
    
   const [videoData, setVideoData] = useState<VideoData>()
   const [liked, setLiked] = useState(false);
+  const [videoComments, setVideoComments] = useState<any[]>([]);
   const [subscribe, setSubscribe] = useState(false);
   const [channelStats, setChannelStats] = useState<MyData>()
   const [ownerDetails, setOwnerDetails]  = useState<any>()
   const data =  useSelector((state:any) => state.user)
   const user = data.user[0]
   
+
+  //comment ref
+  const commentRef = useRef<HTMLTextAreaElement>(null)
 
 
   if(!user) { 
@@ -77,8 +82,6 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
       if(response.status === true) {
         setVideoData(response.data.video)
        
-      
-
       }
       else{
         console.log(response.status)
@@ -137,7 +140,6 @@ if(videoData) {
    }, [videoId, user])
 
 
-
    //checking if user already subscribed?
   useEffect(()=> {
     const checkSubscribed= async() =>{
@@ -174,6 +176,51 @@ if(videoData) {
  
   },[user, ownerId])
 
+  //adding comment
+
+  const handleAddTweetForm = async(event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const comment = commentRef.current!.value
+    const response = await AddComment({accessToken:user.accessToken, videoId, comment})
+    if(response.status === true) {
+      toast("Tweet Added", {
+        description: "Comment added successfully",
+        action: {
+          label: "Okay",
+          onClick: () =>{},
+        },
+      })
+    
+    }
+    else{
+      toast("Failed", {
+        description: "failed to add your tweet",
+        action: {
+          label: "Okay",
+          onClick: () =>{},
+        },
+      })
+    }
+  }
+
+
+  //getting video Comments
+
+  useEffect(()=> {
+    const getVideoComments = async() => {
+      const response = await GetVideoComment({accessToken:user.accessToken, videoId})
+      if(response.status === true){
+          setVideoComments(response.data.VideoComments)
+      }
+      else{
+        console.log('Failed to get video comments')
+      }
+    }
+
+    if(user){
+      getVideoComments()
+    }
+  }, [user, videoId])
 
   const handleLikeButton = () => {
     setLiked(!liked)
@@ -187,6 +234,7 @@ if(videoData) {
     setChannelStats(updatedStats); }
    
 
+    const channelSubscribers = channelStats?.totalSubscribers
     let link;
     if(videoData){
        link  = videoData!.videoFile
@@ -195,9 +243,12 @@ if(videoData) {
     }
 
 
+  
 
-  const channelSubscribers = channelStats?.totalSubscribers
   return (
+    <div>
+
+      {/* main video */}
     <div className="flex flex-col justify-center md:items-start sm:items-center mt-10 md:mx-10">
 
       
@@ -256,16 +307,50 @@ if(videoData) {
       </div>
       </div>
       </div>
-      <Accordion type="single" collapsible>
+      <Accordion className="bg-[#0f0f0f] mt-4 px-4 pb-4 rounded-2xl" type="single" collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger className="text-gray-300">Description</AccordionTrigger>
+          <AccordionTrigger className="text-gray-300 text-lg">Description</AccordionTrigger>
           <AccordionContent className="md:w-[600px] sm:w-80">
           {videoData.description}
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+
+      <div className="mt-8 px-4">
+        <h2 className="text-xl font-bold pb-8 ">Comments</h2>
+          <form className="flex flex-col space-y-4 w-full" onSubmit={handleAddTweetForm}>
+            <div className="flex items-end space-x-2 ">
+            <Avatar className="w-10 h-10" >
+          <AvatarImage src={user?.avatar} />
+          <AvatarFallback>AC</AvatarFallback>
+      </Avatar>
+
+          <textarea ref={commentRef} rows={1} placeholder="Add a comment..." className=" px-2 py-1 w-full text-gray-300 text-sm focus:outline-none bg-transparent border-b-2" />
+          </div>
+           
+            <div className="flex space-x-2 w-full justify-end">
+            <button >cancel</button>
+          <button className="bg-blue-500 px-3 py-1 rounded-2xl hover:opacity-85" > Comment</button>
+            </div>
+           
+          
+          </form>
+       <div className="h-96 mt-4">
+        {videoComments && videoComments.map((comment:any) => (
+          <div key={comment._id}>{comment.content}</div>
+        ))}
+
+       </div>
+        
       </div>
+      </div>
+      
 }
+    </div>
+
+    <div>
+      {/* recommendations */}
+    </div>
     </div>
   )
 }

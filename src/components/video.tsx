@@ -103,11 +103,11 @@ function handleClick () {
 
           <Link href={`/viewChannel/${ownerDetails?._id}`}>
           <div className='flex items-center space-x-1'>
-          <h4 className='text-[12px] text-gray-400'> {ownerDetails?.fullName}</h4><p><BadgeCheck size={14} /></p></div>
+          <h4 className='text-[12px] text-gray-300'> {ownerDetails?.fullName}</h4><p><BadgeCheck size={14} /></p></div>
         </Link>
         
 
-          <div className='text-[11px] flex items-center space-x-2   text-gray-500'>
+          <div className='text-[11px] flex items-center space-x-2   text-gray-400'>
           <p>
             {views} views
           </p>

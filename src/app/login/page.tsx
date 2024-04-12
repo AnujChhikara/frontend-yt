@@ -51,6 +51,14 @@ export default function LoginPage() {
             localStorage.setItem('refreshToken', data.refreshToken);
             
             
+            // Set a timeout to clear data after 2 hours
+            setTimeout(() => {
+              localStorage.removeItem('user');
+              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
+          }, 2 * 60 * 60 * 1000); // 2 hours in milliseconds
+        
+                    
             
             dispatch(userActions.updateUser({
               username:userData.username,

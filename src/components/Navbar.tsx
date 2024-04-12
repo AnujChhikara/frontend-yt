@@ -58,9 +58,6 @@ function Navbar() {
   const userData =  useSelector((state:any) => state.user)
   const user = userData.user[0]  
   
-
- 
-
  
   return (
     <div>
