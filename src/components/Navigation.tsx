@@ -153,11 +153,14 @@ export default function Navigation() {
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
+          <Link href='/contactMe'>
           <DropdownMenuItem>
             <Plus className="mr-2 h-4 w-4" />
             <span>Contact Me</span>
             <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
           </DropdownMenuItem>
+          </Link>
+        
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         

@@ -98,7 +98,7 @@ function handleClick () {
         <AvatarFallback>AC</AvatarFallback>
         </Avatar>
         <div className='flex flex-col'> 
-          <h3 className='md:w-80 text-sm'>{title}</h3>
+          <h3 className='md:w-60 text-sm'>{title}</h3>
           <div className=' md:w-60 sm:w-60  flex items-center justify-between'>
 
           <Link href={`/viewChannel/${ownerDetails?._id}`}>
@@ -107,11 +107,11 @@ function handleClick () {
         </Link>
         
 
-          <div className='text-[12px] flex items-center space-x-2   text-gray-500'>
+          <div className='text-[11px] flex items-center space-x-2   text-gray-500'>
           <p>
             {views} views
           </p>
-          •
+          
           <p>{formattedTimeDifference}</p>
         </div>
           </div>

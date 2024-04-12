@@ -13,10 +13,11 @@ import {
 } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getAllTweets, getUserLikedTweets, getUserTweets } from '@/functions'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { redirect } from 'next/navigation'
 import { Textarea } from '@/components/ui/textarea'
 import Tweets from '@/components/Tweets'
+import { userActions } from '@/store/userSlice'
 
 
 export default function MyThoughts() {
@@ -27,6 +28,7 @@ export default function MyThoughts() {
  const buttonRef = useRef<HTMLButtonElement>(null)
   const data =  useSelector((state:any) => state.user)
   const user = data.user[0] 
+  const dispatch = useDispatch()
 
   if(!user) {
       redirect('/')
@@ -84,6 +86,7 @@ export default function MyThoughts() {
         likedTweets()
     }
   },[user])
+
 //  posting new tweet
    const handleFormSubmittion = async (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -107,6 +110,7 @@ export default function MyThoughts() {
 
         if(response.ok) {
           const res_data = await response.json()
+          dispatch(userActions.isChanged({}))
           buttonRef.current?.click()
           // After posting successfully, refetch tweets
                getTweets();
