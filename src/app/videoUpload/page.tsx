@@ -244,7 +244,7 @@ export default function VideoUpload() {
       
       </div>
       {videoData?._id && <>
-        <Link className='text-lg flex items-center space-x-2 bg-primary text-accent px-4 py-2 mb-4 mt-8 rounded-lg font-semibold' href={`/watchVideo/${videoData._id}+${videoData.owner._id}`}>
+        <Link className='text-lg flex items-center space-x-2 bg-primary text-accent px-4 py-2 mb-4 mt-8 rounded-lg font-semibold' href={`/watchVideo/${videoData._id}`}>
           <p>Watch Your Video here</p> <ArrowRightFromLine />
         </Link></>}
     </div>
