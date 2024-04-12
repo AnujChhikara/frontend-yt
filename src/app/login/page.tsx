@@ -2,7 +2,6 @@
 'use client'
 import React, { useState } from 'react'
 import Input from '../../components/input'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../../store/userSlice'

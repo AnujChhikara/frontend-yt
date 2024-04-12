@@ -114,12 +114,12 @@ export function VideoEditButton({videoId, isPublished}:{videoId:string, isPublis
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Click continue to delete video.</AlertDialogTitle>
+            <AlertDialogTitle>Click Delete to Continue.</AlertDialogTitle>
            
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction> <div onClick={handleDeleteVideo}>Continue</div></AlertDialogAction>
+            <AlertDialogAction> <div onClick={handleDeleteVideo}>Delete</div></AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

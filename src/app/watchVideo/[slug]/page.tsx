@@ -208,7 +208,7 @@ if(videoData) {
       Your browser does not support the video tag.
       </video>
       
-      <h3 className="md:text-xl  sm:text-sm font-bold">sadvgafa</h3>
+      <h3 className="md:text-xl  sm:text-sm font-bold">{videoData!.title}</h3>
      
       <div className="flex justify-between items-center"> 
       <div className="flex space-x-4 pt-2 items-center">

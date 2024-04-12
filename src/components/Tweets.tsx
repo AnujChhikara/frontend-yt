@@ -4,11 +4,16 @@ import { Separator } from "@/components/ui/separator"
 import { LikeTweet, formatTimeDifference, getUserByID } from "@/functions"
 import { Star } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { TweetEditButton } from "./compUi/twitterEditButton"
 
 
 export default function Tweets({userId, tweet, createdAt, accessToken, id}:{userId:string, tweet:string, createdAt:string, accessToken:string, id:string}) {
   const [ownerDetails, setOwnerDetails]  = useState<any>() 
+  const[tweetOwner, setTweetOwner] = useState(false)
   const [isLiked, setIsLiked]  = useState(false) 
+  const data =  useSelector((state:any) => state.user)
+  const user = data.user[0]  
 
   
 
@@ -37,10 +42,17 @@ export default function Tweets({userId, tweet, createdAt, accessToken, id}:{user
     LikeTweet({tweetId:id, accessToken})
   }
 
+  //check if logged in user is owner of tweet
+  useEffect(()=> {
+    if(user.id === ownerDetails?._id){
+      setTweetOwner(true)
+    }
+  }, [user, ownerDetails])
+
 
 
   const formattedTimeDifference = formatTimeDifference(createdAt);
-
+  const tweetContent= tweet
   return (
     <div className="flex flex-col space-y-4 bg-black/[90%] px-6 py-4 rounded-3xl  shadow-inner shadow-gray-900 hover:scale-105 duration-500">
 
@@ -53,7 +65,7 @@ export default function Tweets({userId, tweet, createdAt, accessToken, id}:{user
       <h3 className="underline">{ownerDetails?.fullName}</h3>
       </div>
       <div className="text-sm flex text-gray-300">
-        <p className=" w-60">{tweet} </p>
+        <p className=" w-60">{tweetContent} </p>
         
        </div>
      
@@ -74,6 +86,15 @@ export default function Tweets({userId, tweet, createdAt, accessToken, id}:{user
            </button> : <button  onClick={handleLikeButton} className="flex items-end">
          <Star color="#6c6a6a" />
          </button>
+        }
+
+        {
+          tweetOwner && <>
+          <Separator className="bg-white" orientation="vertical" />
+          
+          <TweetEditButton tweetId={id} tweet={tweetContent}/>
+          
+          </>
         }
       
       </div>

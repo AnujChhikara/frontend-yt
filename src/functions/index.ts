@@ -493,6 +493,53 @@ export  async function editVideo({accessToken, videoId, formData}:{accessToken:s
   }
 }
 
+export async function UpdateTweet({accessToken, tweetId, updatedTweet} : {accessToken:string, tweetId:string, updatedTweet:string}){
+  const data = {
+    "tweet": updatedTweet
+  }
+  const response = await fetch(process.env.url+'/tweets/'+tweetId ,{
+    method:"PATCH",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type':"application/json"
+    },
+    body:JSON.stringify(data)
+
+  })
+
+  if(response.ok) {
+    const res_data = await response.json()
+    return {status:true, data:res_data}
+  }
+  else{
+    const error = await response.json()
+    return {status:false, data:error}
+
+  }
+}
+
+export async function DeleteTweet({accessToken, tweetId} : {accessToken:string, tweetId:string}){
+ 
+  const response = await fetch(process.env.url+'/tweets/'+tweetId ,{
+    method:"Delete",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+   
+
+  })
+
+  if(response.ok) {
+    const res_data = await response.json()
+    return {status:true, data:res_data}
+  }
+  else{
+    const error = await response.json()
+    return {status:false, data:error}
+
+  }
+}
+
 export function formatTimeDifference(createdAt: string) {
   const timestampUTC = new Date(createdAt);
   const timestampIST: any = new Date(timestampUTC.getTime());
