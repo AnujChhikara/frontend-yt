@@ -680,3 +680,90 @@ export async function GetVideoComment({accessToken, videoId}:{accessToken:string
 
   }
 }
+
+
+export async function UpdateComment({accessToken, commentId, updatedComment}
+  : {accessToken:string, commentId:string, updatedComment:string}){
+  const data = {
+    "newComment": updatedComment
+  }
+  const response = await fetch(process.env.url+'/comments/c/'+commentId ,{
+    method:"PATCH",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type':"application/json"
+    },
+    body:JSON.stringify(data)
+
+  })
+
+  if(response.ok) {
+    const res_data = await response.json()
+    return {status:true, data:res_data}
+  }
+  else{
+    const error = await response.json()
+    return {status:false, data:error}
+
+  }
+}
+
+export async function DeleteComment({accessToken, commentId}
+  : {accessToken:string, commentId:string, }){
+ 
+  const response = await fetch(process.env.url+'/comments/c/'+commentId ,{
+    method:"Delete",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`,
+    },
+   
+
+  })
+
+  if(response.ok) {
+    const res_data = await response.json()
+    return {status:true, data:res_data}
+  }
+  else{
+    const error = await response.json()
+    return {status:false, data:error}
+
+  }
+}
+
+export async function LikeComment({commentId ,accessToken}:{commentId:string, accessToken:string} ){
+  const response = await fetch(process.env.url+'/likes/toggle/c/' +commentId,
+  
+  {
+    method: "POST",
+    headers:{
+      'Authorization': `Bearer ${accessToken}`
+    }
+  })
+
+  if(response.ok) {
+    const res_data = await response.json()
+    console.log(res_data)
+     return res_data
+  } 
+  else{
+    const error = await response.json()
+    console.log(error.msg)
+  } }
+
+  export async function checkCommentLiked({ accessToken, id} : { accessToken:string, id:string}){
+    const response =await fetch(process.env.url+ '/likes/isLiked/c/'+id,{
+      headers:{
+        'Authorization': `Bearer ${accessToken}`,
+      },
+  
+    })
+  
+      if(response.ok) {
+        const data = await response.json() 
+        return { liked: true, data:data }
+      } 
+      else if (response.status === 400) {
+        // Video not liked
+        return { liked: false, msg: 'Video not liked' }}
+  }

@@ -65,7 +65,7 @@ const videoDuration = formatSecondsToMinutes(duration)
 
 function handleClick () {
     const addingVideoToWatchHistory = async() => { 
-      const response = await addVideoToWatchHistory({videoId:videoId, accessToken:user.accessToken})
+      await addVideoToWatchHistory({videoId:videoId, accessToken:user.accessToken})
      }
    
      addingVideoToWatchHistory()

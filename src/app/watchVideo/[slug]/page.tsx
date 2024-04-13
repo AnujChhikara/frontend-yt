@@ -6,7 +6,7 @@ import { AddComment, GetVideoComment, LikeVideo, ToggleSubscription, checkIfSubs
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Accordion,
   AccordionContent,
@@ -14,6 +14,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { toast } from "sonner";
+import CommentComponent from "@/components/ui/Comment";
+import { userActions } from "@/store/userSlice";
 
 
 interface VideoData {
@@ -53,8 +55,6 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
 
   const videoId = params.slug
 
-
-   
   const [videoData, setVideoData] = useState<VideoData>()
   const [liked, setLiked] = useState(false);
   const [videoComments, setVideoComments] = useState<any[]>([]);
@@ -63,6 +63,7 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
   const [ownerDetails, setOwnerDetails]  = useState<any>()
   const data =  useSelector((state:any) => state.user)
   const user = data.user[0]
+  const dispatch =  useDispatch()
   
 
   //comment ref
@@ -183,6 +184,7 @@ if(videoData) {
     const comment = commentRef.current!.value
     const response = await AddComment({accessToken:user.accessToken, videoId, comment})
     if(response.status === true) {
+      dispatch(userActions.isChanged({}))
       toast("Tweet Added", {
         description: "Comment added successfully",
         action: {
@@ -222,9 +224,9 @@ if(videoData) {
     }
   }, [user, videoId])
 
-  const handleLikeButton = () => {
+  const handleLikeButton = async() => {
     setLiked(!liked)
-    LikeVideo({videoId:videoId, accessToken:user.accessToken})
+    await LikeVideo({videoId:videoId, accessToken:user.accessToken})
   }
 
   const handleSubscribeButton = async() =>{
@@ -242,8 +244,10 @@ if(videoData) {
 
     }
 
+    const handleCommentCancelButton =() => {
+      commentRef.current!.value = ''
+    }
 
-  
 
   return (
     <div>
@@ -296,9 +300,9 @@ if(videoData) {
             <div className="h-full bg-gray-300 w-[1px]"></div>
         </div>
         {
-          liked? <button disabled onClick={handleLikeButton} className="flex items-end">
+          liked? <button onClick={handleLikeButton} className="flex items-end">
           <ThumbsDown  size={24} color="#6c6a6a" />
-           </button> : <button  onClick={handleLikeButton} className="flex items-end">
+           </button> : <button disabled  onClick={handleLikeButton} className="flex items-end">
         <ThumbsDown  size={24} color="#6c6a6a" />
          </button>
         }
@@ -329,15 +333,21 @@ if(videoData) {
           </div>
            
             <div className="flex space-x-2 w-full justify-end">
-            <button >cancel</button>
+            <button type="button" onClick={handleCommentCancelButton} >cancel</button>
           <button className="bg-blue-500 px-3 py-1 rounded-2xl hover:opacity-85" > Comment</button>
             </div>
            
           
           </form>
        <div className="h-96 mt-4">
-        {videoComments && videoComments.map((comment:any) => (
-          <div key={comment._id}>{comment.content}</div>
+        {videoComments && videoComments.slice().reverse().map((comment:any) => (
+          <CommentComponent 
+          key={comment._id}
+          commentId={comment._id}
+          comment={comment.content}
+          createdAt={comment.createdAt}
+          ownerId={comment.owner}
+          />
         ))}
 
        </div>
