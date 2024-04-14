@@ -130,7 +130,7 @@ const createdAtIST = createdAtUTC.toLocaleString('en-IN', {
          <>
 
 {userVideos && userVideos.some((video:any = {})=> video.isPublished) ? (
-  <div className='md:flex md:flex-row md:flex-wrap mt-4 sm:flex sm:flex-col sm:space-y-4 sm:items-center'>
+  <div className='md:flex md:flex-row md:flex-wrap md:gap-8 mt-4 sm:flex sm:flex-col sm:space-y-4 sm:items-center'>
     {userVideos.map((video:any = {}) => (
       video.isPublished && (
         <div key={video._id}>

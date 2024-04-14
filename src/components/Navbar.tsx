@@ -27,6 +27,7 @@ import {
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../store/userSlice';
+import { redirect } from "next/navigation"
 
 
 
@@ -35,30 +36,47 @@ function Navbar() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      const storedAccessToken = localStorage.getItem('accessToken');
-      const storedRefreshToken = localStorage.getItem('refreshToken');
+    const storedTime = localStorage.getItem('timestamp')
 
-      // Initialize Redux state with stored user data
-      dispatch(userActions.updateUser({
-        username: parsedUser.username,
-        email: parsedUser.email,
-        avatar: parsedUser.avatar,
-        coverImage: parsedUser.coverImage,
-        fullName: parsedUser.fullName,
-        watchHistory: parsedUser.watchHistory,
-        accessToken: storedAccessToken,
-        refreshToken: storedRefreshToken,
-        id: parsedUser._id
-      }));
+    if (storedUser) {
+      const currentTime = new Date().getTime()
+      const timeStamp = JSON.parse(storedTime!);
+      const timeElapsed = currentTime - timeStamp;
+
+        const timeLimit = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
+
+        if (timeElapsed >= timeLimit) {
+          localStorage.removeItem('user');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+        } else{
+          const parsedUser = JSON.parse(storedUser);
+          const storedAccessToken = localStorage.getItem('accessToken');
+          const storedRefreshToken = localStorage.getItem('refreshToken');
+    
+          // Initialize Redux state with stored user data
+          dispatch(userActions.updateUser({
+            username: parsedUser.username,
+            email: parsedUser.email,
+            avatar: parsedUser.avatar,
+            coverImage: parsedUser.coverImage,
+            fullName: parsedUser.fullName,
+            watchHistory: parsedUser.watchHistory,
+            accessToken: storedAccessToken,
+            refreshToken: storedRefreshToken,
+            id: parsedUser._id
+          }));
+          
+        }
+
+    
     }
   }, [dispatch]);
 
   const userData =  useSelector((state:any) => state.user)
   const user = userData.user[0]  
-  
- 
+
+
   return (
     <div>
     <div className='w-screen shadow-lg md:py-2 shadow-black'>
@@ -90,7 +108,7 @@ function Navbar() {
                </Link>
                </SheetClose>
                <SheetClose asChild>
-               <Link href='/'>
+               <Link href='/playlist'>
                <Button className="flex w-48 pl-8  items-end justify-start space-x-1"><ListVideo size={20} /><p>Your Playlists</p></Button>
                </Link>
                </SheetClose>

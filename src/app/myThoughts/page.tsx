@@ -16,7 +16,7 @@ import { getAllTweets, getUserLikedTweets, getUserTweets } from '@/functions'
 import { useDispatch, useSelector } from 'react-redux'
 import { redirect } from 'next/navigation'
 import { Textarea } from '@/components/ui/textarea'
-import Tweets from '@/components/Tweets'
+import Tweets from '@/components/Thought'
 import { userActions } from '@/store/userSlice'
 
 
@@ -166,7 +166,7 @@ export default function MyThoughts() {
           <TabsTrigger value="LikedTweets"><div className='flex items-center space-x-1  cursor-pointer'><p>Liked Thoughts</p></div> </TabsTrigger>
         </TabsList> 
         <TabsContent value="AllTweets">
-        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8'>
+        <div className='grid grid-cols-1 md:grid-cols-3  gap-8'>
         {
         allTweets && <>
         {
@@ -187,7 +187,7 @@ export default function MyThoughts() {
       </div>
         </TabsContent>
         <TabsContent value="YourTweets">
-        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8'>
+        <div className='grid grid-cols-1 md:grid-cols-3  gap-8'>
         {
         userTweets && <>
         { 
@@ -211,7 +211,7 @@ export default function MyThoughts() {
         <TabsContent value="LikedTweets">
        
         {
-           userLikedTweets && <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+           userLikedTweets && <div className="grid grid-cols-1 md:grid-cols-3  gap-8">
             {
                userLikedTweets.map((item:any) => {
                 return   item.slice().reverse().map((tweet:any) => (

@@ -179,13 +179,14 @@ if(videoData) {
 
   //adding comment
 
-  const handleAddTweetForm = async(event:React.FormEvent<HTMLFormElement>) => {
+  const handleAddCommentForm = async(event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const comment = commentRef.current!.value
     const response = await AddComment({accessToken:user.accessToken, videoId, comment})
     if(response.status === true) {
       dispatch(userActions.isChanged({}))
-      toast("Tweet Added", {
+      commentRef.current!.value = ''
+      toast("Comment Added", {
         description: "Comment added successfully",
         action: {
           label: "Okay",
@@ -253,11 +254,11 @@ if(videoData) {
     <div>
 
       {/* main video */}
-    <div className="flex flex-col justify-center md:items-start sm:items-center mt-10 md:mx-10">
+    <div className="flex flex-col justify-center sm:mx-4 md:items-start sm:items-center mt-10 md:mx-10">
 
       
       {videoData && <div className="flex flex-col justify-start">
-         <video  className="rounded-2xl shadow-inner sm:w-[340px] md:w-[700px] md:h-[500px] shadow-gray-200 mb-6" width="700" height="500" controls>
+         <video  className="rounded-2xl shadow-inner sm:w-[360px] md:w-[700px] md:h-[500px] shadow-gray-200 mb-6" width="700" height="500" controls>
         <source src={link} type="video/mp4"/>
         
       Your browser does not support the video tag.
@@ -266,7 +267,7 @@ if(videoData) {
       <h3 className="md:text-xl  sm:text-sm font-bold">{videoData!.title}</h3>
      
       <div className="flex justify-between items-center"> 
-      <div className="flex space-x-4 pt-2 items-center">
+      <div className="flex space-x-2 pt-2 items-center">
       <Avatar className="w-12 h-12" >
           <AvatarImage src={ownerDetails?.avatar} />
           <AvatarFallback>AC</AvatarFallback>
@@ -291,8 +292,8 @@ if(videoData) {
         <div className="flex items-end space-x-2 ">
           <div className="flex items-end space-x-1 ">
             <button onClick={handleLikeButton}>
-            {liked && <ThumbsUp size={24} color="#FF004D" />}
-            {!liked && <ThumbsUp size={24} color="#6c6a6a"  />}
+            {liked && <ThumbsUp size={20} color="#FF004D" />}
+            {!liked && <ThumbsUp size={20} color="#6c6a6a"  />}
             
             </button>
            
@@ -301,9 +302,9 @@ if(videoData) {
         </div>
         {
           liked? <button onClick={handleLikeButton} className="flex items-end">
-          <ThumbsDown  size={24} color="#6c6a6a" />
+          <ThumbsDown  size={20} color="#6c6a6a" />
            </button> : <button disabled  onClick={handleLikeButton} className="flex items-end">
-        <ThumbsDown  size={24} color="#6c6a6a" />
+        <ThumbsDown  size={20} color="#6c6a6a" />
          </button>
         }
       
@@ -314,7 +315,7 @@ if(videoData) {
       <Accordion className="bg-[#0f0f0f] mt-4 px-4 pb-4 rounded-2xl" type="single" collapsible>
         <AccordionItem value="item-1">
           <AccordionTrigger className="text-gray-300 text-lg">Description</AccordionTrigger>
-          <AccordionContent className="md:w-[600px] sm:w-80">
+          <AccordionContent className="md:w-[600px] sm:w-[280px]">
           {videoData.description}
           </AccordionContent>
         </AccordionItem>
@@ -322,7 +323,7 @@ if(videoData) {
 
       <div className="mt-8 px-4">
         <h2 className="text-xl font-bold pb-8 ">Comments</h2>
-          <form className="flex flex-col space-y-4 w-full" onSubmit={handleAddTweetForm}>
+          <form className="flex flex-col space-y-4 w-full" onSubmit={handleAddCommentForm}>
             <div className="flex items-end space-x-2 ">
             <Avatar className="w-10 h-10" >
           <AvatarImage src={user?.avatar} />

@@ -5,11 +5,11 @@ import { LikeTweet, checkTweetLiked, formatTimeDifference, getUserByID } from "@
 import { Star } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { TweetEditButton } from "./compUi/twitterEditButton"
+import { TweetEditButton } from "./compUi/thoughtEditButton"
 import { userActions } from "@/store/userSlice"
 
 
-export default function Tweets({userId, tweet, createdAt, accessToken, id}:{userId:string, tweet:string, createdAt:string, accessToken:string, id:string}) {
+export default function Thought({userId, tweet, createdAt, accessToken, id}:{userId:string, tweet:string, createdAt:string, accessToken:string, id:string}) {
   const [ownerDetails, setOwnerDetails]  = useState<any>() 
   const[tweetOwner, setTweetOwner] = useState(false)
   const [isLiked, setIsLiked]  = useState(false) 
@@ -74,7 +74,7 @@ export default function Tweets({userId, tweet, createdAt, accessToken, id}:{user
   const formattedTimeDifference = formatTimeDifference(createdAt);
   const tweetContent= tweet
   return (
-    <div className="flex flex-col space-y-4 bg-black/[90%] px-6 py-4 rounded-3xl  shadow-inner shadow-gray-900 hover:scale-105 duration-500">
+    <div className="w-80 flex flex-col space-y-4 bg-black/[90%] px-6 py-4 rounded-3xl  shadow-inner shadow-gray-900 hover:scale-105 duration-500">
 
         <div className="flex space-x-4 items-center">
         <Avatar>
@@ -93,7 +93,7 @@ export default function Tweets({userId, tweet, createdAt, accessToken, id}:{user
 
      <div>
   
-      <Separator  className="my-2 sm:w-60 md:w-[200px] bg-white" />
+      <Separator  className="my-2 sm:w-60 md:w-[160px]   bg-white" />
       <div className="flex h-5 items-center space-x-4 text-sm">
       
         

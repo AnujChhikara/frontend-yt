@@ -1,39 +1,29 @@
+import { ListVideo, Video } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface Video {
-  _id: string;
-  createdAt: string;
-  description: string;
-  name: string;
-  owner: string;
-  updatedAt: string;
-  videos: any[]; // This should be defined as per the structure of the videos array
-  __v: number;
-}
 
-type Playlist = {
-  // _id: string;
-  // createdAt: string;
-  description: string;
-  name: string;
-  owner: string;
-  // updatedAt: string;
-  // videos: Video[];
-  // __v: number;
-};
 
-export default function PlaylistCard({owner, name, description}:Playlist) {
-  
+export default function PlaylistCard({owner,thumbnail,ownerId, name, description,updatedAt, videoCount}
+  :
+any
+) {
+
   return (
-    <div className=''>
-      <Link href='/' className=''>
-       <Image width={100} height={100} className='w-60 h-40 rounded-xl  ' src='https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG11c2ljJTIwcGFseWxpc3R8ZW58MHx8MHx8fDA%3D' alt='playlist thumbnail'/>
+    <div className='w-80 '>
+      <Link href='/' className='flex items-end space-x-56 md:hover:opacity-60 duration-500'>
+       <Image width={100} height={100} className='w-80 h-[200px] rounded-xl border-double  border-x-4 border-b-4 border-gray-400 ' src={thumbnail} alt='playlist thumbnail'/>
+       <span className='bg-black p-0.5 rounded bg-opacity-60 flex justify-center items-center text-white fixed text-sm mb-2'><ListVideo /><p>{videoCount? videoCount: 0} videos</p></span>
        </Link>
-        <div className='flex flex-col space-y-1 '>
-        <div className='font-semibold text-xl'>{name}</div>
-        <div>{description}</div>
-        <p className='text-gray-400'>by {owner}</p>
+        <div className='flex flex-col  pt-2 space-y-2 '>
+        <div className='font-semibold text-lg'>{name}</div>
+        <div className='flex items-center space-x-4'>
+          <Link className='border border-accent px-2 border-dashed py-0.5' href={`/viewChannel/${ownerId}`}>{owner}</Link>
+       
+        <p className='text-[12px] text-gray-400'>updated {updatedAt}</p>
+
+        </div>
+        
         </div>
         
     </div>

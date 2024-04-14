@@ -46,20 +46,13 @@ export default function LoginPage() {
             const userData = data.user
 
             // Store user data in local storage
+            const currentTime = new Date().getTime();
             localStorage.setItem('user', JSON.stringify(userData));
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.refreshToken);
+            localStorage.setItem('timestamp',JSON.stringify(currentTime));
             
-            
-            // Set a timeout to clear data after 2 hours
-            setTimeout(() => {
-              localStorage.removeItem('user');
-              localStorage.removeItem('accessToken');
-              localStorage.removeItem('refreshToken');
-          }, 2 * 60 * 60 * 1000); // 2 hours in milliseconds
-        
-                    
-            
+
             dispatch(userActions.updateUser({
               username:userData.username,
                 email:userData.email,

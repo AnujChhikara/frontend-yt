@@ -214,7 +214,7 @@ export default function VideoUpload() {
                 <div className='flex flex-col bg-transparent space-y-2 justify-start items-start'>
                   
                 <Label htmlFor="category">Select Video Category</Label>
-                  <select className='' id="category" >
+                <select className='w-28 h-8 border border-accent px-2 rounded-lg space-y-2' id="category" >
                     <option className='' value="general">General</option>
                     <option className='' value="gaming">Gaming</option>
                     <option className='' value="tech">Tech</option>
