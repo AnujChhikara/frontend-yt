@@ -814,3 +814,66 @@ export async function GetUserPlaylists({accessToken, userId}:{accessToken:string
     const error = await response.json()
     return {status:false, data:error}
 }}
+
+export async function GetPlaylistById({accessToken, playlistId}:{accessToken:string, playlistId:string}){
+  const response = await fetch(process.env.url+'/playlist/'+playlistId, {
+    headers:{
+      'Authorization' : `Bearer ${accessToken}`
+    }
+  })
+  if(response.ok) {
+    const res_data = await response.json()
+    return {status:true, data:res_data}
+  }
+  else{
+    const error = await response.json()
+    return {status:false, data:error}
+}}
+
+export async function AddVideoToPlaylist({accessToken, playlistId, videoId}:{accessToken:string, playlistId:string, videoId:string}){
+  const response = await fetch(process.env.url+'/playlist/add/'+videoId+'/'+playlistId, {
+    method:"PATCH",
+    headers:{
+      'Authorization' : `Bearer ${accessToken}`
+    }
+  })
+  if(response.ok) {
+    const res_data = await response.json()
+    return {status:true, data:res_data}
+  }
+  else{
+    const error = await response.json()
+    return {status:false, data:error}
+}}
+
+export async function DeletedPlaylist({accessToken, playlistId}:{accessToken:string, playlistId:string}){
+  const response = await fetch(process.env.url+'/playlist/'+playlistId, {
+    method:"DELETE",
+    headers:{
+      'Authorization' : `Bearer ${accessToken}`
+    }
+  })
+  if(response.ok) {
+    const res_data = await response.json()
+    return {status:true, data:res_data}
+  }
+  else{
+    const error = await response.json()
+    return {status:false, data:error}
+}}
+
+export async function RemoveVideoFromPlaylist({accessToken, playlistId, videoId}:{accessToken:string, playlistId:string,videoId:string}){
+  const response = await fetch(process.env.url+'/playlist/remove/'+videoId+'/'+playlistId , {
+    method:"PATCH",
+    headers:{
+      'Authorization' : `Bearer ${accessToken}`
+    }
+  })
+  if(response.ok) {
+    const res_data = await response.json()
+    return {status:true, data:res_data}
+  }
+  else{
+    const error = await response.json()
+    return {status:false, data:error}
+}}

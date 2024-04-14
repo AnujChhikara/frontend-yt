@@ -14,7 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Textarea } from '@/components/ui/textarea'
-import { useEffect, useRef, useState } from 'react'
+import { useDebugValue, useEffect, useRef, useState } from 'react'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { CreatePlaylist, GetUserPlaylists, formatTimeDifference } from '@/functions'
@@ -96,8 +96,6 @@ export default function PlaylistPage() {
   }, [user])
 
 
-
-  console.log(userPlaylistData)
   return (
     <div className='mx-12 py-8 flex flex-col space-y-8'>
       <div className='flex justify-between'>
@@ -161,16 +159,21 @@ export default function PlaylistPage() {
           userPlaylistData && 
           userPlaylistData.map((playlist:any)=>{
            const updatedAt = formatTimeDifference(playlist.updatedAt)
-           const videoCount = playlist.videos.lenght
-            return (
+           const videoCount = playlist.videos ? playlist.videos.length : 0;
+           const thumbnail = playlist && playlist.videos && playlist.videos[0] && playlist.videos[0].thumbnail ? playlist.videos[0].thumbnail : 'https://res.cloudinary.com/dlahahicg/image/upload/v1713085405/imgEmpty_n2fiyp.jpg';
+       
+           return (
             <PlaylistCard 
             key={playlist._id}
+            playlistId={playlist._id}
             description={playlist.description}
             owner={user!.fullName}
             name={playlist.name}
-            thumbnail='https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG11c2ljJTIwcGFseWxpc3R8ZW58MHx8MHx8fDA%3D'
+            thumbnail={thumbnail}
             videoCount={videoCount}
             ownerId={playlist.owner}
+            userId={user.id}
+            accessToken={user.accessToken}
             updatedAt={updatedAt}/>)
 })
         }

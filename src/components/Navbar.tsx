@@ -108,7 +108,7 @@ function Navbar() {
                </Link>
                </SheetClose>
                <SheetClose asChild>
-               <Link href='/playlist'>
+               <Link href='/userPlaylist'>
                <Button className="flex w-48 pl-8  items-end justify-start space-x-1"><ListVideo size={20} /><p>Your Playlists</p></Button>
                </Link>
                </SheetClose>
