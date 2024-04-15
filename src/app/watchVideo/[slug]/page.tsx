@@ -16,6 +16,7 @@ import {
 import { toast } from "sonner";
 import CommentComponent from "@/components/ui/Comment";
 import { userActions } from "@/store/userSlice";
+import AddVideoToPlaylistComp from "@/components/compUi/playlistVideoEdit";
 
 
 interface VideoData {
@@ -230,6 +231,7 @@ if(videoData) {
     await LikeVideo({videoId:videoId, accessToken:user.accessToken})
   }
 
+
   const handleSubscribeButton = async() =>{
     setSubscribe(!subscribe)
     await ToggleSubscription({channelId:ownerId, accessToken:user.accessToken})
@@ -287,7 +289,7 @@ if(videoData) {
        Subscribe
      </button>}
       
-      <div className="flex space-x-4 font-bold bg-gray-900 md:px-4 md:py-2 sm:px-2 sm:py-1 rounded-3xl ">
+      <div className="flex  space-x-2 font-bold bg-gray-900 md:px-4 md:py-2 sm:px-2 sm:py-1 rounded-3xl ">
     
         <div className="flex items-end space-x-2 ">
           <div className="flex items-end space-x-1 ">
@@ -307,7 +309,9 @@ if(videoData) {
         <ThumbsDown  size={20} color="#6c6a6a" />
          </button>
         }
-      
+       {
+        <AddVideoToPlaylistComp videoId={videoId} />
+       }
         
       </div>
       </div>

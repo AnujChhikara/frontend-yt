@@ -127,10 +127,8 @@ export function VideoEditButton({videoId, isPublished}:{videoId:string, isPublis
       <DropdownMenuSeparator />
 
        <div onClick={handlePublishToggle} className="flex text-sm pl-3 py-2 items-center space-x-2">
-        {isPublished?<p>Make It Private</p>:<p>Private Video</p>}<Switch checked={!isPublishedStatus} /></div>      
-    
-
-          
+        {isPublished?<p>Make It Private</p>:<p>Private Video</p>}<Switch checked={!isPublishedStatus} /></div>     
+     
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

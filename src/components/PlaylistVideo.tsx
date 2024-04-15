@@ -90,6 +90,7 @@ function handleClick () {
      addingVideoToWatchHistory()
   }
  
+  //removing video from playlist
  const handleButtonClick = async () => {
   const response = await RemoveVideoFromPlaylist({accessToken:user.accessToken, videoId, playlistId})
   if(response.status === true){
