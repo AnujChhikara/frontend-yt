@@ -2,7 +2,7 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { AddComment, GetVideoComment, LikeVideo, ToggleSubscription, checkIfSubscribed, checkLiked, fetchVideoByid, getChannelStats, getUserByID } from "@/functions";
+import { AddComment, GetVideoComment, LikeVideo, ToggleSubscription, checkIfSubscribed, checkLiked, fetchVideoByid, formatTimeDifference, getChannelStats, getUserByID } from "@/functions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -251,72 +251,76 @@ if(videoData) {
       commentRef.current!.value = ''
     }
 
-
+  let createdAt;
+  if(videoData){
+    createdAt = formatTimeDifference(videoData.createdAt)
+  }
   return (
-    <div>
+    <div className="flex ">
 
       {/* main video */}
-    <div className="flex flex-col justify-center sm:mx-4 md:items-start sm:items-center mt-10 md:mx-10">
-
-      
-      {videoData && <div className="flex flex-col justify-start">
-         <video  className="rounded-2xl shadow-inner sm:w-[360px] md:w-[700px] md:h-[500px] shadow-gray-200 mb-6" width="700" height="500" controls>
-        <source src={link} type="video/mp4"/>
-        
-      Your browser does not support the video tag.
-      </video>
-      
-      <h3 className="md:text-xl  sm:text-sm font-bold">{videoData!.title}</h3>
-     
-      <div className="flex justify-between items-center"> 
-      <div className="flex space-x-2 pt-2 items-center">
-      <Avatar className="w-12 h-12" >
-          <AvatarImage src={ownerDetails?.avatar} />
-          <AvatarFallback>AC</AvatarFallback>
-      </Avatar>
-      <div>
-      <h3 className="font-semibold md:text-lg">{ownerDetails?.fullName}</h3>
-      <p className="text-[12px] text-gray-400">{channelSubscribers} Subscribers</p>
-      </div>
-      
-      </div>
-      <div className="flex  justify-center items-center space-x-2">
-      {subscribe? 
-       <button onClick={handleSubscribeButton} className="bg-green-500 sm:text-sm md:text-base md:px-3 sm:px-1 md:py-2 sm:py-0.5 rounded-3xl">
-        Subscribed
-      </button> :
-       <button onClick={handleSubscribeButton} className="bg-red-500 sm:text-sm md:text-base md:px-3 sm:px-1 md:py-2 sm:py-0.5 rounded-3xl hover:bg-red-400">
-       Subscribe
-     </button>}
-      
-      <div className="flex  space-x-2 font-bold bg-gray-900 md:px-4 md:py-2 sm:px-2 sm:py-1 rounded-3xl ">
-    
-        <div className="flex items-end space-x-2 ">
-          <div className="flex items-end space-x-1 ">
-            <button onClick={handleLikeButton}>
-            {liked && <ThumbsUp size={20} color="#FF004D" />}
-            {!liked && <ThumbsUp size={20} color="#6c6a6a"  />}
-            
-            </button>
-           
-            </div>
-            <div className="h-full bg-gray-300 w-[1px]"></div>
+   
+      {videoData && <div className="sm:mt-8 sm:mx-4 flex flex-col md:w-1/2 space-y-2 ">
+      <video  className="rounded-2xl shadow-inner sm:w-[360px] md:w-[700px] md:h-[500px] shadow-gray-200 mb-4" width="700" height="500" controls>
+        <source src={link} type="video/mp4"/> 
+        Your browser does not support the video tag.
+        </video>
+        <h3 className="md:text-xl  sm:text-sm font-bold">{videoData.title}</h3>
+        <div className="flex items-center  font-bold text-gray-300 text-[12px] space-x-2">
+        <p className="">{videoData.view} views</p>
+        <p>{createdAt}</p>
         </div>
-        {
-          liked? <button onClick={handleLikeButton} className="flex items-end">
-          <ThumbsDown  size={20} color="#6c6a6a" />
-           </button> : <button disabled  onClick={handleLikeButton} className="flex items-end">
-        <ThumbsDown  size={20} color="#6c6a6a" />
-         </button>
-        }
-       {
-        <AddVideoToPlaylistComp videoId={videoId} />
-       }
-        
-      </div>
-      </div>
-      </div>
-      <Accordion className="bg-[#0f0f0f] mt-4 px-4 pb-4 rounded-2xl" type="single" collapsible>
+        <div className="flex justify-between">
+            <div className="flex space-x-2">
+              <Avatar className="w-12 h-12" >
+                <AvatarImage src={ownerDetails?.avatar} />
+                <AvatarFallback>AC</AvatarFallback>
+            </Avatar>
+           <div>
+            <h3 className="font-semibold md:text-lg">{ownerDetails?.fullName}</h3>
+            <p className="text-[12px] text-gray-400">{channelSubscribers} Subscriber</p>
+           </div>
+          </div>
+           
+           <div className="flex  justify-center items-center space-x-2">
+            {subscribe? 
+            <button onClick={handleSubscribeButton} className="bg-green-500 sm:text-sm md:text-base md:px-3 sm:px-1 font-bold md:py-2 sm:py-1 rounded-3xl">
+              Subscribed
+            </button> :
+            <button onClick={handleSubscribeButton} className="bg-white font-bold text-black sm:text-sm md:text-base md:px-3 sm:px-1 md:py-2 sm:py-1 rounded-3xl hover:bg-red-400">
+            Subscribe
+          </button>}
+          </div>
+          
+        </div>
+
+        {/* like section */}
+        <div className="flex justify-between items-center space-x-2 font-bold  sm:px-2 sm:py-1 rounded-3xl ">
+    
+          <div className="flex space-x-4 rounded-3xl items-center bg-[#0f0f0f] px-4 py-1">
+              <button  onClick={handleLikeButton}>
+              {liked && <ThumbsUp size={18} color="#FF004D" />}
+              {!liked && <ThumbsUp size={18} color="#6c6a6a"  />}
+              
+              </button>
+            <p className="text-[#2c2a2a]">|</p>
+            {
+              liked? <button onClick={handleLikeButton} className="flex items-end">
+              <ThumbsDown  size={18} color="#6c6a6a" />
+              </button> : <button disabled  onClick={handleLikeButton} className="flex items-end">
+            <ThumbsDown  size={18} color="#6c6a6a" />
+            </button>
+            }
+            </div>
+          {
+            <AddVideoToPlaylistComp videoId={videoId} />
+          }
+            
+          </div>
+
+        {/* description section */}
+
+        <Accordion className="bg-[#0f0f0f] mt-4 px-4 pb-4 rounded-2xl" type="single" collapsible>
         <AccordionItem value="item-1">
           <AccordionTrigger className="text-gray-300 text-lg">Description</AccordionTrigger>
           <AccordionContent className="md:w-[600px] sm:w-[280px]">
@@ -324,8 +328,10 @@ if(videoData) {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-
-      <div className="mt-8 px-4">
+      
+      {/* comment section */}
+      
+      <div className="pt-6">
         <h2 className="text-xl font-bold pb-8 ">Comments</h2>
           <form className="flex flex-col space-y-4 w-full" onSubmit={handleAddCommentForm}>
             <div className="flex items-end space-x-2 ">
@@ -358,14 +364,19 @@ if(videoData) {
        </div>
         
       </div>
-      </div>
-      
-}
-    </div>
 
-    <div>
-      {/* recommendations */}
-    </div>
+         
+      </div> } {
+        videoData && <div className="sm:hidden lg:block sm:mt-8 sm:mx-4 flex flex-col justify-center items-center w-5/12 space-y-2 ">
+          <h2 className="text-center font-bold text-xl">You might also like</h2>
+          <div>
+            Recomendation videos
+          </div>
+        </div>
+      }
+    
+
+   
     </div>
   )
 }
