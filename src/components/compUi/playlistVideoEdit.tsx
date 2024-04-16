@@ -1,6 +1,6 @@
 'use client'
 
-import { AddVideoToPlaylist, GetUserPlaylists } from "@/functions"
+import { AddVideoToPlaylist, CreatePlaylist, GetUserPlaylists } from "@/functions"
 import { userActions } from "@/store/userSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from "sonner"
@@ -12,14 +12,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { EllipsisVertical } from "lucide-react"
-import { useEffect, useState } from "react"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { EllipsisVertical, Plus } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { Label } from "../ui/label"
+import { Input } from "../ui/input"
+import { Textarea } from "../ui/textarea"
 
 export default function AddVideoToPlaylistComp({videoId}:{videoId:string}) {
     const data =  useSelector((state:any) => state.user)
     const user = data.user[0] 
     const dispatch = useDispatch()
     const [userPlaylistData, setUserPlaylistData] = useState<any>([]) 
+    const buttonRef = useRef<HTMLButtonElement>(null)  
+    const [isPosting, setIsPosting] = useState(false) 
    
 
     //get user playlists
@@ -63,17 +76,111 @@ export default function AddVideoToPlaylistComp({videoId}:{videoId:string}) {
      }
   }, [user])
 
+   //new Playlist 
+
+   const handleFormSubmittion = async(event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setIsPosting(true)
+    const selectElement:any = document.getElementById('category');
+    const category = selectElement?.value;
+    const fd = new FormData(event.currentTarget)
+    const data =  Object.fromEntries(fd.entries())
+    const name = data.name
+    const description = data.description 
+
+    
+    const response = await CreatePlaylist({accessToken:user.accessToken,category,description,name}) 
+    if(response.status === true){
+      setIsPosting(false)
+
+      dispatch(userActions.isChanged({})) 
+      buttonRef.current?.click()
+      toast("Playlist Created", {
+        description: 'Plalist has been created successfully',
+        action: {
+          label: "Okay",
+          onClick: () => {},
+        },
+      }) 
+
+    }
+    else{
+      setIsPosting(false)
+      toast("Failed", {
+        description: 'Error while creating playlist',
+        action: {
+          label: "Okay",
+          onClick: () => {},
+        },
+      }) 
+
+    }
+
+    
+  }
+
   return (
     <div className="h-5">
-   <DropdownMenu>
+   <DropdownMenu >
   <DropdownMenuTrigger><EllipsisVertical/></DropdownMenuTrigger>
-  <DropdownMenuContent>
+  <DropdownMenuContent className="bg-black">
     <DropdownMenuLabel>Add To Playlist</DropdownMenuLabel>
     <DropdownMenuSeparator />
    {userPlaylistData && userPlaylistData.map((playlist:any) => (
       <DropdownMenuItem key={playlist._id}><button onClick={()=> handleButtonClick(playlist._id)}>{playlist.name}</button></DropdownMenuItem>
  
    ))}
+   <DropdownMenuSeparator />
+  
+   <Dialog>
+            <DialogTrigger className=''> 
+            <div className='flex items-center ease-out bg-transparent text-sm ml-3 space-x-1'>
+            <h4>New Playlist </h4><Plus size={18}/></div>
+        </DialogTrigger>
+            <DialogContent className="bg-black">
+              <DialogHeader>
+              <DialogTitle className='text-gray-400 bg-transparent text-center'>Create New Playlist</DialogTitle>
+        
+            <form className='flex pt-8 flex-col justify-start items-start space-y-4' onSubmit={handleFormSubmittion}>
+             <div className='flex justify-between items-start space-x-4'>
+             <div className='flex flex-col space-y-2'>
+             <Label htmlFor='name'>Name</Label>
+              <Input id='name' name='name' className='h-8 w-60'/>
+             </div>
+
+                   <div className='flex flex-col justify-start space-y-2'>
+             <Label htmlFor="category">Select Playlist Category</Label>
+                  <select className='w-28 h-8 border border-accent px-2 rounded-lg space-y-2' id="category" >
+                    <option className='' value="general">General</option>
+                    <option className='' value="gaming">Gaming</option>
+                    <option className='' value="tech">Tech</option>
+                    <option className='' value="comedy">Comedy</option>
+                    <option className='' value="music">Music</option>
+                  </select>
+                  </div>
+             </div>
+            
+              <div className='flex flex-col space-y-2'>
+              <Label htmlFor='description'>Description</Label>
+              <Textarea id='description' name='description' className='w-60' />
+
+              </div>
+
+              {
+                isPosting? <button disabled className='px-8 bg-gray-400 rounded-xl animate-pulse  duration-500 text-accent font-bold  py-2 '>creating playlist..</button>:
+                <button className='px-8 hover:bg-gray-400 rounded-xl duration-500 text-accent font-bold  py-2 bg-white'>Create Playlist</button>
+              }
+            
+            </form>
+        
+        </DialogHeader>
+        <DialogClose asChild>
+        <button ref={buttonRef} className='hidden'>close</button>
+      </DialogClose>
+      </DialogContent>
+      
+          </Dialog>
+  
 
    
   </DropdownMenuContent>

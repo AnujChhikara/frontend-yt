@@ -56,6 +56,11 @@ export default function RegsiterPage()  {
   const handelFormSubmittion= async(event: React.FormEvent<HTMLFormElement>) => {
    event.preventDefault()
    setIsProcessing(true)
+   if(!avatarPreview){
+    setErrorMessage("avatar required!")
+    setIsProcessing(false)
+    return
+   }
     
    const formData = new FormData();
    formData.append('fullName', event.currentTarget.fullName.value);
@@ -89,7 +94,6 @@ export default function RegsiterPage()  {
    }
    else{
     const error = await response.json()
-    console.log(error)
     setErrorMessage(error.msg)
     setIsProcessing(false)
    }
@@ -126,7 +130,7 @@ export default function RegsiterPage()  {
               </div>
               <div className='md:flex sm:flex sm:flex-col md:flex-row md:space-x-16  sm:space-y-4 md:space-y-0'>
               <div className=''>
-                  <input required ref={avatarFileInputRef} accept='image/jpeg, image/png, image/jpg' onChange={handleAvatarFileChange}  type='file' hidden name='avatar' id='avatar' className=' w-80 rounded-md h-10 px-4 py-2 bg-transparent border border-gray-200' />
+                  <input ref={avatarFileInputRef} accept='image/jpeg, image/png, image/jpg' onChange={handleAvatarFileChange}  type='file' hidden name='avatar' id='avatar' className=' w-80 rounded-md h-10 px-4 py-2 bg-transparent border border-gray-200' />
                   <div onClick={handleAvatarFileSelect} className='flex text-gray-400 space-x-4 items-center cursor-pointer'>
                   {avatarPreview && (
                     <Image width={100} height={100}

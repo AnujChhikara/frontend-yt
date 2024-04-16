@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 import PlaylistCard from '@/components/PlaylistCard'
 import { FolderLock, History, ListVideo, Pencil } from "lucide-react"
 import { redirect } from "next/navigation"
-import { deleteVideo } from "@/functions"
+import { GetUserPlaylists, deleteVideo, formatTimeDifference } from "@/functions"
 
 
   
@@ -96,37 +96,20 @@ export default function UserProfile() {
       }, [ user]);
   
      //fetching user playlists
-
-     useEffect(() => {
-
-        const fetchPlaylists = async() => {
-          try {
-            const response = await fetch(process.env.url + '/playlist/user/66052f4e5ff551c458b6f9d4',{
-              method:'Get',
-              headers:{
-                'Authorization': `Bearer ${user.accessToken}`
-              }
-    
-            })
-    
-            if(response.ok){
-               const res_data = await response.json()
-               const userplaylitsData = res_data.data
-               setUserPlaylists(userplaylitsData)
-               
-            }
-            else{
-              const error = await response.json()
-              console.log(error)
-            }
-          } catch (error) {
-            console.log(error)
-          }
+     useEffect(()=>{
+      const getUserPlaylist = async()=> { 
+        const response = await GetUserPlaylists({accessToken:user.accessToken, userId:user.id})
+        if(response.status===true){
+          setUserPlaylists(response.data.data)
         }
-       
-          fetchPlaylists()
-        
-      }, [user]);
+        else{
+          console.log('Error fetching user playlist')
+        }
+      }
+       if(user){
+        getUserPlaylist()
+       }
+    }, [user])
  
 
 
@@ -162,7 +145,7 @@ export default function UserProfile() {
                 <div className="flex flex-wrap gap-12">
                   {userHistoryData && <>
                   {
-                    userHistoryData.map((video) => (
+                    userHistoryData.slice(0.8).map((video) => (
                       
                       video.isPublished && <div key={video._id}>
                       <Video
@@ -240,19 +223,28 @@ export default function UserProfile() {
                       <p className="text-2xl font-bold">Playlists</p>
                   </h3>
                   <div className="flex flex-wrap gap-12">
-                      {userPlaylists && <>
-                      {
-                          userPlaylists.map((playlist) => (
-                              <PlaylistCard
-                              key={playlist._id}
-                              name={playlist.name}
-                              description={playlist.description}
-                              owner={playlist.owner}
-                              
-                              />))
-                      }
-                      
-                      </>}
+                  {
+              userPlaylists && 
+              userPlaylists.map((playlist:any)=>{ 
+              const updatedAt = formatTimeDifference(playlist.updatedAt)
+              const videoCount = playlist.videos ? playlist.videos.length : 0;
+              const thumbnail = playlist && playlist.videos && playlist.videos[0] && playlist.videos[0].thumbnail ? playlist.videos[0].thumbnail : 'https://res.cloudinary.com/dlahahicg/image/upload/v1713085405/imgEmpty_n2fiyp.jpg';
+          
+                        return (
+                      <PlaylistCard 
+                      key={playlist._id}
+                      playlistId={playlist._id}
+                      description={playlist.description}
+                      owner={user!.fullName}
+                      name={playlist.name}
+                      thumbnail={thumbnail}
+                      videoCount={videoCount}
+                      ownerId={playlist.owner}
+                      userId={user.id}
+                      accessToken={user.accessToken}
+                      updatedAt={updatedAt}/>)
+          })
+                  }
                   </div>
 
                   </div>

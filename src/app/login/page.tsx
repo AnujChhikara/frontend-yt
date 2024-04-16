@@ -113,7 +113,7 @@ export default function LoginPage() {
                
               <form className='flex flex-col space-y-6 ' onSubmit={handleFormSubmittion}>
                   <div className='flex flex-col space-y-4 '>
-                  <Input name="email" placeholder="email" type="email" />
+                  <Input  name="email" placeholder="email" type="email" />
                   <p className='text-center'>or</p>
                   </div>
                   

@@ -82,6 +82,9 @@ nav {
 body {
   overflow-x: hidden;
   overflow-y: scroll;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 html {

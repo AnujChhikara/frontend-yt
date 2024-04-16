@@ -4,8 +4,6 @@ import { changeUserPassword, updateUserAccount, updateUserAvatar, updateUserCove
 import { redirect } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
@@ -67,7 +65,7 @@ export default function EditProfile() {
         avatarFileInputRef.current!.click();
       }
       
-      const handleAvatarFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+const handleAvatarFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target!.files![0];
         if (file) {
           // Read the selected file and create a data URL representing the image
@@ -80,24 +78,25 @@ export default function EditProfile() {
         }
       };
     
-      const handleCoverImageFileSelect =() =>{
+const handleCoverImageFileSelect =() =>{
         coverImageFileInputRef.current!.click();
       }
     
 
-      const handleCoverImageFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target!.files![0];
-        if (file) {
-          // Read the selected file and create a data URL representing the image
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const result = reader.result as string;
-            setCoverImagePreview(result); // Set the data URL as the image preview
-          };
-          reader.readAsDataURL(file);
-        }
-      };
-    const handleChangePasswordForm = async (event: React.FormEvent<HTMLFormElement>) =>{
+const handleCoverImageFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+          const file = event.target!.files![0];
+          if (file) {
+            // Read the selected file and create a data URL representing the image
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              const result = reader.result as string;
+              setCoverImagePreview(result); // Set the data URL as the image preview
+            };
+            reader.readAsDataURL(file);
+          }
+   };
+   
+const handleChangePasswordForm = async (event: React.FormEvent<HTMLFormElement>) =>{
       setIsPasswordChanging(true)
         event.preventDefault()
         const fd = new FormData(event.currentTarget)
@@ -117,7 +116,7 @@ export default function EditProfile() {
        
     }
 
-    const handleAccountDetailsForm = async (event: React.FormEvent<HTMLFormElement>) =>{
+const handleAccountDetailsForm = async (event: React.FormEvent<HTMLFormElement>) =>{
       setIsUserDetailsChanging(true)
         event.preventDefault()
         const fd = new FormData(event.currentTarget)
@@ -135,7 +134,7 @@ export default function EditProfile() {
        setIsUserDetailsChanging(false)
     }
 
-    const handleUserAvatarForm = async(event:React.FormEvent<HTMLFormElement>) =>{
+const handleUserAvatarForm = async(event:React.FormEvent<HTMLFormElement>) =>{
       event.preventDefault()
       setIsUserAvatarUpdating(true)
 
@@ -160,7 +159,7 @@ export default function EditProfile() {
       
     }
 
-    const handleUserCoverImageForm = async(event:React.FormEvent<HTMLFormElement>) =>{
+const handleUserCoverImageForm = async(event:React.FormEvent<HTMLFormElement>) =>{
       event.preventDefault()
       setIsUserCoverImageUpdating(true)
 

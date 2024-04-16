@@ -6,9 +6,10 @@ import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useEffect, useState } from 'react'
-import { ToggleSubscription, checkIfSubscribed, getUserByID, getUserVideos } from '@/functions'
+import { GetUserPlaylists, ToggleSubscription, checkIfSubscribed, formatTimeDifference, getUserByID, getUserVideos } from '@/functions'
 import Video from '@/components/video'
 import { redirect } from 'next/navigation'
+import PlaylistCard from '@/components/PlaylistCard'
 
 export default function ViewChannel({params}:{params: {slug:string}}) {
   const userData =  useSelector((state:any) => state.user)
@@ -20,6 +21,7 @@ export default function ViewChannel({params}:{params: {slug:string}}) {
  }
 
   const[userVideos, setUserVideos] = useState<any>()
+  const[userPlaylistData, setUserPlaylistData] = useState<any>()
   const[channelOwner, setChannelOwner] = useState<any>()
   const [subscribe, setSubscribe] = useState(false);
     
@@ -78,6 +80,23 @@ export default function ViewChannel({params}:{params: {slug:string}}) {
     }
    
   }, [user, channelOwner])
+
+   //getting user Playlists
+  
+   useEffect(()=>{
+    const getUserPlaylist = async()=> {
+      const response = await GetUserPlaylists({accessToken:user.accessToken, userId:user.id}) 
+      if(response.status===true){
+        setUserPlaylistData(response.data.data)
+      }
+      else{
+        console.log('Error fetching user playlist')
+      }
+    }
+     if(user){
+      getUserPlaylist()
+     }
+  }, [user])
 
   const handleSubscribeButton =() =>{ ToggleSubscription
     setSubscribe(!subscribe)
@@ -160,7 +179,32 @@ const createdAtIST = createdAtUTC.toLocaleString('en-IN', {
 )}
           </>
         }</TabsContent>
-        <TabsContent value="playlist">No Playlist found.</TabsContent>
+        <TabsContent value="playlist">
+          <div className='md:flex md:flex-row md:flex-wrap md:gap-8 mt-4 sm:flex sm:flex-col sm:space-y-4 sm:items-center' >
+        {
+          userPlaylistData && 
+          userPlaylistData.map((playlist:any)=>{ 
+           const updatedAt = formatTimeDifference(playlist.updatedAt)
+           const videoCount = playlist.videos ? playlist.videos.length : 0;
+           const thumbnail = playlist && playlist.videos && playlist.videos[0] && playlist.videos[0].thumbnail ? playlist.videos[0].thumbnail : 'https://res.cloudinary.com/dlahahicg/image/upload/v1713085405/imgEmpty_n2fiyp.jpg';
+       
+           return (
+            <PlaylistCard 
+            key={playlist._id}
+            playlistId={playlist._id}
+            description={playlist.description}
+            owner={user!.fullName}
+            name={playlist.name}
+            thumbnail={thumbnail}
+            videoCount={videoCount}
+            ownerId={playlist.owner}
+            userId={user.id}
+            accessToken={user.accessToken}
+            updatedAt={updatedAt}/>)
+})
+        }
+        </div>
+        </TabsContent>
         <TabsContent value="info">
           <div>
             <h2>Channel Name:- {channelOwner?.fullName}</h2>

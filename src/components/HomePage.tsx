@@ -11,6 +11,8 @@ export default function HomePage() {
     const [videosData, setVideosData] = useState<any>()
     const userData =  useSelector((state:any) => state.user)
    const user = userData.user[0]   
+
+   //getting all videos of app
     useEffect(()=> {
         const fetchVideos = async() => {
         const response = await  getAllPublishedVideos({accessToken:user.accessToken})

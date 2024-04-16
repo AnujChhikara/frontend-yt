@@ -95,6 +95,11 @@ export default function VideoUpload() {
   const handelFormSubmittion= async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setIsProcessing(true)
+
+    if (!videoPreview || !thumbnailPreview) {
+      setErrorMessage('Eeither video or thumbnail file is missing.');
+      setIsProcessing(false);
+    }
     const selectElement:any = document.getElementById('category');
     const category = selectElement?.value;
       
@@ -133,24 +138,21 @@ export default function VideoUpload() {
           description: 'Video has been uploaded successfully',
           action: {
             label: "Okay",
-            onClick: () => console.log("Welcome to the App"),
+            onClick: () => {},
           },
         }) 
        }
        else{
         const error = await response.json()
-        console.log(error)
         setErrorMessage(error.msg)
         setIsProcessing(false)
        }
     } catch (error) {
-      console.log("error")
-      
         toast("Video upload failed", {
           description:"Please try again or after some time",
           action: {
             label: "Okay",
-            onClick: () => console.log("Welcome to the App"),
+            onClick: () => {},
           }
         }) 
         setIsProcessing(false)   
@@ -176,7 +178,7 @@ export default function VideoUpload() {
               {/* video upload */}
            <div onClick={handleVideoFileSelect} className='border md:w-60 sm:w-80 h-40 px-8 py-8 border-dotted cursor-pointer '>
             
-                  <input required type='file' ref={videoFileInputRef} accept="video/*" onChange={handleVideoFileChange} hidden  name='coverImage' id='coverImage' className=' w-80 rounded-md h-10 px-4 py-2 bg-transparent border border-gray-200' />
+                  <input type='file' ref={videoFileInputRef} accept="video/*" onChange={handleVideoFileChange} hidden  name='coverImage' id='coverImage' className=' w-80 rounded-md h-10 px-4 py-2 bg-transparent border border-gray-200' />
                   <div   className='flex flex-col space-y-4 text-gray-400  items-center '>
                   {videoPreview && (
                     <BadgeCheck color="#2ac200" />
@@ -193,7 +195,7 @@ export default function VideoUpload() {
                 {/* thumbnail upload */}
 
               <div onClick={handleThumbnailFileSelect} className='border px-8 py-8 border-dotted cursor-pointer'>
-                  <input required ref={thumbnailFileInputRef} accept='image/jpeg, image/png, image/jpg' onChange={handleThumbnailFileChange}  type='file' hidden name='avatar' id='avatar' className=' w-80 rounded-md h-10 px-4 py-2 bg-transparent border border-gray-200' />
+                  <input  ref={thumbnailFileInputRef} accept='image/jpeg, image/png, image/jpg' onChange={handleThumbnailFileChange}  type='file' hidden name='thumbnail' id='thumbnal' className=' w-80 rounded-md h-10 px-4 py-2 bg-transparent border border-gray-200' />
                   <div  className='flex flex-col space-y-4 text-gray-400 space-x-4 items-center '>
                   {thumbnailPreview && (
                     <BadgeCheck color="#2ac200" />

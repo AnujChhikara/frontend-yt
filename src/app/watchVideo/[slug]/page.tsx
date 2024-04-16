@@ -2,7 +2,7 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { AddComment, GetVideoComment, LikeVideo, ToggleSubscription, checkIfSubscribed, checkLiked, fetchVideoByid, formatTimeDifference, getChannelStats, getUserByID } from "@/functions";
+import { AddComment, GetVideoComment, LikeVideo, ToggleSubscription, checkIfSubscribed, checkLiked, fetchVideoByid, formatTimeDifference, getAllPublishedVideos, getChannelStats, getUserByID } from "@/functions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -17,6 +17,8 @@ import { toast } from "sonner";
 import CommentComponent from "@/components/ui/Comment";
 import { userActions } from "@/store/userSlice";
 import AddVideoToPlaylistComp from "@/components/compUi/playlistVideoEdit";
+import { ScrollArea } from "@/components/ui/scroll-area"
+import Video from "@/components/video";
 
 
 interface VideoData {
@@ -28,6 +30,7 @@ interface VideoData {
   duration: number;
   isPublished: boolean;
   owner: string;
+  category:string
   thumbnail: string;
   videoFile: string;
   view: number;
@@ -58,6 +61,7 @@ export default function ViewVideo({params}:{params: {slug:any}}) {
 
   const [videoData, setVideoData] = useState<VideoData>()
   const [liked, setLiked] = useState(false);
+  const [videosData, setVideosData] = useState<any>()
   const [videoComments, setVideoComments] = useState<any[]>([]);
   const [subscribe, setSubscribe] = useState(false);
   const [channelStats, setChannelStats] = useState<MyData>()
@@ -255,13 +259,29 @@ if(videoData) {
   if(videoData){
     createdAt = formatTimeDifference(videoData.createdAt)
   }
+
+  //getting all published videos
+  useEffect(()=> {
+    const fetchVideos = async() => {
+    const response = await  getAllPublishedVideos({accessToken:user.accessToken}) 
+    setVideosData(response.data)
+    
+    }
+
+    if(user){
+        fetchVideos()
+    }
+  }, [user])  
+
+
   return (
-    <div className="flex ">
+    <div className="flex md:mx-12 justify-evenly items-start ">
 
       {/* main video */}
+
    
-      {videoData && <div className="sm:mt-8 sm:mx-4 flex flex-col md:w-1/2 space-y-2 ">
-      <video  className="rounded-2xl shadow-inner sm:w-[360px] md:w-[700px] md:h-[500px] shadow-gray-200 mb-4" width="700" height="500" controls>
+      {videoData && <ScrollArea className="sm:mt-8 sm:mx-4 flex flex-col md:w-1/2 md:h-[800px] space-y-2 ">
+      <video  className="rounded-2xl shadow-inner sm:w-[360px] md:w-full shadow-gray-200 mb-4" width="700" height="500" controls>
         <source src={link} type="video/mp4"/> 
         Your browser does not support the video tag.
         </video>
@@ -344,8 +364,8 @@ if(videoData) {
           </div>
            
             <div className="flex space-x-2 w-full justify-end">
-            <button type="button" onClick={handleCommentCancelButton} >cancel</button>
-          <button className="bg-blue-500 px-3 py-1 rounded-2xl hover:opacity-85" > Comment</button>
+            <button className="sm:text-sm md:text-base" type="button" onClick={handleCommentCancelButton} >cancel</button>
+          <button className="bg-blue-500 px-3 py-1 rounded-2xl hover:opacity-85 sm:text-sm md:text-base" > Comment</button>
             </div>
            
           
@@ -366,12 +386,97 @@ if(videoData) {
       </div>
 
          
-      </div> } {
-        videoData && <div className="sm:hidden lg:block sm:mt-8 sm:mx-4 flex flex-col justify-center items-center w-5/12 space-y-2 ">
-          <h2 className="text-center font-bold text-xl">You might also like</h2>
-          <div>
-            Recomendation videos
-          </div>
+      </ScrollArea> }
+      
+       {
+        videoData && <div className="sm:hidden lg:block sm:mt-8 border sm:mx-4 p-4 flex flex-col space-y-2 ">
+          <h2 className="font-bold text-xl">You might also like</h2>
+       
+        
+          {videosData && <ScrollArea className="h-screen w-[340px] flex flex-col space-y-3 rounded-md ">
+             {
+             
+              videosData.data.slice().reverse().filter((video:any = {}) => video.category === videoData.category).slice(0,7).map((video:any = {}) => (
+                <div className="py-2"  key={video._id}>
+                <Video
+                videoId={video._id}
+                title={video.title}
+                videoUrl={video.videoFile}
+                thumbnailUrl={video.thumbnail}
+                owner={video.owner}
+                views={video.view}
+                createdAt= {video.createdAt}
+                duration = {video.duration}
+                description= {video.description}
+                edit={false}
+                isPublished={video.isPublished}
+                /> </div>
+                
+              ))
+             } 
+              {
+             
+             videosData.data.slice().reverse().filter((video:any = {}) => video.category === 'general').slice(0,4).map((video:any = {}) => (
+               <div className="py-2"  key={video._id}>
+               <Video
+               videoId={video._id}
+               title={video.title}
+               videoUrl={video.videoFile}
+               thumbnailUrl={video.thumbnail}
+               owner={video.owner}
+               views={video.view}
+               createdAt= {video.createdAt}
+               duration = {video.duration}
+               description= {video.description}
+               edit={false}
+               isPublished={video.isPublished}
+               /> </div>
+               
+             ))
+            } 
+              {
+             
+             videosData.data.slice().reverse().filter((video:any = {}) => video.category === 'gaming').slice(0,2).map((video:any = {}) => (
+               <div className="py-2"  key={video._id}>
+               <Video
+               videoId={video._id}
+               title={video.title}
+               videoUrl={video.videoFile}
+               thumbnailUrl={video.thumbnail}
+               owner={video.owner}
+               views={video.view}
+               createdAt= {video.createdAt}
+               duration = {video.duration}
+               description= {video.description}
+               edit={false}
+               isPublished={video.isPublished}
+               /> </div>
+               
+             ))
+            } 
+              {
+             
+             videosData.data.slice().reverse().filter((video:any = {}) => video.category === 'comedy').slice(0,2).map((video:any = {}) => (
+               <div className="py-2"  key={video._id}>
+               <Video
+               videoId={video._id}
+               title={video.title}
+               videoUrl={video.videoFile}
+               thumbnailUrl={video.thumbnail}
+               owner={video.owner}
+               views={video.view}
+               createdAt= {video.createdAt}
+               duration = {video.duration}
+               description= {video.description}
+               edit={false}
+               isPublished={video.isPublished}
+               /> </div>
+               
+             ))
+            } 
+             </ScrollArea>}
+          
+         
         </div>
       }
     

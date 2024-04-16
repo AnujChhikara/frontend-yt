@@ -92,7 +92,7 @@ export default function Navigation() {
         </Avatar>
        
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-48">
+      <DropdownMenuContent className="w-48 bg-transparent">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -131,12 +131,12 @@ export default function Navigation() {
         <DropdownMenuGroup>
           
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
+            <DropdownMenuSubTrigger >
               <UserPlus className="mr-2 h-4 w-4" />
               <span>Invite users</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-              <DropdownMenuSubContent>
+              <DropdownMenuSubContent className='bg-transparent'>
                 <DropdownMenuItem>
                   <Mail className="mr-2 h-4 w-4" />
                   <span>Email</span>

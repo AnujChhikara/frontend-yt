@@ -74,11 +74,11 @@ function handleClick () {
  
     return (
       <div className='flex flex-col items-start space-y-2 font-bold text-gray-300'>
-        <div className='flex'>
+        <div className='flex relative'>
         <Link onClick={handleClick} href={`/watchVideo/${videoId}`}
          className='flex items-end justify-end'>
           <div className=''>
-          <Image  width={320}  height={180} className='w-80 h-[180px] rounded-md' src={thumbnailUrl} alt="Thumbnail" />
+          <Image  width={320}  height={180} className='w-80 h-[180px] hover:opacity-50 duration-500 rounded-md' src={thumbnailUrl} alt="Thumbnail" />
           </div>
         
         <span  className='bg-black absolute text-white rounded-xl px-2  py-0.5 mb-1 text-[12px] '>

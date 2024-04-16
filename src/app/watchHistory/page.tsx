@@ -44,7 +44,7 @@ export default function WatchHistory() {
         </div>
         
         {
-            watchHistory && <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            watchHistory && <div className="gap-4 sm:flex sm:flex-col md:flex md:flex-row md:flex-wrap">
             {
                watchHistory.map((video)=> (
                 video.isPublished && <div key={video._id}>
