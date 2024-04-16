@@ -78,7 +78,7 @@ function handleClick () {
         <Link onClick={handleClick} href={`/watchVideo/${videoId}`}
          className='flex items-end justify-end'>
           <div className=''>
-          <Image  width={320}  height={180} className='w-80 h-[180px] hover:opacity-50 duration-500 rounded-md' src={thumbnailUrl} alt="Thumbnail" />
+          <Image  width={340}  height={200} className='w-[340px] h-[200px] hover:opacity-50 duration-500 rounded-md' src={thumbnailUrl} alt="Thumbnail" />
           </div>
         
         <span  className='bg-black absolute text-white rounded-xl px-2  py-0.5 mb-1 text-[12px] '>

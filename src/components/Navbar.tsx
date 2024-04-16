@@ -9,11 +9,6 @@ import {} from '@/store/userSlice'
 import Navigation from './Navigation'
 import { Clapperboard, ListVideo, Menu, MessageSquareQuote,History, ThumbsUp, Upload, Home } from 'lucide-react'
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card"
-import {
   Sheet,
   SheetContent,
   SheetClose,
@@ -23,11 +18,9 @@ import {
   SheetFooter,
   SheetDescription,
 } from "@/components/ui/sheet"
-
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../store/userSlice';
-import { redirect } from "next/navigation"
 
 
 
@@ -136,21 +129,11 @@ function Navbar() {
           {
             user && <>
                  <Navigation/>
-                 <HoverCard >
-                   <div>
-                    <HoverCardTrigger asChild  >
-                      <Link href='/videoUpload'>
-                    <div  >
-                     
-                      <Upload className="mr-6"/>
-
-                    </div></Link>
-                    </HoverCardTrigger></div>
-                    <HoverCardContent className='bg-black text-sm border-none w-40'>
-                      Upload your video
-                    </HoverCardContent>
-                  </HoverCard>
                 
+                    <Link href='/videoUpload'>
+                      <Upload className="mr-6"/>
+                      </Link>
+                  
             </>
           }
           {

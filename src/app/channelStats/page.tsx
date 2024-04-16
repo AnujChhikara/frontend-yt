@@ -67,7 +67,7 @@ export default function ChannelStats() {
            </div>
            <div className='flex flex-col justify-center items-center'>
             <h2 className='font-bold mb-4 text-3xl  underline'>Recent Videos</h2>
-            <div className='grid md:grid-cols-2 sm:grid-cols-1 md:gap-6 sm:gap-4 pt-4'>
+            <div className='grid md:grid-cols-2 sm:grid-cols-1 md:gap-6 sm:gap-4 py-4'>
             {channelStats && <>
              {
           

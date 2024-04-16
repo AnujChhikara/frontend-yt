@@ -280,8 +280,8 @@ if(videoData) {
       {/* main video */}
 
    
-      {videoData && <ScrollArea className="sm:mt-8 sm:mx-4 flex flex-col md:w-1/2 md:h-[800px] space-y-2 ">
-      <video  className="rounded-2xl shadow-inner sm:w-[360px] md:w-full shadow-gray-200 mb-4" width="700" height="500" controls>
+      {videoData && <div className="sm:mt-8 sm:mx-4 flex flex-col md:w-1/2 md:h-[800px] space-y-3">
+      <video  className="rounded-2xl shadow-inner sm:w-[380px] md:w-full shadow-gray-200 mb-4" width="700" height="500" controls>
         <source src={link} type="video/mp4"/> 
         Your browser does not support the video tag.
         </video>
@@ -304,10 +304,10 @@ if(videoData) {
            
            <div className="flex  justify-center items-center space-x-2">
             {subscribe? 
-            <button onClick={handleSubscribeButton} className="bg-green-500 sm:text-sm md:text-base md:px-3 sm:px-1 font-bold md:py-2 sm:py-1 rounded-3xl">
+            <button onClick={handleSubscribeButton} className="bg-green-500 sm:text-[12px] md:text-base md:px-3 sm:px-1 font-bold md:py-2 sm:py-1 rounded-3xl">
               Subscribed
             </button> :
-            <button onClick={handleSubscribeButton} className="bg-white font-bold text-black sm:text-sm md:text-base md:px-3 sm:px-1 md:py-2 sm:py-1 rounded-3xl hover:bg-red-400">
+            <button onClick={handleSubscribeButton} className="bg-white font-bold text-black sm:text-[12px] md:text-base md:px-3 sm:px-1 md:py-2 sm:py-1 rounded-3xl">
             Subscribe
           </button>}
           </div>
@@ -386,10 +386,10 @@ if(videoData) {
       </div>
 
          
-      </ScrollArea> }
+      </div> }
       
        {
-        videoData && <div className="sm:hidden lg:block sm:mt-8 border sm:mx-4 p-4 flex flex-col space-y-2 ">
+        videoData && <div className="sm:hidden lg:block sm:mt-8 border rounded-xl sm:mx-4 p-4 flex flex-col space-y-2 ">
           <h2 className="font-bold text-xl">You might also like</h2>
        
         

@@ -99,17 +99,17 @@ export default function PlaylistPage() {
       <h3 className='text-3xl font-semibold'>Playlists</h3>
      
   
-        <Dialog>
+        <Dialog >
             <DialogTrigger className=''> 
             <div className='flex items-center rounded-xl hover:opacity-80 duration-700 ease-out bg-accent px-2 py-2 font-semibold space-x-1'>
             <h4>New Playlist </h4><Plus size={24}/></div>
         </DialogTrigger>
-            <DialogContent>
+            <DialogContent className='sm:w-80 md:w-auto'>
               <DialogHeader>
               <DialogTitle className='text-gray-400 text-center'>Create New Playlist</DialogTitle>
         
-            <form className='flex pt-8 flex-col justify-start items-start space-y-4' onSubmit={handleFormSubmittion}>
-             <div className='flex justify-between items-start space-x-4'>
+            <form className='flex md:pt-8 sm:pt-2  flex-col md:justify-start md:items-start space-y-4' onSubmit={handleFormSubmittion}>
+             <div className='sm:flex sm:flex-col md:flex md:flex-row justify-between md:items-start md:space-x-4 sm:space-y-4 md:space-y-0'>
              <div className='flex flex-col space-y-2'>
              <Label htmlFor='name'>Name</Label>
               <Input id='name' name='name' className='h-8 w-60'/>

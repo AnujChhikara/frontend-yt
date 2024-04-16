@@ -57,9 +57,9 @@ export default function PlaylistCard({owner,thumbnail,accessToken,ownerId,playli
 }
 
   return (
-    <div className='w-80 '>
-      <Link href={`/userPlaylist/playlist/${playlistId}`} className='flex items-end space-x-56 md:hover:opacity-60 duration-500'>
-       <Image width={320} height={200} className='w-80 h-[200px] rounded-xl border-double  border-t-4 border-r-4 shadow-md shadow-zinc-400  border-gray-400 ' src={thumbnail} alt='playlist thumbnail'/>
+    <div className='md:w-80 sm:w-96 '>
+      <Link href={`/userPlaylist/playlist/${playlistId}`} className='flex items-end md:space-x-56 sm:space-x-48 md:hover:opacity-60 duration-500'>
+       <Image width={360} height={200} className='md:w-80 sm:w-96 h-[200px] rounded-xl border-double  border-t-4 border-r-4 shadow-md shadow-zinc-400  border-gray-400 ' src={thumbnail} alt='playlist thumbnail'/>
        <span className='bg-black p-0.5 rounded bg-opacity-60 flex justify-center items-center text-white absolute text-sm mb-2'><ListVideo /><p>{videoCount} videos</p></span>
        </Link>
         <div className='flex flex-col  pt-4 space-y-1 '>
