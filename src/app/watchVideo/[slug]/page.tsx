@@ -16,7 +16,7 @@ import {
 import { toast } from "sonner";
 import CommentComponent from "@/components/ui/Comment";
 import { userActions } from "@/store/userSlice";
-import AddVideoToPlaylistComp from "@/components/compUi/playlistVideoEdit";
+import AddVideoToPlaylistComp from "@/components/compUi/addVideoToPlaylist";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Video from "@/components/video";
 

@@ -138,8 +138,8 @@ export default function Navigation() {
             <DropdownMenuPortal>
               <DropdownMenuSubContent className='bg-black'>
                 <DropdownMenuItem>
-                  <Mail className="mr-2 h-4 w-4" />
-                  <span>Email</span>
+                <Link className='flex' href="mailto:anujchhikara777@gmail.com"> <Mail className="mr-2 h-4 w-4" />
+                  <span>Email</span></Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <MessageSquare className="mr-2 h-4 w-4" />

@@ -1,5 +1,6 @@
 'use client'
 
+import Footer from "@/components/Footer";
 import HomePage from "@/components/HomePage";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,7 +18,7 @@ export default function Home() {
         
         <Image priority className="blur-md " src='/hero.png' alt='hero' width={800} height={400} />
         <h1 className="fixed sm:text-center md:text-5xl sm:text-2xl sm:px-8 font-extrabold md:mt-20">Ready to Begin?
-         <Link href='/register' className=" underline text-orange-300 mx-3" >Register</Link> and Dive In!</h1>
+         <Link href='/userAuth/register' className=" underline text-orange-300 mx-3" >Register</Link> and Dive In!</h1>
       </main>
     );
 
@@ -26,13 +27,16 @@ export default function Home() {
  
 
   return (
-    <main className="flex min-h-screen flex-col items-start justify-between md:pt-16 sm:pt-8 md:px-10 sm:mx-4">
+    <main >
       
-     
+     <div className="flex min-h-screen flex-col items-start justify-between md:pt-16 sm:pt-8 md:px-10 sm:mx-4" >
       <div>
+
         <HomePage/>
+        </div>
       </div>
-      
+     
+      <Footer/>
     
     </main>
   );

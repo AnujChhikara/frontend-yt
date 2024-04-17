@@ -91,12 +91,12 @@ function Navbar() {
          </SheetClose>
               <SheetClose asChild>
           
-              <Link href='/likedVideos'>
+              <Link href='/user/likedVideos'>
                <Button className="flex w-48 pl-8  items-end justify-start space-x-1"><ThumbsUp size={20} /><p>Like Videos</p></Button>
                </Link>
              </SheetClose>
              <SheetClose asChild>
-              <Link href='/watchHistory'>
+              <Link href='/user/watchHistory'>
                <Button className="flex w-48 pl-8  items-end justify-start space-x-1"><History size={20}/><p>Watch History</p></Button>
                </Link>
                </SheetClose>
@@ -138,8 +138,8 @@ function Navbar() {
           }
           {
             !user && <>
-            <Link className='font-semibold focus:underline' href='/login'>Log In</Link>
-            <Link className=' font-semibold mt-3 mr-1' href="/register">
+            <Link className='font-semibold focus:underline' href='/userAuth/login'>Log In</Link>
+            <Link className=' font-semibold mt-3 mr-1' href="/userAuth/register">
               <button className="inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white">
                 <span className=" px-3 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                 Register

@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client'
 import React, { useState } from 'react'
-import Input from '../../components/input'
+import Input from '../../../components/input'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
-import { userActions } from '../../store/userSlice'
+import { userActions } from '../../../store/userSlice'
 import { redirect } from 'next/navigation'
 import { toast } from "sonner"
 
@@ -100,7 +100,7 @@ export default function LoginPage() {
               <div className='flex flex-col items-center'>
                 <h3 className='font-semibold text-3xl'>Welcome Back!
                 </h3>
-                <p className='text-[12px] text-gray-300'>Don't have account yet? <Link href='/register' className='font-bold underline '>Register</Link></p>
+                <p className='text-[12px] text-gray-300'>Don't have account yet? <Link href='/userAuth/register' className='font-bold underline '>Register</Link></p>
                 {
                 errorMsg? <p className='text-red-400 text-sm relative'>{errorMsg}</p>: <></>
               }

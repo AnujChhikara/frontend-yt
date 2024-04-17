@@ -2,11 +2,10 @@
 'use client'
 import Image from 'next/image'
 import React, { useRef, useState } from 'react'
-import Input from '../../components/input'
 import Link from 'next/link'
 import { toast } from "sonner"
 import { redirect } from 'next/navigation'
-
+import { Input } from '@/components/ui/input'
 
 
 export default function RegsiterPage()  {
@@ -101,7 +100,7 @@ export default function RegsiterPage()  {
   }
 
   if(isRegisteredSuccessfully){
-    redirect('/login')
+    redirect('/userAuth/login')
   }
 
   return (
@@ -118,10 +117,9 @@ export default function RegsiterPage()  {
               }</div>
             <form className='flex flex-col space-y-8 ' onSubmit={handelFormSubmittion}>
               <div className='md:flex sm:flex sm:flex-col md:flex-row md:space-x-8  sm:space-y-4 md:space-y-0'>
-                <div className='flex flex-col items-start space-y-1'>
+       
               <Input name="username" placeholder="username" type="text" required  />
-              <p className='text-[12px] text-gray-400 text-center items-start'>*username can not be changed</p>
-              </div>
+             
                 <Input name="email" placeholder="email" type="email" required   />
               </div>
               <div className='md:flex sm:flex sm:flex-col md:flex-row md:space-x-8  sm:space-y-8 md:space-y-0'>
@@ -169,7 +167,7 @@ export default function RegsiterPage()  {
                
                 <div className='flex flex-col items-center'>
           
-                <p className='text-[16px] text-gray-300'>Already registered? <Link href='/login' className='font-bold underline '>Login</Link></p>
+                <p className='text-[16px] text-gray-300'>Already registered? <Link href='/userAuth/login' className='font-bold underline '>Login</Link></p>
             
                 
                 </div>

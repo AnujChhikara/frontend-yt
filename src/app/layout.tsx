@@ -5,7 +5,6 @@ import ReduxProvider from "../store/ReduxProvider";
 const inter = Inter({ subsets: ["latin"] });
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/sonner"
-import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Vidloom",
@@ -24,7 +23,6 @@ export default function RootLayout({
       <body className={inter.className}><Navbar/>
       {children}
       <Toaster />
-      <Footer/>
       </body>
      
     </html></ReduxProvider>

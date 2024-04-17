@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import {  useSelector } from 'react-redux'
 import { useEffect,useState } from 'react'
 import { GetUserPlaylists, formatTimeDifference } from '@/functions'
-import AddVideoToPlaylistComp from '@/components/compUi/playlistVideoEdit'
+import AddVideoToPlaylistComp from '@/components/compUi/addVideoToPlaylist'
 
 
 export default function PlaylistPage() {

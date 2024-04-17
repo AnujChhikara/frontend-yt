@@ -118,16 +118,16 @@ const handleFormSubmittion = async (event:React.FormEvent<HTMLFormElement>) => {
   if(user.id === videoData?.owner){ 
     return (
         <div className='m-10'>
-            <form onSubmit={handleFormSubmittion} className='flex space-x-10' action="">
+            <form onSubmit={handleFormSubmittion} className='sm:flex sm:flex-col md:flex md:flex-row md:space-y-4  sm:space-y-4   md:space-x-10' action="">
           
             <div  className='flex flex-col justify-center items-center space-y-4'>
-              <div className='flex flex-col  items-end justify-end'>
+              <div className='flex flex-col  items-center justify-center border w-80 h-60 p-4'>
             {
-              thumbnailPreview? <Image width={400} height={200} className='rounded-xl' src={thumbnailPreview} alt='user avatar'/>:
-              <Image width={400} height={200} className='rounded-xl' src={videoData!.thumbnail} alt='user avatar'/>
+              thumbnailPreview? <Image width={200} height={100} className='rounded-xl ' src={thumbnailPreview} alt='user avatar'/>:
+              <Image width={300} height={100} className='rounded-xl ' src={videoData!.thumbnail} alt='user avatar'/>
             }
            
-            <Pencil color="#000000" className='absolute m-2 hover:scale-110 duration-500' onClick={handleThumbnailFileSelect}  />
+           <Pencil color="#ffffff" size={48} className='absolute rounded-xl bg-black bg-opacity-80 p-2 m-2 hover:scale-110 duration-500' onClick={handleThumbnailFileSelect}  />
             <Input  onChange={handleThumbnailFileChange} accept='image/jpeg, image/png, image/jpg'  ref={thumbnailFileRef} className='w-40 hidden' type='file' name='avatar' id='avatar' />
 
         </div>

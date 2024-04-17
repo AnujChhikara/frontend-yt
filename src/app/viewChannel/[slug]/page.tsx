@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useEffect, useState } from 'react'
-import { GetUserPlaylists, ToggleSubscription, checkIfSubscribed, formatTimeDifference, getUserByID, getUserVideos } from '@/functions'
+import { GetUserPlaylists, ToggleSubscription, checkIfSubscribed, formatTimeDifference, getChannelStats, getUserByID, getUserVideos } from '@/functions'
 import Video from '@/components/video'
 import { redirect } from 'next/navigation'
 import PlaylistCard from '@/components/PlaylistCard'
@@ -23,6 +23,7 @@ export default function ViewChannel({params}:{params: {slug:string}}) {
   const[userVideos, setUserVideos] = useState<any>()
   const[userPlaylistData, setUserPlaylistData] = useState<any>()
   const[channelOwner, setChannelOwner] = useState<any>()
+  const [channelStats, setChannelStats] = useState<any>()
   const [subscribe, setSubscribe] = useState(false);
     
    //getting user video
@@ -102,6 +103,20 @@ export default function ViewChannel({params}:{params: {slug:string}}) {
     setSubscribe(!subscribe)
     ToggleSubscription({channelId:channelOwner?._id, accessToken:user.accessToken})
   }
+ 
+  useEffect(()=>{
+
+    const getUserChannel = async() => { 
+     const stats =  await getChannelStats({accessToken:user.accessToken, channelId:user.id})
+     setChannelStats(stats)
+
+    }
+
+    getUserChannel()
+
+ 
+  },[user])
+
 
 // Convert CreatedAt to IST (India Standard Time)
 const createdAtUTC = new Date(channelOwner?.createdAt);
@@ -124,7 +139,7 @@ const createdAtIST = createdAtUTC.toLocaleString('en-IN', {
         }
         
         <div className='mt-4 space-y-2'><h4 className='font-bold text-4xl'>{channelOwner?.fullName}</h4>
-        <div className='text-gray-400 flex space-x-4 justify-center items-center'><div>@{channelOwner?.username}</div> <div className='bg-gray-800 text-gray-300 px-2  rounded-2xl opacity-60'>11K Subscribers</div></div>
+        <div className='text-gray-400 flex space-x-4 justify-start pb-2 items-center'><div>@{channelOwner?.username}</div> <div className='bg-gray-800 text-gray-300 px-2  rounded-2xl opacity-60'>{channelStats?.totalSubscribers} Subscribers</div></div>
         {subscribe? 
        <button onClick={handleSubscribeButton} className="bg-green-500 px-3 py-2 rounded-3xl">
         Subscribed
