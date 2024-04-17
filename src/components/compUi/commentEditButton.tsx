@@ -124,7 +124,7 @@ export default function CommentEditButton({commentId, comment}:{commentId:string
         <div className="flex justify-center items-center space-x-1">
         <Pencil size={20} className="mr-" />
               <h5>{
-                    isUpdating? ' Updating Tweet' : 'Edit Tweet'
+                    isUpdating? ' Updating comment' : 'Edit comment'
                  }</h5>
               </div> 
         </AlertDialogTrigger>
@@ -137,7 +137,7 @@ export default function CommentEditButton({commentId, comment}:{commentId:string
           </AlertDialogHeader>
           <AlertDialogFooter className="gap-6" >
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction > <div onClick={handleUpdateComment}>Update Tweet</div></AlertDialogAction>
+            <AlertDialogAction > <div onClick={handleUpdateComment}>Update comment</div></AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -149,7 +149,7 @@ export default function CommentEditButton({commentId, comment}:{commentId:string
         <div className="flex justify-center items-center space-x-1">
                 <Trash className="mr-2 h-4 w-4" />
                  {
-                    isDeleting? ' Deleting Tweet' : ' Delete Tweet'
+                    isDeleting? ' Deleting comment' : ' Delete comment'
                  }
               <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
                 </div>

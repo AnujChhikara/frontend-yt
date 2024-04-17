@@ -57,15 +57,15 @@ export default function PlaylistCard({owner,thumbnail,accessToken,ownerId,playli
 }
 
   return (
-    <div className='md:w-80 sm:w-96 '>
-      <Link href={`/userPlaylist/playlist/${playlistId}`} className='flex items-end md:space-x-56 sm:space-x-48 md:hover:opacity-60 duration-500'>
-       <Image width={360} height={200} className='md:w-80 sm:w-96 h-[200px] rounded-xl border-double  border-t-4 border-r-4 shadow-md shadow-zinc-400  border-gray-400 ' src={thumbnail} alt='playlist thumbnail'/>
+    <div className='flex flex-col items-start justify-center'>
+      <Link href={`/userPlaylist/playlist/${playlistId}`} className='flex items-end md:space-x-56 sm:space-x-[260px] md:hover:opacity-60 duration-500'>
+       <Image width={400} height={200} className=' h-[200px] rounded-xl border-double  border-t-4 border-r-4 shadow-md shadow-zinc-400  border-gray-400 ' src={thumbnail} alt='playlist thumbnail'/>
        <span className='bg-black p-0.5 rounded bg-opacity-60 flex justify-center items-center text-white absolute text-sm mb-2'><ListVideo /><p>{videoCount} videos</p></span>
        </Link>
         <div className='flex flex-col  pt-4 space-y-1 '>
         <div className='font-semibold text-lg'>{name}</div>
         <div className='flex items-center space-x-4'>
-          <Link className='border border-accent px-2 border-dashed py-0.5' href={`/viewChannel/${ownerId}`}>{owner}</Link>
+          <Link className='border border-accent px-2 sm:text-sm md:text-base border-dashed py-0.5' href={`/viewChannel/${ownerId}`}>{owner}</Link>
        
         <p className='text-[12px] text-gray-400'>updated {updatedAt}</p>
         {
@@ -73,7 +73,7 @@ export default function PlaylistCard({owner,thumbnail,accessToken,ownerId,playli
           <AlertDialog>
       <AlertDialogTrigger className='py-1 pl-2 text-red-600  font-bold text-[15px] rounded'>
       <div className="flex justify-center items-center space-x-1">
-              <Trash2Icon size={24} className="mr-2 " />
+              <Trash2Icon size={20} className="mr-2 " />
              
               </div>
       </AlertDialogTrigger>

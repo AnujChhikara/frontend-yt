@@ -26,7 +26,7 @@ import { Label } from "../ui/label"
 import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
 
-export default function AddVideoToPlaylistComp({videoId}:{videoId:string}) {
+export default function AddVideoToPlaylistComp({videoId, isWatchingPage}:{videoId:string, isWatchingPage:boolean}) {
     const data =  useSelector((state:any) => state.user)
     const user = data.user[0] 
     const dispatch = useDispatch()
@@ -35,7 +35,7 @@ export default function AddVideoToPlaylistComp({videoId}:{videoId:string}) {
     const [isPosting, setIsPosting] = useState(false) 
    
 
-    //get user playlists
+    //creating new playlists
   
   const handleButtonClick = async (playlistId:string) => {
     const response = await AddVideoToPlaylist({accessToken:user.accessToken, videoId, playlistId})
@@ -71,10 +71,10 @@ export default function AddVideoToPlaylistComp({videoId}:{videoId:string}) {
         console.log('Error fetching user playlist')
       }
     }
-     if(user){
+     if(user && isWatchingPage){
       getUserPlaylist()
      }
-  }, [user])
+  }, [user, isWatchingPage])
 
    //new Playlist 
 
@@ -124,25 +124,26 @@ export default function AddVideoToPlaylistComp({videoId}:{videoId:string}) {
    <DropdownMenu >
   <DropdownMenuTrigger><EllipsisVertical/></DropdownMenuTrigger>
   <DropdownMenuContent className="bg-black">
+  {isWatchingPage && <>
     <DropdownMenuLabel>Add To Playlist</DropdownMenuLabel>
     <DropdownMenuSeparator />
    {userPlaylistData && userPlaylistData.map((playlist:any) => (
       <DropdownMenuItem key={playlist._id}><button onClick={()=> handleButtonClick(playlist._id)}>{playlist.name}</button></DropdownMenuItem>
  
    ))}
-   <DropdownMenuSeparator />
+   <DropdownMenuSeparator /></>}
   
-   <Dialog>
-            <DialogTrigger className=''> 
-            <div className='flex items-center ease-out bg-transparent text-sm ml-3 space-x-1'>
-            <h4>New Playlist </h4><Plus size={18}/></div>
+   <Dialog >
+            <DialogTrigger className='bg-black'> 
+            <div className='flex items-center bg-black rounded-xl hover:opacity-80 duration-700 ease-out bg-accent px-2 py-2 font-semibold space-x-1'>
+            <h4 className="text-sm ml-1">New Playlist </h4><Plus size={20}/></div>
         </DialogTrigger>
-            <DialogContent className="bg-black">
+            <DialogContent className='sm:w-80 md:w-auto bg-black'>
               <DialogHeader>
-              <DialogTitle className='text-gray-400 bg-transparent text-center'>Create New Playlist</DialogTitle>
+              <DialogTitle className='text-gray-400 text-center'>Create New Playlist</DialogTitle>
         
-            <form className='flex pt-8 flex-col justify-start items-start space-y-4' onSubmit={handleFormSubmittion}>
-             <div className='flex justify-between items-start space-x-4'>
+            <form className='flex md:pt-8 sm:pt-2  flex-col md:justify-start md:items-start space-y-4' onSubmit={handleFormSubmittion}>
+             <div className='sm:flex sm:flex-col md:flex md:flex-row justify-between md:items-start md:space-x-4 sm:space-y-4 md:space-y-0'>
              <div className='flex flex-col space-y-2'>
              <Label htmlFor='name'>Name</Label>
               <Input id='name' name='name' className='h-8 w-60'/>

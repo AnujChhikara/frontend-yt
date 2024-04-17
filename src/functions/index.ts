@@ -160,7 +160,7 @@ export async function changeUserPassword({accessToken,oldPassword, newPassword}:
       description: 'Please login with new credentials',
       action: {
         label: "Okay",
-        onClick: () => console.log('Okay'),
+        onClick: () => {},
       },
     })
     const data = await response.json()
@@ -195,7 +195,7 @@ export async function updateUserAccount({accessToken,fullName, email}: {fullName
       description: 'Please login with new credentials',
       action: {
         label: "Okay",
-        onClick: () => console.log('Sorry'),
+        onClick: () => {},
       },
     })
     const data = await response.json()
@@ -224,7 +224,7 @@ export async function updateUserAvatar({accessToken,file}: {accessToken:string, 
       description: 'You can see new avatar in top navbar',
       action: {
         label: "Okay",
-        onClick: () => console.log('Okay'),
+        onClick: () => {},
       },
     })
     const data = await response.json()
@@ -254,7 +254,7 @@ export async function updateUserCoverImage({accessToken,file}: {accessToken:stri
       description: 'You can see new cover image in your channel',
       action: {
         label: "Okay",
-        onClick: () => console.log('Okay'),
+        onClick: () => {},
       },
     })
     const data = await response.json()

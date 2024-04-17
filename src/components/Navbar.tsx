@@ -72,7 +72,7 @@ function Navbar() {
 
   return (
     <div>
-    <div className='w-screen shadow-lg md:py-2 shadow-black'>
+    <div className='w-screen shadow-lg md:py-2 sm:py-1 shadow-black'>
       <div className='flex justify-between items-center md:px-12 sm:px-2 py-2'>
         <div className='flex space-x-4'>
        {user &&  <Sheet>

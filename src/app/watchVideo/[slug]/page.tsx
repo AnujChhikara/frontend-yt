@@ -280,7 +280,7 @@ if(videoData) {
       {/* main video */}
 
    
-      {videoData && <div className="sm:mt-8 sm:mx-4 flex flex-col md:w-1/2 md:h-[800px] space-y-3">
+      {videoData && <div className="sm:mt-8 sm:mx-3 flex flex-col md:w-1/2 md:h-[800px] space-y-3">
       <video  className="rounded-2xl shadow-inner sm:w-[380px] md:w-full shadow-gray-200 mb-4" width="700" height="500" controls>
         <source src={link} type="video/mp4"/> 
         Your browser does not support the video tag.
@@ -333,7 +333,7 @@ if(videoData) {
             }
             </div>
           {
-            <AddVideoToPlaylistComp videoId={videoId} />
+            <AddVideoToPlaylistComp videoId={videoId} isWatchingPage={true} />
           }
             
           </div>

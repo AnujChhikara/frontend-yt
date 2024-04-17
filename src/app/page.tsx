@@ -26,7 +26,7 @@ export default function Home() {
  
 
   return (
-    <main className="flex min-h-screen flex-col items-start justify-between md:pt-16 sm:pt-8 px-10">
+    <main className="flex min-h-screen flex-col items-start justify-between md:pt-16 sm:pt-8 md:px-10 sm:mx-4">
       
      
       <div>
