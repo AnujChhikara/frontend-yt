@@ -88,11 +88,10 @@ body {
 }
 
 html {
-  scrollbar-color: #222121 #111111; /* Change track color */
+  scrollbar-color: #e5e7eb #f9fafb; /* Light theme scrollbar colors */
   scroll-behavior: smooth;
- 
 }
-select{
-  background-color: #000000;
+select {
+  background-color: #ffffff;
   font-size: small;
 }
